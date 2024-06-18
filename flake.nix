@@ -17,11 +17,13 @@
         inherit system;
         config = {
           allowUnfree = true;
-          allowUnfreePredicate = (_ : true);
+          allowUnfreePredicate = (_: true);
         };
       };
     in
     {
+      formatter.${system} = pkgs.nixpkgs-fmt;
+
       nixosConfigurations.x1carbon = nixpkgs.lib.nixosSystem {
         # Note that you cannot put arbitrary configuration here: the configuration must be placed in the files loaded via modules
         inherit system;

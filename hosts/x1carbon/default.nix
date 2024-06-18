@@ -6,7 +6,8 @@
 
 {
   imports =
-    [ # Include the results of the hardware scan.
+    [
+      # Include the results of the hardware scan.
       ./hardware.nix
     ];
 
@@ -99,7 +100,7 @@
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
       kate
-    #  thunderbird
+      #  thunderbird
     ];
   };
 
