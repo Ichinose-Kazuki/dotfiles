@@ -52,6 +52,18 @@
     LC_TIME = "ja_JP.UTF-8";
   };
 
+  i18n.inputMethod = {
+    enabled = "fcitx5";
+    fcitx5 = {
+      addons = with pkgs; [
+        fcitx5-mozc
+        fcitx5-configtool
+      ];
+      plasma6Support = true;
+      waylandFrontend = true;
+    };
+  };
+
   # Enable the X11 windowing system.
   # services.xserver.enable = true;
 

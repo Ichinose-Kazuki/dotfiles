@@ -8,9 +8,14 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    plasma-manager = {
+      url = "github:nix-community/plasma-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+    };
   };
 
-  outputs = { self, nixpkgs, nixos-hardware, home-manager, ... }:
+  outputs = inputs @ { self, nixpkgs, nixos-hardware, home-manager, plasma-manager, ... }:
     let
       system = "x86_64-linux"; # Check flake-utils: https://github.com/numtide/flake-utils
       pkgs = import nixpkgs {
@@ -30,6 +35,13 @@
         modules = [
           ./hosts/x1carbon
           # nixos-hardware.niosModues.lenovo-thinkpad-x1-10th-gen
+          # ! Not sure if this is needed.
+          # home-manager.nixosModules.home-manager
+          # {
+          #   home-manager.useGlobalPkgs = true;
+          #   home-manager.useUserPackages = true;
+          #   home-manager.sharedModules = [ plasma-manager.homeManagerModules.plasma-manager ];
+          # }
         ];
       };
 
@@ -37,7 +49,10 @@
         inherit pkgs;
         # Specify your home configuration module here, for example,
         # the path to your home.nix
-        modules = [ ./users/kazuki/home.nix ];
+        modules = [
+          inputs.plasma-manager.homeManagerModules.plasma-manager
+          ./users/kazuki/home.nix
+        ];
         # Optionally use extraSpecialArgs
         # to pass through arguments to home.nix
       };

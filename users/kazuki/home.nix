@@ -22,6 +22,7 @@
     # # "Hello, world!" when run.
     hello
     slack
+    kdePackages.kfind
 
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
@@ -45,6 +46,7 @@
     # # the Nix store. Activating the configuration will then make '~/.screenrc' a
     # # symlink to the Nix store copy.
     # ".screenrc".source = dotfiles/screenrc;
+    ".config/fcitx5/profile".source = ../../modules/home/kazuki/fcitx5/profile;
 
     # # You can also set the file content immediately.
     # ".gradle/gradle.properties".text = ''
@@ -77,14 +79,9 @@
   programs = {
     home-manager.enable = true;
     fzf.enable = true;
-    chromium = {
+    vscode = {
       enable = true;
-      commandLineArgs = [
-        "--enable-features=UseOzonePlatform"
-        "--ozone-platform=wayland"
-        "--enable-wayland-ime"
-      ];
-      package = pkgs.google-chrome;
+      package = pkgs.vscode-fhs;
     };
     zoxide = {
       enable = true;
@@ -92,15 +89,16 @@
     };
   };
 
+  imports = [
+    ../../modules/home/kazuki/chromium
+    # ../../modules/home/kazuki/fcitx5
+  ];
+
   # Internationalization
   i18n = {
     glibcLocales = pkgs.glibcLocales.override {
       allLocales = false;
       locales = [ "ja_JP.UTF-8/UTF-8" ];
-    };
-    inputMethod = {
-      enabled = "fcitx5";
-      fcitx5.addons = with pkgs; [ fcitx5-mozc ];
     };
   };
 }
