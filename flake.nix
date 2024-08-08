@@ -47,7 +47,7 @@
         };
         modules = [
           ./hosts/x1carbon
-          # nixos-hardware.niosModues.lenovo-thinkpad-x1-10th-gen
+          # nixos-hardware.niosModues.lenovo-thinkpad-x1-10th-gen (Don't forget to comment out)
           # ! Not needed is using standalone home-manager.
           # ! Import standalone settings
           # home-manager.nixosModules.home-manager
