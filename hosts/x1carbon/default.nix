@@ -115,13 +115,15 @@
   users.users.kazuki = {
     isNormalUser = true;
     description = "Kazuki Ichinose";
-    extraGroups = [ "networkmanager" "wheel" ];
+    hashedPassword = "$6$SJ579N5INL5GkkFX$GaNRYmajPpOXqW7dSxtV2wRX/ikTyOMVUWk1piqMKxMXvJvc2ow07ZsVWk3zatbCi1WwPRn4TDVV9vZXHQ5e8/";
+    extraGroups = [ "networkmanager" "wheel" "audio" "video" "input" ];
     packages = with pkgs; [
       kate
       #  thunderbird
     ];
     shell = pkgs.zsh;
   };
+  users.mutableUsers = false;
 
   # VMWare
   virtualisation.vmware.guest.enable = true;

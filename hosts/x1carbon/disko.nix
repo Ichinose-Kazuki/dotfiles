@@ -17,6 +17,7 @@
               };
             };
             root = {
+              type = "8300";
               size = "100%";
               content = {
                 type = "filesystem";
