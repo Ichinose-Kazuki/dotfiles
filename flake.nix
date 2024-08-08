@@ -3,6 +3,10 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nix-index-database = {
+      url = "github:nix-community/nix-index-database";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nixos-hardware.url = "github:nixos/nixos-hardware";
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -15,7 +19,7 @@
     };
   };
 
-  outputs = inputs @ { self, nixpkgs, nixos-hardware, home-manager, plasma-manager, ... }:
+  outputs = inputs @ { self, nixpkgs, home-manager, ... }:
     let
       system = "x86_64-linux"; # Check flake-utils: https://github.com/numtide/flake-utils
       pkgs = import nixpkgs {

@@ -2,13 +2,14 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 
 {
   imports =
     [
       # Include the results of the hardware scan.
       ./hardware.nix
+      inputs.nix-index-database.nixosModules.nix-index
     ];
 
   # Nix settings
@@ -128,6 +129,9 @@
 
   # Zsh and Bash
   programs.zsh.enable = true;
+
+  # Comma
+  programs.nix-index-database.comma.enable = true;
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
