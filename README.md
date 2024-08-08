@@ -28,3 +28,10 @@ curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix 
     ssh+git://github.com/Icinose-Kazuki/...
     into flake inputs
 
+
+## Install
+- `sudo su`
+- `cd /mnt`
+- `nixos-install --flake github:Ichinose-Kazuki/dotfiles#x1carbon`
+- Need to change disk-by-uuid -> Use disko
+
