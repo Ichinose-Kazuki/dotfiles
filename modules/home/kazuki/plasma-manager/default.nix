@@ -11,6 +11,8 @@
     };
 
     configFile = {
+      kwinrc.Wayland."InputMethod[$e]" = "/run/current-system/sw/share/applications/fcitx5-wayland-launcher.desktop";
+
       "fcitx5/profile" = {
         "Groups/0" = {
           # Group Name
