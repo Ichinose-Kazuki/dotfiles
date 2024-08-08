@@ -10,6 +10,8 @@
       # Include the results of the hardware scan.
       ./hardware.nix
       inputs.nix-index-database.nixosModules.nix-index
+      inputs.disko.nixosModules.disko
+      ./disko.nix
     ];
 
   # Nix settings
