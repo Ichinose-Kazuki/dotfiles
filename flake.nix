@@ -28,14 +28,20 @@
     in
     {
       formatter.${system} = pkgs.nixpkgs-fmt;
+      devShells.${system}.default = pkgs.mkShell {
+        buildInputs = [ pkgs.nixpkgs-fmt ];
+      };
 
       nixosConfigurations.x1carbon = nixpkgs.lib.nixosSystem {
         # Note that you cannot put arbitrary configuration here: the configuration must be placed in the files loaded via modules
-        inherit system;
+        specialArgs = {
+          inherit inputs;
+        };
         modules = [
           ./hosts/x1carbon
           # nixos-hardware.niosModues.lenovo-thinkpad-x1-10th-gen
-          # ! Not sure if this is needed.
+          # ! Not needed is using standalone home-manager.
+          # ! Import standalone settings
           # home-manager.nixosModules.home-manager
           # {
           #   home-manager.useGlobalPkgs = true;
@@ -47,10 +53,12 @@
 
       homeConfigurations.kazuki = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
+        extraSpecialArgs = {
+          inherit inputs;
+        };
         # Specify your home configuration module here, for example,
         # the path to your home.nix
         modules = [
-          inputs.plasma-manager.homeManagerModules.plasma-manager
           ./users/kazuki/home.nix
         ];
         # Optionally use extraSpecialArgs

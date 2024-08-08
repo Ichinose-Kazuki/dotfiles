@@ -1,6 +1,21 @@
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
+let   import_app = [
+    ../../modules/home/kazuki/chromium
+    # ../../modules/home/kazuki/fcitx5
+  ]; 
+  import_external = [
+    inputs.plasma-manager.homeManagerModules.plasma-manager
+  ];
+  import_plasma = [
+    ../../modules/home/kazuki/plasma-manager
+  ];
+  
+  in
 
+  
 {
+  imports = import_app ++ import_external ++ import_plasma;
+
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = "kazuki";
@@ -87,12 +102,16 @@
       enable = true;
       options = [ "--cmd" "cd" ];
     };
+    direnv = {
+      enable = true;
+      nix-direnv.enable = true;
+    };
+    bash = {
+      enable = true;
+    };
   };
 
-  imports = [
-    ../../modules/home/kazuki/chromium
-    # ../../modules/home/kazuki/fcitx5
-  ];
+
 
   # Internationalization
   i18n = {
