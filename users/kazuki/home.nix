@@ -1,18 +1,19 @@
-{ config, pkgs, inputs, ... }:
-let   import_app = [
+{ config, pkgs, lib, inputs, ... }:
+let
+  import_app = [
     ../../modules/home/kazuki/chromium
     # ../../modules/home/kazuki/fcitx5
-  ]; 
+  ];
   import_external = [
     inputs.plasma-manager.homeManagerModules.plasma-manager
   ];
   import_plasma = [
     ../../modules/home/kazuki/plasma-manager
   ];
-  
-  in
 
-  
+in
+
+
 {
   imports = import_app ++ import_external ++ import_plasma;
 
@@ -20,6 +21,7 @@ let   import_app = [
   # manage.
   home.username = "kazuki";
   home.homeDirectory = "/home/kazuki";
+  home.language.base = "ja_JP.UTF-8";
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
@@ -61,7 +63,6 @@ let   import_app = [
     # # the Nix store. Activating the configuration will then make '~/.screenrc' a
     # # symlink to the Nix store copy.
     # ".screenrc".source = dotfiles/screenrc;
-    ".config/fcitx5/profile".source = ../../modules/home/kazuki/fcitx5/profile;
 
     # # You can also set the file content immediately.
     # ".gradle/gradle.properties".text = ''
@@ -108,6 +109,56 @@ let   import_app = [
     };
     bash = {
       enable = true;
+    };
+    carapace.enable = true;
+    zsh = {
+      enable = true;
+      autocd = true;
+      autosuggestion.enable = true;
+      syntaxHighlighting.enable = true;
+      shellAliases = lib.mkMerge [
+        # bat
+        (lib.mkIf config.programs.bat.enable {
+          cat = "bat";
+        })
+
+        # lsd
+        (lib.mkIf config.programs.lsd.enable {
+          ls = "lsd";
+          tree = "lsd --tree";
+        })
+        {
+          ll = "ls -l";
+          la = "ls -la";
+          l = "ls";
+        }
+      ];
+      zplug = {
+        enable = false; # Too slow
+        plugins = [
+          {
+            name = "zsh-users/zsh-autosuggestions";
+            tags = [
+              "as:plugin"
+              "depth:1"
+            ];
+          }
+          {
+            name = "zsh-users/zsh-completions";
+            tags = [
+              "as:plugin"
+              "depth:1"
+            ];
+          }
+          {
+            name = "zsh-users/zsh-syntax-highlighting";
+            tags = [
+              "as:plugin"
+              "depth:1"
+            ];
+          }
+        ];
+      };
     };
   };
 

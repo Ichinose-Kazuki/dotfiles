@@ -42,8 +42,11 @@
 
   i18n.extraLocaleSettings = {
     LC_ADDRESS = "ja_JP.UTF-8";
+    LC_COLLATE = "ja_JP.UTF-8";
+    LC_CTYPE = "en_US.UTF-8";
     LC_IDENTIFICATION = "ja_JP.UTF-8";
     LC_MEASUREMENT = "ja_JP.UTF-8";
+    LC_MESSAGES = "ja_JP.UTF-8";
     LC_MONETARY = "ja_JP.UTF-8";
     LC_NAME = "ja_JP.UTF-8";
     LC_NUMERIC = "ja_JP.UTF-8";
@@ -114,6 +117,7 @@
       kate
       #  thunderbird
     ];
+    shell = pkgs.zsh;
   };
 
   # VMWare
@@ -121,6 +125,9 @@
 
   # Install firefox.
   programs.firefox.enable = true;
+
+  # Zsh and Bash
+  programs.zsh.enable = true;
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
