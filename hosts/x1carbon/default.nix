@@ -70,6 +70,9 @@
     };
   };
 
+  # make sure less supports utf-8 character
+  environment.sessionVariables.LESSCHARSET = "utf-8";
+
   # Enable the X11 windowing system.
   # services.xserver.enable = true;
 
