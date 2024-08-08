@@ -12,6 +12,7 @@
       inputs.nix-index-database.nixosModules.nix-index
       inputs.disko.nixosModules.disko
       ./disko.nix
+      ../../modules/nixos/docker
     ];
 
   # Nix settings
@@ -119,7 +120,7 @@
     isNormalUser = true;
     description = "Kazuki Ichinose";
     hashedPassword = "$6$SJ579N5INL5GkkFX$GaNRYmajPpOXqW7dSxtV2wRX/ikTyOMVUWk1piqMKxMXvJvc2ow07ZsVWk3zatbCi1WwPRn4TDVV9vZXHQ5e8/";
-    extraGroups = [ "networkmanager" "wheel" "audio" "video" "input" ];
+    extraGroups = [ "networkmanager" "wheel" "audio" "video" "input" "docker" ];
     packages = with pkgs; [
       kate
       #  thunderbird
