@@ -33,5 +33,5 @@ curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix 
 - `sudo su`
 - `bash $(nix --extra-experimental-features "nix-command flakes" build --no-link --print-out-paths github:Ichinose-Kazuki/dotfiles#nixosConfigurations.x1carbon.config.system.build.diskoScript)
 `
-- `nixos-install --flake github:Ichinose-Kazuki/dotfiles#x1carbon`
+- `nixos-install --no-root-passwd --flake github:Ichinose-Kazuki/dotfiles#x1carbon`
 - Need to change disk-by-uuid -> Use disko
