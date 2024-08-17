@@ -59,6 +59,16 @@
         ];
       };
 
+      nixosConfigurations.diskoTest = nixpkgs.lib.nixosSystem {
+        # Note that you cannot put arbitrary configuration here: the configuration must be placed in the files loaded via modules
+        specialArgs = {
+          inherit inputs;
+        };
+        modules = [
+          ./hosts/diskoTest
+        ];
+      };
+
       homeConfigurations.kazuki = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         extraSpecialArgs = {
