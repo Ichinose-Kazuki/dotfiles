@@ -1,3 +1,4 @@
+{lib}:
 {
   disko.devices = {
     disk = {
@@ -26,11 +27,14 @@
                 type = "filesystem";
                 format = "ext4";
                 mountpoint = "/protect";
+                # skipFormat = true;
               };
             };
             root = {
               type = "8300";
               size = "100%";
+              # start = "abc";
+              # end = "100%";
               _index = 3;
               content = {
                 type = "filesystem";

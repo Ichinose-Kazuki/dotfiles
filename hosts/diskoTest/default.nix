@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, inputs, ... }:
+{ config, pkgs, inputs, lib, ... }:
 
 {
   imports =
@@ -11,7 +11,7 @@
       ./hardware.nix
       inputs.nix-index-database.nixosModules.nix-index
       inputs.disko.nixosModules.disko
-      ./disko.nix
+      (import ./disko.nix { lib = lib; })
       ../../modules/nixos/docker
     ];
 
