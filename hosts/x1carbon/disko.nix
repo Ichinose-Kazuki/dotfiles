@@ -24,6 +24,7 @@
               _index = 2;
               content = {
                 type = "filesystem";
+                format = "none";
                 # To be ignored in disk-deactivate.jq. "/dev/nvme0n1p2".
               };
             };
@@ -33,6 +34,7 @@
               _index = 3;
               content = {
                 type = "filesystem";
+                format = "none";
                 # To be ignored in disk-deactivate.jq. "/dev/nvme0n1p3".
               };
             };
@@ -42,6 +44,7 @@
               _index = 4;
               content = {
                 type = "filesystem";
+                format = "none";
                 # To be ignored in disk-deactivate.jq. "/dev/nvme0n1p4".
               };
             };
