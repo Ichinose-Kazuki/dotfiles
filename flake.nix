@@ -23,7 +23,7 @@
     };
   };
 
-  outputs = inputs @ { self, nixpkgs, home-manager, ... }:
+  outputs = inputs @ { self, nixpkgs, home-manager, nixos-hardware, ... }:
     let
       system = "x86_64-linux"; # Check flake-utils: https://github.com/numtide/flake-utils
       pkgs = import nixpkgs {
@@ -47,8 +47,8 @@
         };
         modules = [
           ./hosts/x1carbon
-          # nixos-hardware.niosModues.lenovo-thinkpad-x1-10th-gen (Don't forget to comment out)
-          # ! Not needed is using standalone home-manager.
+          nixos-hardware.nixosModules.lenovo-thinkpad-x1-10th-gen
+          # ! Not needed if using standalone home-manager.
           # ! Import standalone settings
           # home-manager.nixosModules.home-manager
           # {
