@@ -31,11 +31,11 @@ mkdir -p "$disko_devices_dir"
     if ! sgdisk \
       --align-end  \
       --new=1:0:+260M \
-      --change-name=1:disk-main-ESP \
+      --change-name=1:disk-main-p1_ESP \
       --typecode=1:EF00 \
       /dev/nvme0n1
     then sgdisk \
-      --change-name=1:disk-main-ESP \
+      --change-name=1:disk-main-p1_ESP \
       --typecode=1:EF00 \
       /dev/nvme0n1
     fi
@@ -47,11 +47,11 @@ mkdir -p "$disko_devices_dir"
     if ! sgdisk \
       --align-end  \
       --new=2:0:+16M \
-      --change-name=2:disk-main-msReserved \
+      --change-name=2:disk-main-p2_msReserved \
       --typecode=2:0C01 \
       /dev/nvme0n1
     then sgdisk \
-      --change-name=2:disk-main-msReserved \
+      --change-name=2:disk-main-p2_msReserved \
       --typecode=2:0C01 \
       /dev/nvme0n1
     fi
@@ -63,11 +63,11 @@ mkdir -p "$disko_devices_dir"
     if ! sgdisk \
       --align-end  \
       --new=3:0:+200G \
-      --change-name=3:disk-main-msBasicData \
+      --change-name=3:disk-main-p3_msBasicData \
       --typecode=3:0700 \
       /dev/nvme0n1
     then sgdisk \
-      --change-name=3:disk-main-msBasicData \
+      --change-name=3:disk-main-p3_msBasicData \
       --typecode=3:0700 \
       /dev/nvme0n1
     fi
@@ -79,11 +79,11 @@ mkdir -p "$disko_devices_dir"
     if ! sgdisk \
       --align-end  \
       --new=4:0:+2G \
-      --change-name=4:disk-main-winRecovery \
+      --change-name=4:disk-main-p4_winRecovery \
       --typecode=4:2700 \
       /dev/nvme0n1
     then sgdisk \
-      --change-name=4:disk-main-winRecovery \
+      --change-name=4:disk-main-p4_winRecovery \
       --typecode=4:2700 \
       /dev/nvme0n1
     fi
@@ -95,11 +95,11 @@ mkdir -p "$disko_devices_dir"
     if ! sgdisk \
       --align-end  \
       --new=5:0:-0 \
-      --change-name=5:disk-main-luksLvm \
+      --change-name=5:disk-main-p5_luksLvm \
       --typecode=5:8300 \
       /dev/nvme0n1
     then sgdisk \
-      --change-name=5:disk-main-luksLvm \
+      --change-name=5:disk-main-p5_luksLvm \
       --typecode=5:8300 \
       /dev/nvme0n1
     fi
@@ -112,17 +112,17 @@ mkdir -p "$disko_devices_dir"
     
     
     
-    ( # filesystem  /dev/disk/by-partlabel/disk-main-ESP vfat /boot #
-      device='/dev/disk/by-partlabel/disk-main-ESP'
+    ( # filesystem  /dev/disk/by-partlabel/disk-main-p1_ESP vfat /boot #
+      device='/dev/disk/by-partlabel/disk-main-p1_ESP'
       declare -a extraArgs=()
       format='vfat'
       declare -a mountOptions=('umask=0077')
       mountpoint='/boot'
-      type='filesystem'      
+      type='filesystem'
     )
     
-    ( # filesystem  /dev/disk/by-partlabel/disk-main-msReserved none  #
-      device='/dev/disk/by-partlabel/disk-main-msReserved'
+    ( # filesystem  /dev/disk/by-partlabel/disk-main-p2_msReserved none  #
+      device='/dev/disk/by-partlabel/disk-main-p2_msReserved'
       declare -a extraArgs=()
       format='none'
       declare -a mountOptions=('defaults')
@@ -130,8 +130,8 @@ mkdir -p "$disko_devices_dir"
       type='filesystem'
     )
     
-    ( # filesystem  /dev/disk/by-partlabel/disk-main-msBasicData none  #
-      device='/dev/disk/by-partlabel/disk-main-msBasicData'
+    ( # filesystem  /dev/disk/by-partlabel/disk-main-p3_msBasicData none  #
+      device='/dev/disk/by-partlabel/disk-main-p3_msBasicData'
       declare -a extraArgs=()
       format='none'
       declare -a mountOptions=('defaults')
@@ -139,8 +139,8 @@ mkdir -p "$disko_devices_dir"
       type='filesystem'
     )
     
-    ( # filesystem  /dev/disk/by-partlabel/disk-main-winRecovery none  #
-      device='/dev/disk/by-partlabel/disk-main-winRecovery'
+    ( # filesystem  /dev/disk/by-partlabel/disk-main-p4_winRecovery none  #
+      device='/dev/disk/by-partlabel/disk-main-p4_winRecovery'
       declare -a extraArgs=()
       format='none'
       declare -a mountOptions=('defaults')
@@ -148,10 +148,10 @@ mkdir -p "$disko_devices_dir"
       type='filesystem'
     )
     
-    ( # luks crypted /dev/disk/by-partlabel/disk-main-luksLvm   #
+    ( # luks crypted /dev/disk/by-partlabel/disk-main-p5_luksLvm   #
       declare -a additionalKeyFiles=()
       askPassword=''
-      device='/dev/disk/by-partlabel/disk-main-luksLvm'
+      device='/dev/disk/by-partlabel/disk-main-p5_luksLvm'
       declare -a extraFormatArgs=()
       declare -a extraOpenArgs=()
       initrdUnlock='1'
@@ -161,13 +161,13 @@ mkdir -p "$disko_devices_dir"
       declare -A settings=(['allowDiscards']='1' ['keyFile']='/tmp/secret.key')
       type='luks'
       
-      if ! blkid "/dev/disk/by-partlabel/disk-main-luksLvm" >/dev/null || ! (blkid "/dev/disk/by-partlabel/disk-main-luksLvm" -o export | grep -q '^TYPE='); then
+      if ! blkid "/dev/disk/by-partlabel/disk-main-p5_luksLvm" >/dev/null || ! (blkid "/dev/disk/by-partlabel/disk-main-p5_luksLvm" -o export | grep -q '^TYPE='); then
         
-        cryptsetup -q luksFormat /dev/disk/by-partlabel/disk-main-luksLvm  --key-file /tmp/secret.key \
+        cryptsetup -q luksFormat /dev/disk/by-partlabel/disk-main-p5_luksLvm  --key-file /tmp/secret.key \
        \
        \
       
-        cryptsetup open /dev/disk/by-partlabel/disk-main-luksLvm crypted \
+        cryptsetup open /dev/disk/by-partlabel/disk-main-p5_luksLvm crypted \
         --allow-discards \
          \
          \
@@ -371,7 +371,7 @@ set -efux
     (
       declare -a additionalKeyFiles=()
       askPassword=''
-      device='/dev/disk/by-partlabel/disk-main-luksLvm'
+      device='/dev/disk/by-partlabel/disk-main-p5_luksLvm'
       declare -a extraFormatArgs=()
       declare -a extraOpenArgs=()
       initrdUnlock='1'
@@ -383,7 +383,7 @@ set -efux
       
       if ! cryptsetup status crypted >/dev/null 2>/dev/null; then
         
-        cryptsetup open /dev/disk/by-partlabel/disk-main-luksLvm crypted \
+        cryptsetup open /dev/disk/by-partlabel/disk-main-p5_luksLvm crypted \
         --allow-discards \
          \
          \
@@ -449,15 +449,15 @@ set -efux
     type='gpt'
     
     (
-      device='/dev/disk/by-partlabel/disk-main-ESP'
+      device='/dev/disk/by-partlabel/disk-main-p1_ESP'
       declare -a extraArgs=()
       format='vfat'
       declare -a mountOptions=('umask=0077')
       mountpoint='/boot'
       type='filesystem'
       
-      if ! findmnt /dev/disk/by-partlabel/disk-main-ESP "/mnt/boot" >/dev/null 2>&1; then
-        mount /dev/disk/by-partlabel/disk-main-ESP "/mnt/boot" \
+      if ! findmnt /dev/disk/by-partlabel/disk-main-p1_ESP "/mnt/boot" >/dev/null 2>&1; then
+        mount /dev/disk/by-partlabel/disk-main-p1_ESP "/mnt/boot" \
           -t "vfat" \
           -o umask=0077 \
           -o X-mount.mkdir
@@ -484,7 +484,7 @@ set -efux
     
     if ! findmnt /dev/pool/home "/mnt/home" > /dev/null 2>&1; then
       mount /dev/pool/home "/mnt/home" \
-      -o compress=zstd:3 -o noatime -o enospc_debug -o usebackuproot -o subvol=/home \
+      -o compress=lzo -o noatime -o enospc_debug -o usebackuproot -o subvol=/home \
       -o X-mount.mkdir
     fi
     
@@ -528,7 +528,7 @@ set -efux
     
     if ! findmnt /dev/pool/home "/mnt/snapshots" > /dev/null 2>&1; then
       mount /dev/pool/home "/mnt/snapshots" \
-      -o compress=zstd:3 -o noatime -o enospc_debug -o usebackuproot -o subvol=/snapshots \
+      -o compress=lzo -o noatime -o enospc_debug -o usebackuproot -o subvol=/snapshots \
       -o X-mount.mkdir
     fi
     
