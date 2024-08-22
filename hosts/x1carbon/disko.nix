@@ -69,7 +69,7 @@
       };
     };
     lvm_vg = {
-      pool = {
+      MyVolGroup = {
         type = "lvm_vg";
         lvs = {
           root = let
