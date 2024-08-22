@@ -40,8 +40,6 @@ curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix 
   -  `curl -o disk-deactivate https://raw.githubusercontent.com/Ichinose-Kazuki/dotfiles/main/customDiskoScript/disk-deactivate`
   -  `curl -o disk-deactivate.jq https://raw.githubusercontent.com/Ichinose-Kazuki/dotfiles/main/customDiskoScript/disk-deactivate.jq`
      -  Skips wipefs on /dev/nvme0n1p1 to /dev/nvme0n1p4.
-- Create `/tmp/secret.key` for cryptsetup.
-  `echo -n "password" > /tmp/secret.key`
 - Run diskoScript.
   `bash diskoScript`
 - `nixos-install --no-root-passwd --flake github:Ichinose-Kazuki/dotfiles#x1carbon`
