@@ -31,7 +31,15 @@ curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix 
 
 ## Install
 - `sudo su`
-- `bash $(nix --extra-experimental-features "nix-command flakes" build --no-link --print-out-paths github:Ichinose-Kazuki/dotfiles#nixosConfigurations.x1carbon.config.system.build.diskoScript)
-`
+- Evaluate diskoScript once.
+  `nix --extra-experimental-features "nix-command flakes" build --no-link --print-out-paths --refresh github:Ichinose-Kazuki/dotfiles#nixosConfigurations.x1carbon.config.system.build.diskoScript > /dev/null`
+- Fetch files from customDiskoScript directory.
+  -  `wget -O diskoScript https://github.com/Ichinose-Kazuki/dotfiles/blob/main/customDiskoScript/diskoScript?raw=true`
+  -  `wget -O diskoScript https://github.com/Ichinose-Kazuki/dotfiles/blob/main/customDiskoScript/disk-deactivate?raw=true`
+  -  `wget -O diskoScript https://github.com/Ichinose-Kazuki/dotfiles/blob/main/customDiskoScript/disk-deactivate.jq?raw=true`
+- Create `/tmp/secret.key` for cryptsetup.
+  `echo -n "password" > /tmp/secret.key`
+- Run diskoScript.
+  `bash diskoScript`
 - `nixos-install --no-root-passwd --flake github:Ichinose-Kazuki/dotfiles#x1carbon`
 - Need to change disk-by-uuid -> Use disko
