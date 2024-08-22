@@ -2,7 +2,7 @@
 let
   import_app = [
     ../../modules/home/kazuki/chromium
-    # ../../modules/home/kazuki/fcitx5
+    ../../modules/home/kazuki/git
   ];
   import_external = [
     inputs.plasma-manager.homeManagerModules.plasma-manager
