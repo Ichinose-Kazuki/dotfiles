@@ -7,10 +7,9 @@
         content = {
           type = "gpt";
           partitions = {
-            ESP = {
+            p1_ESP = { # Partitions are sorted in alphabetical order?
               type = "EF00";
               size = "260M";
-              _index = 1;
               content = {
                 type = "filesystem";
                 format = "vfat";
@@ -18,39 +17,35 @@
                 mountOptions = [ "umask=0077" ];
               };
             };
-            msReserved = {
+            p2_msReserved = {
               type = "0C01";
               size = "16M";
-              _index = 2;
               content = {
                 type = "filesystem";
                 format = "none";
                 # To be ignored in disk-deactivate.jq. "/dev/nvme0n1p2".
               };
             };
-            msBasicData = {
+            p3_msBasicData = {
               type = "0700";
               size = "200G";
-              _index = 3;
               content = {
                 type = "filesystem";
                 format = "none";
                 # To be ignored in disk-deactivate.jq. "/dev/nvme0n1p3".
               };
             };
-            winRecovery = {
+            p4_winRecovery = {
               type = "2700";
               size = "2G";
-              _index = 4;
               content = {
                 type = "filesystem";
                 format = "none";
                 # To be ignored in disk-deactivate.jq. "/dev/nvme0n1p4".
               };
             };
-            luksLvm = {
+            p5_luksLvm = {
               size = "100%";
-              _index = 5;
               content = {
                 type = "luks";
                 name = "crypted";
