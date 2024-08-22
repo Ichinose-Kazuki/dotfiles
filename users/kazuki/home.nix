@@ -3,6 +3,7 @@ let
   import_app = [
     ../../modules/home/kazuki/chromium
     ../../modules/home/kazuki/git
+    ../../modules/home/kazuki/ssh
   ];
   import_external = [
     inputs.plasma-manager.homeManagerModules.plasma-manager
@@ -40,7 +41,8 @@ in
     hello
     slack
     kdePackages.kfind
-
+    kdePackages.ksshaskpass
+    # kdePackages.gwenview
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the

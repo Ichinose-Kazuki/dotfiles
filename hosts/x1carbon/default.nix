@@ -12,7 +12,8 @@
       inputs.nix-index-database.nixosModules.nix-index
       inputs.disko.nixosModules.disko
       ./disko.nix
-      ../../modules/nixos/docker
+      ../../modules/nixos/x1carbon/docker
+      ../../modules/nixos/x1carbon/ssh
     ];
 
   # Nix settings
@@ -160,13 +161,15 @@
   # programs.mtr.enable = true;
   programs.gnupg.agent = {
     enable = true;
-    enableSSHSupport = true;
   };
 
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
-  services.openssh.enable = true;
+  services.openssh = {
+    enable = true;
+    startWhenNeeded = true;
+  };
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
