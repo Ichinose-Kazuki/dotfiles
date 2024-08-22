@@ -124,6 +124,7 @@
     packages = with pkgs; [
       kate
       #  thunderbird
+      nixpkgs-fmt
     ];
     shell = pkgs.zsh;
   };
