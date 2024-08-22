@@ -34,7 +34,7 @@ def deactivate:
       # Remove the MBR bootstrap code
       "dd if=/dev/zero of=\(.path) bs=440 count=1"
     ]
-  elif .type == "part" and select(.path | IN("/dev/nvme0n1p1", "/dev/nvme0n1p2", "/dev/nvme0n1p3", "/dev/nvme0n1p4") | not) then
+  elif .type == "part" and select(.path | IN("/dev/nvme0n1p2", "/dev/nvme0n1p3", "/dev/nvme0n1p4") | not) then
     [
       "wipefs --all -f \(.path)"
     ]

@@ -36,10 +36,10 @@ curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix 
 - Fetch files from customDiskoScript directory.
   -  `curl -o diskoScript https://raw.githubusercontent.com/Ichinose-Kazuki/dotfiles/main/customDiskoScript/diskoScript`
      -  Uses custom disk-deactivate script.
-     -  Skips formatting regardless of results of TYPE check on /dev/nvme0n1p2 and /dev/nvme0n1p4. They are not filesystems (probably), so they don't have TYPE. Do the same on /dev/nvme0n1p1 and /dev/nvme0n1p3 just in case. 
+     -  Skips formatting regardless of results of TYPE check on /dev/nvme0n1p2 and /dev/nvme0n1p4. They are not filesystems (probably), so they don't have TYPE. Do the same on  /dev/nvme0n1p3 just in case.
   -  `curl -o disk-deactivate https://raw.githubusercontent.com/Ichinose-Kazuki/dotfiles/main/customDiskoScript/disk-deactivate`
   -  `curl -o disk-deactivate.jq https://raw.githubusercontent.com/Ichinose-Kazuki/dotfiles/main/customDiskoScript/disk-deactivate.jq`
-     -  Skips wipefs on /dev/nvme0n1p1 to /dev/nvme0n1p4.
+     -  Skips wipefs on partitions from /dev/nvme0n1p1 to /dev/nvme0n1p4.
 - Run diskoScript.
   `bash diskoScript`
 - `nixos-install --no-root-passwd --flake github:Ichinose-Kazuki/dotfiles#x1carbon`

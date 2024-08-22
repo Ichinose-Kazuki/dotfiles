@@ -119,6 +119,14 @@ mkdir -p "$disko_devices_dir"
       declare -a mountOptions=('umask=0077')
       mountpoint='/boot'
       type='filesystem'
+
+      if ! (blkid '/dev/disk/by-partlabel/disk-main-p1_ESP' | grep -q 'TYPE='); then
+        mkfs.vfat \
+           \
+          /dev/disk/by-partlabel/disk-main-p1_ESP
+      fi
+
+
     )
     
     ( # filesystem  /dev/disk/by-partlabel/disk-main-p2_msReserved none  #
