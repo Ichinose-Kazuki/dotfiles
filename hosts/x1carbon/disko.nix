@@ -28,7 +28,7 @@
                 # To be ignored in disk-deactivate.jq. "/dev/nvme0n1p2".
               };
             };
-            winBasicData = {
+            msBasicData = {
               type = "0700";
               size = "200G";
               _index = 3;

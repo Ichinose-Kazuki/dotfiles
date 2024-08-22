@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -efux -o pipefail
+# dependencies: bash jq util-linux lvm2 mdadm zfs gnugrep sed
+disk=$(realpath "$1")
+
+lsblk -a -f >&2
+lsblk --output-all --json | jq -r --arg disk_to_clear "$disk" -f "$(dirname "$0")/disk-deactivate.jq" | bash -x
+lsblk -a -f >&2

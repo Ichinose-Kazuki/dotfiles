@@ -35,8 +35,11 @@ curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix 
   `nix --extra-experimental-features "nix-command flakes" build --no-link --print-out-paths --refresh github:Ichinose-Kazuki/dotfiles#nixosConfigurations.x1carbon.config.system.build.diskoScript > /dev/null`
 - Fetch files from customDiskoScript directory.
   -  `wget -O diskoScript https://github.com/Ichinose-Kazuki/dotfiles/blob/main/customDiskoScript/diskoScript?raw=true`
+     -  Uses custom disk-deactivate script.
+     -  Skips formatting regardless of results of TYPE check on /dev/nvme0n1p2 and /dev/nvme0n1p4. They are not filesystems (probably), so they don't have TYPE. Do the same on /dev/nvme0n1p1 and /dev/nvme0n1p3 just in case. 
   -  `wget -O diskoScript https://github.com/Ichinose-Kazuki/dotfiles/blob/main/customDiskoScript/disk-deactivate?raw=true`
   -  `wget -O diskoScript https://github.com/Ichinose-Kazuki/dotfiles/blob/main/customDiskoScript/disk-deactivate.jq?raw=true`
+     -  Skips wipefs on /dev/nvme0n1p1 to /dev/nvme0n1p4.
 - Create `/tmp/secret.key` for cryptsetup.
   `echo -n "password" > /tmp/secret.key`
 - Run diskoScript.

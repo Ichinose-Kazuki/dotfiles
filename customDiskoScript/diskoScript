@@ -1,0 +1,542 @@
+#! /nix/store/i1x9sidnvhhbbha2zhgpxkhpysw6ajmr-bash-5.2p26/bin/bash
+export PATH=/nix/store/yw7dn51dwbmw2pkx5fqhgadpzyv8f724-jq-1.7.1-bin/bin:/nix/store/5i7q5kam595b2xk6qhyb1lhsb7620m2s-gptfdisk-1.0.10/bin:/nix/store/fchhaab5v5iaspcw2q902b2bhck8x8xr-systemd-minimal-256.2/bin:/nix/store/9wf17jsjrajq5rkdf8jz7pppdkx58h0n-parted-3.6/bin:/nix/store/2cjdrbc0qy2y887dd0idi8i5r318jxrc-util-linux-2.39.4-bin/bin:/nix/store/k8zpadqbwqwalggnhqi74gdgrlf3if9l-gnugrep-3.11/bin:/nix/store/9cdss6fvfzllp2pwbwvdlq0ahqxgn24q-dosfstools-4.2/bin:/nix/store/ldfgf3gg85083fhl3m17lmz31d7l5rmn-cryptsetup-2.7.3-bin/bin:/nix/store/brfrwl77j238cfv87ihx0dkcpjp1jjpa-lvm2-2.03.23-bin/bin:/nix/store/4rj0qvpc1b6r3idgpczalhbbxnvjrbpy-btrfs-progs-6.10/bin:/nix/store/kfb15zfaji7a37dv2y82w3zhbmg1v4a7-coreutils-full-9.5/bin:/nix/store/i1x9sidnvhhbbha2zhgpxkhpysw6ajmr-bash-5.2p26/bin:$PATH
+umount -Rv "/mnt" || :
+
+# shellcheck disable=SC2043
+for dev in /dev/nvme0n1; do
+  $BASH ./disk-deactivate "$dev"
+done
+
+set -efux
+
+disko_devices_dir=$(mktemp -d)
+trap 'rm -rf "$disko_devices_dir"' EXIT
+mkdir -p "$disko_devices_dir"
+
+( # disk main /dev/nvme0n1   #
+  device='/dev/nvme0n1'
+  imageSize='2G'
+  name='main'
+  type='disk'
+  
+  ( # gpt  /dev/nvme0n1   #
+    device='/dev/nvme0n1'
+    efiGptPartitionFirst='1'
+    type='gpt'
+    
+    if ! blkid "/dev/nvme0n1" >&2; then
+      sgdisk --clear /dev/nvme0n1
+    fi
+    # try to create the partition, if it fails, try to change the type and name
+    if ! sgdisk \
+      --align-end  \
+      --new=1:0:+260M \
+      --change-name=1:disk-main-ESP \
+      --typecode=1:EF00 \
+      /dev/nvme0n1
+    then sgdisk \
+      --change-name=1:disk-main-ESP \
+      --typecode=1:EF00 \
+      /dev/nvme0n1
+    fi
+    # ensure /dev/disk/by-path/..-partN exists before continuing
+    partprobe /dev/nvme0n1 || : # sometimes partprobe fails, but the partitions are still up2date
+    udevadm trigger --subsystem-match=block
+    udevadm settle
+    # try to create the partition, if it fails, try to change the type and name
+    if ! sgdisk \
+      --align-end  \
+      --new=2:0:+16M \
+      --change-name=2:disk-main-msReserved \
+      --typecode=2:0C01 \
+      /dev/nvme0n1
+    then sgdisk \
+      --change-name=2:disk-main-msReserved \
+      --typecode=2:0C01 \
+      /dev/nvme0n1
+    fi
+    # ensure /dev/disk/by-path/..-partN exists before continuing
+    partprobe /dev/nvme0n1 || : # sometimes partprobe fails, but the partitions are still up2date
+    udevadm trigger --subsystem-match=block
+    udevadm settle
+    # try to create the partition, if it fails, try to change the type and name
+    if ! sgdisk \
+      --align-end  \
+      --new=3:0:+200G \
+      --change-name=3:disk-main-msBasicData \
+      --typecode=3:0700 \
+      /dev/nvme0n1
+    then sgdisk \
+      --change-name=3:disk-main-msBasicData \
+      --typecode=3:0700 \
+      /dev/nvme0n1
+    fi
+    # ensure /dev/disk/by-path/..-partN exists before continuing
+    partprobe /dev/nvme0n1 || : # sometimes partprobe fails, but the partitions are still up2date
+    udevadm trigger --subsystem-match=block
+    udevadm settle
+    # try to create the partition, if it fails, try to change the type and name
+    if ! sgdisk \
+      --align-end  \
+      --new=4:0:+2G \
+      --change-name=4:disk-main-winRecovery \
+      --typecode=4:2700 \
+      /dev/nvme0n1
+    then sgdisk \
+      --change-name=4:disk-main-winRecovery \
+      --typecode=4:2700 \
+      /dev/nvme0n1
+    fi
+    # ensure /dev/disk/by-path/..-partN exists before continuing
+    partprobe /dev/nvme0n1 || : # sometimes partprobe fails, but the partitions are still up2date
+    udevadm trigger --subsystem-match=block
+    udevadm settle
+    # try to create the partition, if it fails, try to change the type and name
+    if ! sgdisk \
+      --align-end  \
+      --new=5:0:-0 \
+      --change-name=5:disk-main-luksLvm \
+      --typecode=5:8300 \
+      /dev/nvme0n1
+    then sgdisk \
+      --change-name=5:disk-main-luksLvm \
+      --typecode=5:8300 \
+      /dev/nvme0n1
+    fi
+    # ensure /dev/disk/by-path/..-partN exists before continuing
+    partprobe /dev/nvme0n1 || : # sometimes partprobe fails, but the partitions are still up2date
+    udevadm trigger --subsystem-match=block
+    udevadm settle
+    
+    
+    
+    
+    
+    ( # filesystem  /dev/disk/by-partlabel/disk-main-ESP vfat /boot #
+      device='/dev/disk/by-partlabel/disk-main-ESP'
+      declare -a extraArgs=()
+      format='vfat'
+      declare -a mountOptions=('umask=0077')
+      mountpoint='/boot'
+      type='filesystem'      
+    )
+    
+    ( # filesystem  /dev/disk/by-partlabel/disk-main-msReserved none  #
+      device='/dev/disk/by-partlabel/disk-main-msReserved'
+      declare -a extraArgs=()
+      format='none'
+      declare -a mountOptions=('defaults')
+      mountpoint=''
+      type='filesystem'
+    )
+    
+    ( # filesystem  /dev/disk/by-partlabel/disk-main-msBasicData none  #
+      device='/dev/disk/by-partlabel/disk-main-msBasicData'
+      declare -a extraArgs=()
+      format='none'
+      declare -a mountOptions=('defaults')
+      mountpoint=''
+      type='filesystem'
+    )
+    
+    ( # filesystem  /dev/disk/by-partlabel/disk-main-winRecovery none  #
+      device='/dev/disk/by-partlabel/disk-main-winRecovery'
+      declare -a extraArgs=()
+      format='none'
+      declare -a mountOptions=('defaults')
+      mountpoint=''
+      type='filesystem'
+    )
+    
+    ( # luks crypted /dev/disk/by-partlabel/disk-main-luksLvm   #
+      declare -a additionalKeyFiles=()
+      askPassword=''
+      device='/dev/disk/by-partlabel/disk-main-luksLvm'
+      declare -a extraFormatArgs=()
+      declare -a extraOpenArgs=()
+      initrdUnlock='1'
+      keyFile=''
+      name='crypted'
+      passwordFile=''
+      declare -A settings=(['allowDiscards']='1' ['keyFile']='/tmp/secret.key')
+      type='luks'
+      
+      if ! blkid "/dev/disk/by-partlabel/disk-main-luksLvm" >/dev/null || ! (blkid "/dev/disk/by-partlabel/disk-main-luksLvm" -o export | grep -q '^TYPE='); then
+        
+        cryptsetup -q luksFormat /dev/disk/by-partlabel/disk-main-luksLvm  --key-file /tmp/secret.key \
+       \
+       \
+      
+        cryptsetup open /dev/disk/by-partlabel/disk-main-luksLvm crypted \
+        --allow-discards \
+         \
+         \
+        --key-file /tmp/secret.key \
+       \
+       \
+       \
+       --persistent
+        
+      fi
+      ( # lvm_pv  /dev/mapper/crypted   #
+        device='/dev/mapper/crypted'
+        type='lvm_pv'
+        vg='MyVolGroup'
+        
+        if ! (blkid '/dev/mapper/crypted' | grep -q 'TYPE='); then
+          pvcreate /dev/mapper/crypted
+        fi
+        echo "/dev/mapper/crypted" >>"$disko_devices_dir"/lvm_MyVolGroup
+        
+        
+      )
+      
+      
+      
+    )
+    
+    
+    
+    
+  )
+  
+  
+)
+( # lvm_vg pool    #
+  name='pool'
+  type='lvm_vg'
+  
+  
+  readarray -t lvm_devices < <(cat "$disko_devices_dir"/lvm_pool)
+  if ! vgdisplay "pool" >/dev/null; then
+    vgcreate pool \
+      "${lvm_devices[@]}"
+  fi
+  if ! lvdisplay 'pool/home'; then
+    lvcreate \
+      --yes \
+      -L \
+        150G \
+      -n home \
+       \
+       \
+       \
+      pool
+  fi
+  if ! lvdisplay 'pool/root'; then
+    lvcreate \
+      --yes \
+      -L \
+        100G \
+      -n root \
+       \
+       \
+       \
+      pool
+  fi
+  if ! lvdisplay 'pool/encryptedSwap'; then
+    lvcreate \
+      --yes \
+      -l \
+        100% \
+      -n encryptedSwap \
+       \
+       \
+       \
+      pool
+  fi
+  
+  
+  ( # btrfs  /dev/pool/home   #
+    device='/dev/pool/home'
+    declare -a extraArgs=('-f')
+    declare -a mountOptions=('defaults')
+    mountpoint=''
+    type='btrfs'
+    
+    # create the filesystem only if the device seems empty
+    if ! (blkid '/dev/pool/home' -o export | grep -q '^TYPE='); then
+      mkfs.btrfs "/dev/pool/home" -f
+    fi
+    if (blkid "/dev/pool/home" -o export | grep -q '^TYPE=btrfs$'); then
+      
+      (
+      MNTPOINT=$(mktemp -d)
+      mount /dev/pool/home "$MNTPOINT" -o subvol=/
+      trap 'umount $MNTPOINT; rm -rf $MNTPOINT' EXIT
+      SUBVOL_ABS_PATH="$MNTPOINT//home"
+      mkdir -p "$(dirname "$SUBVOL_ABS_PATH")"
+      if ! btrfs subvolume show "$SUBVOL_ABS_PATH" > /dev/null 2>&1; then
+        btrfs subvolume create "$SUBVOL_ABS_PATH" 
+      fi
+      
+    )
+    (
+      MNTPOINT=$(mktemp -d)
+      mount /dev/pool/home "$MNTPOINT" -o subvol=/
+      trap 'umount $MNTPOINT; rm -rf $MNTPOINT' EXIT
+      SUBVOL_ABS_PATH="$MNTPOINT//snapshots"
+      mkdir -p "$(dirname "$SUBVOL_ABS_PATH")"
+      if ! btrfs subvolume show "$SUBVOL_ABS_PATH" > /dev/null 2>&1; then
+        btrfs subvolume create "$SUBVOL_ABS_PATH" 
+      fi
+      
+    )
+    
+    fi
+    
+    
+    
+  )
+  
+  ( # btrfs  /dev/pool/root   #
+    device='/dev/pool/root'
+    declare -a extraArgs=('-f')
+    declare -a mountOptions=('defaults')
+    mountpoint=''
+    type='btrfs'
+    
+    # create the filesystem only if the device seems empty
+    if ! (blkid '/dev/pool/root' -o export | grep -q '^TYPE='); then
+      mkfs.btrfs "/dev/pool/root" -f
+    fi
+    if (blkid "/dev/pool/root" -o export | grep -q '^TYPE=btrfs$'); then
+      
+      (
+      MNTPOINT=$(mktemp -d)
+      mount /dev/pool/root "$MNTPOINT" -o subvol=/
+      trap 'umount $MNTPOINT; rm -rf $MNTPOINT' EXIT
+      SUBVOL_ABS_PATH="$MNTPOINT//nix"
+      mkdir -p "$(dirname "$SUBVOL_ABS_PATH")"
+      if ! btrfs subvolume show "$SUBVOL_ABS_PATH" > /dev/null 2>&1; then
+        btrfs subvolume create "$SUBVOL_ABS_PATH" 
+      fi
+      
+    )
+    (
+      MNTPOINT=$(mktemp -d)
+      mount /dev/pool/root "$MNTPOINT" -o subvol=/
+      trap 'umount $MNTPOINT; rm -rf $MNTPOINT' EXIT
+      SUBVOL_ABS_PATH="$MNTPOINT//rootfs"
+      mkdir -p "$(dirname "$SUBVOL_ABS_PATH")"
+      if ! btrfs subvolume show "$SUBVOL_ABS_PATH" > /dev/null 2>&1; then
+        btrfs subvolume create "$SUBVOL_ABS_PATH" 
+      fi
+      
+    )
+    
+    fi
+    
+    
+    
+  )
+  
+  ( # swap  /dev/pool/encryptedSwap   #
+    device='/dev/pool/encryptedSwap'
+    discardPolicy=''
+    declare -a extraArgs=()
+    priority='100'
+    randomEncryption='1'
+    resumeDevice=''
+    type='swap'
+    
+    if ! blkid "/dev/pool/encryptedSwap" -o export | grep -q '^TYPE='; then
+      mkswap \
+         \
+        /dev/pool/encryptedSwap
+    fi
+    
+    
+  )
+  
+  
+  
+  
+)
+
+
+set -efux
+# first create the necessary devices
+(
+  device='/dev/nvme0n1'
+  imageSize='2G'
+  name='main'
+  type='disk'
+  
+  (
+    device='/dev/nvme0n1'
+    efiGptPartitionFirst='1'
+    type='gpt'
+    
+    (
+      declare -a additionalKeyFiles=()
+      askPassword=''
+      device='/dev/disk/by-partlabel/disk-main-luksLvm'
+      declare -a extraFormatArgs=()
+      declare -a extraOpenArgs=()
+      initrdUnlock='1'
+      keyFile=''
+      name='crypted'
+      passwordFile=''
+      declare -A settings=(['allowDiscards']='1' ['keyFile']='/tmp/secret.key')
+      type='luks'
+      
+      if ! cryptsetup status crypted >/dev/null 2>/dev/null; then
+        
+        cryptsetup open /dev/disk/by-partlabel/disk-main-luksLvm crypted \
+        --allow-discards \
+         \
+         \
+        --key-file /tmp/secret.key \
+       \
+       \
+       \
+      
+      fi
+      
+      
+      
+    )
+    
+    
+  )
+  
+  
+)
+(
+  name='pool'
+  type='lvm_vg'
+  
+  vgchange -a y
+  
+  
+  
+)
+
+
+# and then mount the filesystems in alphabetical order
+(
+  name='pool'
+  type='lvm_vg'
+  
+  (
+    device='/dev/pool/root'
+    declare -a extraArgs=('-f')
+    declare -a mountOptions=('defaults')
+    mountpoint=''
+    type='btrfs'
+    
+    if ! findmnt /dev/pool/root "/mnt/" > /dev/null 2>&1; then
+      mount /dev/pool/root "/mnt/" \
+      -o compress=zstd:8 -o noatime -o enospc_debug -o subvol=/rootfs \
+      -o X-mount.mkdir
+    fi
+    
+    
+  )
+  
+  
+)
+(
+  device='/dev/nvme0n1'
+  imageSize='2G'
+  name='main'
+  type='disk'
+  
+  (
+    device='/dev/nvme0n1'
+    efiGptPartitionFirst='1'
+    type='gpt'
+    
+    (
+      device='/dev/disk/by-partlabel/disk-main-ESP'
+      declare -a extraArgs=()
+      format='vfat'
+      declare -a mountOptions=('umask=0077')
+      mountpoint='/boot'
+      type='filesystem'
+      
+      if ! findmnt /dev/disk/by-partlabel/disk-main-ESP "/mnt/boot" >/dev/null 2>&1; then
+        mount /dev/disk/by-partlabel/disk-main-ESP "/mnt/boot" \
+          -t "vfat" \
+          -o umask=0077 \
+          -o X-mount.mkdir
+      fi
+      
+      
+    )
+    
+    
+  )
+  
+  
+)
+(
+  name='pool'
+  type='lvm_vg'
+  
+  (
+    device='/dev/pool/home'
+    declare -a extraArgs=('-f')
+    declare -a mountOptions=('defaults')
+    mountpoint=''
+    type='btrfs'
+    
+    if ! findmnt /dev/pool/home "/mnt/home" > /dev/null 2>&1; then
+      mount /dev/pool/home "/mnt/home" \
+      -o compress=zstd:3 -o noatime -o enospc_debug -o usebackuproot -o subvol=/home \
+      -o X-mount.mkdir
+    fi
+    
+    
+  )
+  
+  
+)
+(
+  name='pool'
+  type='lvm_vg'
+  
+  (
+    device='/dev/pool/root'
+    declare -a extraArgs=('-f')
+    declare -a mountOptions=('defaults')
+    mountpoint=''
+    type='btrfs'
+    
+    if ! findmnt /dev/pool/root "/mnt/nix" > /dev/null 2>&1; then
+      mount /dev/pool/root "/mnt/nix" \
+      -o compress=zstd:8 -o noatime -o enospc_debug -o subvol=/nix \
+      -o X-mount.mkdir
+    fi
+    
+    
+  )
+  
+  
+)
+(
+  name='pool'
+  type='lvm_vg'
+  
+  (
+    device='/dev/pool/home'
+    declare -a extraArgs=('-f')
+    declare -a mountOptions=('defaults')
+    mountpoint=''
+    type='btrfs'
+    
+    if ! findmnt /dev/pool/home "/mnt/snapshots" > /dev/null 2>&1; then
+      mount /dev/pool/home "/mnt/snapshots" \
+      -o compress=zstd:3 -o noatime -o enospc_debug -o usebackuproot -o subvol=/snapshots \
+      -o X-mount.mkdir
+    fi
+    
+    
+  )
+  
+  
+)
+
+
+
