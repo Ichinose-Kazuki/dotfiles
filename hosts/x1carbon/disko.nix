@@ -51,9 +51,6 @@
                 name = "crypted";
                 extraOpenArgs = [ ];
                 settings = {
-                  # if you want to use the key for interactive login be sure there is no trailing newline
-                  # for example use `echo -n "password" > /tmp/secret.key`
-                  keyFile = "/tmp/secret.key";
                   # Enable SSD TRIM command
                   # https://wiki.archlinux.org/title/Dm-crypt/Specialties#Discard/TRIM_support_for_solid_state_drives_(SSD)
                   allowDiscards = true;
