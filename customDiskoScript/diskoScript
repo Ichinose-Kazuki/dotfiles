@@ -150,7 +150,7 @@ mkdir -p "$disko_devices_dir"
     
     ( # luks crypted /dev/disk/by-partlabel/disk-main-p5_luksLvm   #
       declare -a additionalKeyFiles=()
-      askPassword=''
+      askPassword='1'
       device='/dev/disk/by-partlabel/disk-main-p5_luksLvm'
       declare -a extraFormatArgs=()
       declare -a extraOpenArgs=()
@@ -158,12 +158,25 @@ mkdir -p "$disko_devices_dir"
       keyFile=''
       name='crypted'
       passwordFile=''
-      declare -A settings=(['allowDiscards']='1' ['keyFile']='/tmp/secret.key')
+      declare -A settings=(['allowDiscards']='1')
       type='luks'
       
       if ! blkid "/dev/disk/by-partlabel/disk-main-p5_luksLvm" >/dev/null || ! (blkid "/dev/disk/by-partlabel/disk-main-p5_luksLvm" -o export | grep -q '^TYPE='); then
-        
-        cryptsetup -q luksFormat /dev/disk/by-partlabel/disk-main-p5_luksLvm  --key-file /tmp/secret.key \
+        set +x
+      askPassword() {
+        echo "Enter password for /dev/disk/by-partlabel/disk-main-p5_luksLvm: "
+        IFS= read -r -s password
+        echo "Enter password for /dev/disk/by-partlabel/disk-main-p5_luksLvm again to be safe: "
+        IFS= read -r -s password_check
+        export password
+        [ "$password" = "$password_check" ]
+      }
+      until askPassword; do
+        echo "Passwords did not match, please try again."
+      done
+      set -x
+      
+        cryptsetup -q luksFormat /dev/disk/by-partlabel/disk-main-p5_luksLvm  --key-file <(set +x; echo -n "$password"; set -x) \
        \
        \
       
@@ -171,7 +184,7 @@ mkdir -p "$disko_devices_dir"
         --allow-discards \
          \
          \
-        --key-file /tmp/secret.key \
+        --key-file <(set +x; echo -n "$password"; set -x) \
        \
        \
        \
@@ -202,17 +215,17 @@ mkdir -p "$disko_devices_dir"
   
   
 )
-( # lvm_vg pool    #
-  name='pool'
+( # lvm_vg MyVolGroup    #
+  name='MyVolGroup'
   type='lvm_vg'
   
   
-  readarray -t lvm_devices < <(cat "$disko_devices_dir"/lvm_pool)
-  if ! vgdisplay "pool" >/dev/null; then
-    vgcreate pool \
+  readarray -t lvm_devices < <(cat "$disko_devices_dir"/lvm_MyVolGroup)
+  if ! vgdisplay "MyVolGroup" >/dev/null; then
+    vgcreate MyVolGroup \
       "${lvm_devices[@]}"
   fi
-  if ! lvdisplay 'pool/home'; then
+  if ! lvdisplay 'MyVolGroup/home'; then
     lvcreate \
       --yes \
       -L \
@@ -221,9 +234,9 @@ mkdir -p "$disko_devices_dir"
        \
        \
        \
-      pool
+      MyVolGroup
   fi
-  if ! lvdisplay 'pool/root'; then
+  if ! lvdisplay 'MyVolGroup/root'; then
     lvcreate \
       --yes \
       -L \
@@ -232,37 +245,37 @@ mkdir -p "$disko_devices_dir"
        \
        \
        \
-      pool
+      MyVolGroup
   fi
-  if ! lvdisplay 'pool/encryptedSwap'; then
+  if ! lvdisplay 'MyVolGroup/encryptedSwap'; then
     lvcreate \
       --yes \
       -l \
-        100% \
+        100%FREE \
       -n encryptedSwap \
        \
        \
        \
-      pool
+      MyVolGroup
   fi
   
   
-  ( # btrfs  /dev/pool/home   #
-    device='/dev/pool/home'
+  ( # btrfs  /dev/MyVolGroup/home   #
+    device='/dev/MyVolGroup/home'
     declare -a extraArgs=('-f')
     declare -a mountOptions=('defaults')
     mountpoint=''
     type='btrfs'
     
     # create the filesystem only if the device seems empty
-    if ! (blkid '/dev/pool/home' -o export | grep -q '^TYPE='); then
-      mkfs.btrfs "/dev/pool/home" -f
+    if ! (blkid '/dev/MyVolGroup/home' -o export | grep -q '^TYPE='); then
+      mkfs.btrfs "/dev/MyVolGroup/home" -f
     fi
-    if (blkid "/dev/pool/home" -o export | grep -q '^TYPE=btrfs$'); then
+    if (blkid "/dev/MyVolGroup/home" -o export | grep -q '^TYPE=btrfs$'); then
       
       (
       MNTPOINT=$(mktemp -d)
-      mount /dev/pool/home "$MNTPOINT" -o subvol=/
+      mount /dev/MyVolGroup/home "$MNTPOINT" -o subvol=/
       trap 'umount $MNTPOINT; rm -rf $MNTPOINT' EXIT
       SUBVOL_ABS_PATH="$MNTPOINT//home"
       mkdir -p "$(dirname "$SUBVOL_ABS_PATH")"
@@ -273,7 +286,7 @@ mkdir -p "$disko_devices_dir"
     )
     (
       MNTPOINT=$(mktemp -d)
-      mount /dev/pool/home "$MNTPOINT" -o subvol=/
+      mount /dev/MyVolGroup/home "$MNTPOINT" -o subvol=/
       trap 'umount $MNTPOINT; rm -rf $MNTPOINT' EXIT
       SUBVOL_ABS_PATH="$MNTPOINT//snapshots"
       mkdir -p "$(dirname "$SUBVOL_ABS_PATH")"
@@ -289,22 +302,22 @@ mkdir -p "$disko_devices_dir"
     
   )
   
-  ( # btrfs  /dev/pool/root   #
-    device='/dev/pool/root'
+  ( # btrfs  /dev/MyVolGroup/root   #
+    device='/dev/MyVolGroup/root'
     declare -a extraArgs=('-f')
     declare -a mountOptions=('defaults')
     mountpoint=''
     type='btrfs'
     
     # create the filesystem only if the device seems empty
-    if ! (blkid '/dev/pool/root' -o export | grep -q '^TYPE='); then
-      mkfs.btrfs "/dev/pool/root" -f
+    if ! (blkid '/dev/MyVolGroup/root' -o export | grep -q '^TYPE='); then
+      mkfs.btrfs "/dev/MyVolGroup/root" -f
     fi
-    if (blkid "/dev/pool/root" -o export | grep -q '^TYPE=btrfs$'); then
+    if (blkid "/dev/MyVolGroup/root" -o export | grep -q '^TYPE=btrfs$'); then
       
       (
       MNTPOINT=$(mktemp -d)
-      mount /dev/pool/root "$MNTPOINT" -o subvol=/
+      mount /dev/MyVolGroup/root "$MNTPOINT" -o subvol=/
       trap 'umount $MNTPOINT; rm -rf $MNTPOINT' EXIT
       SUBVOL_ABS_PATH="$MNTPOINT//nix"
       mkdir -p "$(dirname "$SUBVOL_ABS_PATH")"
@@ -315,7 +328,7 @@ mkdir -p "$disko_devices_dir"
     )
     (
       MNTPOINT=$(mktemp -d)
-      mount /dev/pool/root "$MNTPOINT" -o subvol=/
+      mount /dev/MyVolGroup/root "$MNTPOINT" -o subvol=/
       trap 'umount $MNTPOINT; rm -rf $MNTPOINT' EXIT
       SUBVOL_ABS_PATH="$MNTPOINT//rootfs"
       mkdir -p "$(dirname "$SUBVOL_ABS_PATH")"
@@ -331,8 +344,8 @@ mkdir -p "$disko_devices_dir"
     
   )
   
-  ( # swap  /dev/pool/encryptedSwap   #
-    device='/dev/pool/encryptedSwap'
+  ( # swap  /dev/MyVolGroup/encryptedSwap   #
+    device='/dev/MyVolGroup/encryptedSwap'
     discardPolicy=''
     declare -a extraArgs=()
     priority='100'
@@ -340,10 +353,10 @@ mkdir -p "$disko_devices_dir"
     resumeDevice=''
     type='swap'
     
-    if ! blkid "/dev/pool/encryptedSwap" -o export | grep -q '^TYPE='; then
+    if ! blkid "/dev/MyVolGroup/encryptedSwap" -o export | grep -q '^TYPE='; then
       mkswap \
          \
-        /dev/pool/encryptedSwap
+        /dev/MyVolGroup/encryptedSwap
     fi
     
     
@@ -370,7 +383,7 @@ set -efux
     
     (
       declare -a additionalKeyFiles=()
-      askPassword=''
+      askPassword='1'
       device='/dev/disk/by-partlabel/disk-main-p5_luksLvm'
       declare -a extraFormatArgs=()
       declare -a extraOpenArgs=()
@@ -378,16 +391,21 @@ set -efux
       keyFile=''
       name='crypted'
       passwordFile=''
-      declare -A settings=(['allowDiscards']='1' ['keyFile']='/tmp/secret.key')
+      declare -A settings=(['allowDiscards']='1')
       type='luks'
       
       if ! cryptsetup status crypted >/dev/null 2>/dev/null; then
-        
+        set +x
+      echo "Enter password for /dev/disk/by-partlabel/disk-main-p5_luksLvm"
+      IFS= read -r -s password
+      export password
+      set -x
+      
         cryptsetup open /dev/disk/by-partlabel/disk-main-p5_luksLvm crypted \
         --allow-discards \
          \
          \
-        --key-file /tmp/secret.key \
+        --key-file <(set +x; echo -n "$password"; set -x) \
        \
        \
        \
@@ -404,7 +422,7 @@ set -efux
   
 )
 (
-  name='pool'
+  name='MyVolGroup'
   type='lvm_vg'
   
   vgchange -a y
@@ -416,18 +434,18 @@ set -efux
 
 # and then mount the filesystems in alphabetical order
 (
-  name='pool'
+  name='MyVolGroup'
   type='lvm_vg'
   
   (
-    device='/dev/pool/root'
+    device='/dev/MyVolGroup/root'
     declare -a extraArgs=('-f')
     declare -a mountOptions=('defaults')
     mountpoint=''
     type='btrfs'
     
-    if ! findmnt /dev/pool/root "/mnt/" > /dev/null 2>&1; then
-      mount /dev/pool/root "/mnt/" \
+    if ! findmnt /dev/MyVolGroup/root "/mnt/" > /dev/null 2>&1; then
+      mount /dev/MyVolGroup/root "/mnt/" \
       -o compress=zstd:8 -o noatime -o enospc_debug -o subvol=/rootfs \
       -o X-mount.mkdir
     fi
@@ -472,18 +490,18 @@ set -efux
   
 )
 (
-  name='pool'
+  name='MyVolGroup'
   type='lvm_vg'
   
   (
-    device='/dev/pool/home'
+    device='/dev/MyVolGroup/home'
     declare -a extraArgs=('-f')
     declare -a mountOptions=('defaults')
     mountpoint=''
     type='btrfs'
     
-    if ! findmnt /dev/pool/home "/mnt/home" > /dev/null 2>&1; then
-      mount /dev/pool/home "/mnt/home" \
+    if ! findmnt /dev/MyVolGroup/home "/mnt/home" > /dev/null 2>&1; then
+      mount /dev/MyVolGroup/home "/mnt/home" \
       -o compress=lzo -o noatime -o enospc_debug -o usebackuproot -o subvol=/home \
       -o X-mount.mkdir
     fi
@@ -494,18 +512,18 @@ set -efux
   
 )
 (
-  name='pool'
+  name='MyVolGroup'
   type='lvm_vg'
   
   (
-    device='/dev/pool/root'
+    device='/dev/MyVolGroup/root'
     declare -a extraArgs=('-f')
     declare -a mountOptions=('defaults')
     mountpoint=''
     type='btrfs'
     
-    if ! findmnt /dev/pool/root "/mnt/nix" > /dev/null 2>&1; then
-      mount /dev/pool/root "/mnt/nix" \
+    if ! findmnt /dev/MyVolGroup/root "/mnt/nix" > /dev/null 2>&1; then
+      mount /dev/MyVolGroup/root "/mnt/nix" \
       -o compress=zstd:8 -o noatime -o enospc_debug -o subvol=/nix \
       -o X-mount.mkdir
     fi
@@ -516,18 +534,18 @@ set -efux
   
 )
 (
-  name='pool'
+  name='MyVolGroup'
   type='lvm_vg'
   
   (
-    device='/dev/pool/home'
+    device='/dev/MyVolGroup/home'
     declare -a extraArgs=('-f')
     declare -a mountOptions=('defaults')
     mountpoint=''
     type='btrfs'
     
-    if ! findmnt /dev/pool/home "/mnt/snapshots" > /dev/null 2>&1; then
-      mount /dev/pool/home "/mnt/snapshots" \
+    if ! findmnt /dev/MyVolGroup/home "/mnt/snapshots" > /dev/null 2>&1; then
+      mount /dev/MyVolGroup/home "/mnt/snapshots" \
       -o compress=lzo -o noatime -o enospc_debug -o usebackuproot -o subvol=/snapshots \
       -o X-mount.mkdir
     fi
