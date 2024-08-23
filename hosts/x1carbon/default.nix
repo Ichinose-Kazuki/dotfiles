@@ -14,6 +14,7 @@
       ./disko.nix
       ../../modules/nixos/x1carbon/docker
       ../../modules/nixos/x1carbon/ssh
+      ../../modules/nixos/x1carbon/udev
     ];
 
   # Nix settings
