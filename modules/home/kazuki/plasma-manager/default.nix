@@ -4,6 +4,17 @@
   programs.plasma = {
     enable = true;
 
+    # Touchpad
+    input.touchpads = [
+      {
+        name = "SYNA8017:00 06CB:CEB2 Touchpad";
+        enable = true;
+        tapToClick = false;
+        vendorId = "06CB";
+        productId = "CEB2";
+      }
+    ];
+
     hotkeys.commands."launch-konsole" = {
       name = "Launch Konsole";
       key = "Ctrl+Alt+T";
