@@ -2,13 +2,13 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, inputs, ... }:
+{ config, lib, pkgs, inputs, ... }:
 
 {
   imports =
     [
       # Include the results of the hardware scan.
-      ./hardware.nix
+      ./hardware-configuration.nix
       inputs.nix-index-database.nixosModules.nix-index
       inputs.disko.nixosModules.disko
       ./disko.nix
@@ -25,19 +25,18 @@
     ];
   };
 
-  # Bootloader.
-  boot.loader.efi.canTouchEfiVariables = true;
+  # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
 
   networking.hostName = "nixos"; # Define your hostname.
+  # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-  # Enable networking
-  networking.networkmanager.enable = true;
 
   # Set your time zone.
   time.timeZone = "Asia/Tokyo";
@@ -97,25 +96,17 @@
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
-  # Enable sound with pipewire.
-  # sound.enable = true; Deprecated
-  hardware.pulseaudio.enable = false;
-  security.rtkit.enable = true;
+  # Enable sound.
+  # hardware.pulseaudio.enable = true;
+  # OR
   services.pipewire = {
     enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
     pulse.enable = true;
-    # If you want to use JACK applications, uncomment this
-    #jack.enable = true;
-
-    # use the example session manager (no others are packaged yet so this is enabled by default,
-    # no need to redefine it in your config for now)
-    #media-session.enable = true;
   };
 
+
   # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
+  services.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.kazuki = {
@@ -133,7 +124,7 @@
   users.mutableUsers = false;
 
   # VMWare
-  virtualisation.vmware.guest.enable = true;
+  # virtualisation.vmware.guest.enable = true;
 
   # Install firefox.
   programs.firefox.enable = true;
