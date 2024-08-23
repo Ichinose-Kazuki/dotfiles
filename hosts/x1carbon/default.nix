@@ -155,6 +155,9 @@
     wget
     home-manager
     perl
+    lshw
+    usbutils
+    pciutils
   ];
 
   # Some programs need SUID wrappers, can be configured further or are

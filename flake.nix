@@ -21,9 +21,13 @@
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    lix-module = {
+      url = "https://git.lix.systems/lix-project/nixos-module/archive/2.91.0.tar.gz";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = inputs @ { self, nixpkgs, home-manager, nixos-hardware, ... }:
+  outputs = inputs @ { self, nixpkgs, lix-module, home-manager, nixos-hardware, ... }:
     let
       system = "x86_64-linux"; # Check flake-utils: https://github.com/numtide/flake-utils
       pkgs = import nixpkgs {
@@ -46,6 +50,8 @@
           inherit inputs;
         };
         modules = [
+          #! lix
+          # lix-module.nixosModules.default
           ./hosts/x1carbon
           nixos-hardware.nixosModules.lenovo-thinkpad-x1-10th-gen
           # ! Not needed if using standalone home-manager.
