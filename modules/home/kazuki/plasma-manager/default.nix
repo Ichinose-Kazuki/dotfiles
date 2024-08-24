@@ -21,6 +21,23 @@
       command = "konsole";
     };
 
+    # A key binding cannot be set to multiple commands.
+    # Delete the default key binding with "***" = "none".
+    shortcuts = {
+      ksmserver = {
+        "Lock Session" = [ "Screensaver" "Meta+Ctrl+L" ];
+      };
+
+      kwin = {
+        "Switch Window Down" = "Meta+J";
+        "Switch Window Left" = "Meta+H";
+        "Switch Window Right" = "Meta+L";
+        "Switch Window Up" = "Meta+K";
+        "Overview" = "none";
+        "Window Close" = "Meta+W";
+      };
+    };
+
     workspace = {
       wallpaper = "${pkgs.kdePackages.plasma-workspace-wallpapers}/share/wallpapers/MilkyWay/contents/images/5120x2880.png";
     };
