@@ -42,6 +42,10 @@
       wallpaper = "${pkgs.kdePackages.plasma-workspace-wallpapers}/share/wallpapers/MilkyWay/contents/images/5120x2880.png";
     };
 
+    kscreenlocker = {
+      appearance.wallpaper = "${pkgs.kdePackages.plasma-workspace-wallpapers}/share/wallpapers/MilkyWay/contents/images/5120x2880.png";
+    };
+
     # $HOME/.config/
     configFile = {
       inherit (import ./config/kwinrc.nix) kwinrc;
