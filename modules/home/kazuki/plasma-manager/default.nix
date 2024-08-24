@@ -29,11 +29,18 @@
     configFile = {
       inherit (import ./config/kwinrc.nix) kwinrc;
       inherit (import ./config/fcitx5.nix) "fcitx5/profile";
+      inherit (import ./config/globalTheme.nix) "kdedefaults/ksplashrc" "kdedefaults/plasmarc" kdeglobals;
     };
 
     # $HOME/.local/share/
     dataFile = {
       inherit (import ./config/dolphin.nix) "dolphin/view_properties/global/.directory";
     };
+  };
+
+  # Files that cannot be managed by plasma-manager
+  # e.g. plain text files, images, etc.
+  xdg.configFile = {
+    inherit (import ./config/globalTheme.nix) "kdedefaults/package";
   };
 }
