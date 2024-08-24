@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 
 {
   programs.plasma = {
@@ -21,10 +21,19 @@
       command = "konsole";
     };
 
+    workspace = {
+      wallpaper = "${pkgs.kdePackages.plasma-workspace-wallpapers}/share/wallpapers/MilkyWay/contents/images/5120x2880.png";
+    };
+
+    # $HOME/.config/
     configFile = {
       inherit (import ./config/kwinrc.nix) kwinrc;
       inherit (import ./config/fcitx5.nix) "fcitx5/profile";
-      inherit (import ./config/dolphin.nix) "../.local/share/dolphin/view_properties/global/.directory";
+    };
+
+    # $HOME/.local/share/
+    dataFile = {
+      inherit (import ./config/dolphin.nix) "dolphin/view_properties/global/.directory";
     };
   };
 }
