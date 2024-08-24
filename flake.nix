@@ -51,7 +51,7 @@
         };
         modules = [
           #! lix
-          # lix-module.nixosModules.default
+          lix-module.nixosModules.default
           ./hosts/x1carbon
           nixos-hardware.nixosModules.lenovo-thinkpad-x1-10th-gen
           # ! Not needed if using standalone home-manager.
