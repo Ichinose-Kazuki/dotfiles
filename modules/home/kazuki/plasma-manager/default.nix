@@ -3,6 +3,7 @@
 {
   programs.plasma = {
     enable = true;
+    overrideConfig = true;
 
     # Touchpad
     input.touchpads = [
@@ -46,11 +47,23 @@
       appearance.wallpaper = "${pkgs.kdePackages.plasma-workspace-wallpapers}/share/wallpapers/MilkyWay/contents/images/5120x2880.png";
     };
 
+    fonts = {
+      general = {
+        family = "Noto Sans CJK JP";
+        pointSize = 10;
+      };
+      fixedWidth = {
+        family = "Hack Nerd Font";
+        pointSize = 10;
+      };
+    };
+
     # $HOME/.config/
     configFile = {
       inherit (import ./config/kwinrc.nix) kwinrc;
       inherit (import ./config/fcitx5.nix) "fcitx5/profile";
       inherit (import ./config/globalTheme.nix) "kdedefaults/ksplashrc" "kdedefaults/plasmarc" kdeglobals;
+      inherit (import ./config/locale.nix) plasma-localerc;
     };
 
     # $HOME/.local/share/
