@@ -4,6 +4,7 @@ let
     ../../modules/home/kazuki/chromium
     ../../modules/home/kazuki/git
     ../../modules/home/kazuki/ssh
+    ../../modules/home/kazuki/flameshot
   ];
   import_external = [
     inputs.plasma-manager.homeManagerModules.plasma-manager

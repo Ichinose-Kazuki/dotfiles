@@ -16,10 +16,17 @@
       }
     ];
 
-    hotkeys.commands."launch-konsole" = {
-      name = "Launch Konsole";
-      key = "Ctrl+Alt+T";
-      command = "konsole";
+    hotkeys.commands = {
+      launch-konsole = {
+        name = "Launch Konsole";
+        key = "Ctrl+Alt+T";
+        command = "konsole";
+      };
+      flameshot-gui = {
+        name = "Flameshot GUI";
+        key = "Meta+Shift+S";
+        command = "flameshot gui";
+      };
     };
 
     # A key binding cannot be set to multiple commands.
