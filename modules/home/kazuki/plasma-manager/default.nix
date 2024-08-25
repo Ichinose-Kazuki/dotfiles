@@ -58,6 +58,13 @@
       };
     };
 
+    # Panels settings causes delay in loading wallpaper after login.
+    panels = [{
+      height = 30;
+      location = "bottom";
+      hiding = "autohide";
+    }];
+
     # $HOME/.config/
     configFile = {
       inherit (import ./config/kwinrc.nix) kwinrc;
