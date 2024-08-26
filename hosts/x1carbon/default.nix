@@ -5,14 +5,14 @@
 { config, lib, pkgs, inputs, ... }:
 
 {
-  imports =
+  imports = with inputs;
     [
       # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      inputs.nix-index-database.nixosModules.nix-index
-      inputs.disko.nixosModules.disko
+      nix-index-database.nixosModules.nix-index
+      disko.nixosModules.disko
       ./disko.nix
-      ../../modules/nixos/x1carbon/docker
+      self.nixosModules.docker
       ../../modules/nixos/x1carbon/ssh
       ../../modules/nixos/x1carbon/udev
       ../../modules/nixos/x1carbon/sddm
@@ -26,9 +26,30 @@
     ];
   };
 
-  # Use the systemd-boot EFI boot loader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  # Use the grub EFI boot loader.
+  # TODO: Enable lanzaboote, set systemd-boot as default, set timeout to 0, and chainload grub...?
+  # TODO: https://wiki.archlinux.org/title/Systemd-boot#GRUB
+  boot.loader.grub = {
+    enable = true;
+    efiSupport = true;
+    device = "nodev"; # EFI related things are installed in a partition, not a device.
+    configurationLimit = 3;
+    configurationName = "grub";
+    useOSProber = true;
+    # I simply dislike the idea of depending on NVRAM state to make my drive bootable.
+    # Grub is installed as /boot/EFI/BOOT/BOOTX64.EFI. Motherboard firmware looks for this file before reading NVRAM.
+    # In NVRAM, /boot/EFI/BOOT/BOOTX64.EFI is represented as device name "SKHynix ***". Move this entry to the top.
+    efiInstallAsRemovable = true;
+    extraEntries = ''
+      menuentry "Reboot" {
+        reboot
+      }
+      menuentry "Poweroff" {
+        halt
+      }
+    '';
+  };
+  # boot.loader.efi.canTouchEfiVariables = true; # Required to write boot entry to NVRAM.
 
   networking.hostName = "nixos"; # Define your hostname.
   # Pick only one of the below networking options.

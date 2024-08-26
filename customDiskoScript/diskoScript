@@ -255,12 +255,12 @@ mkdir -p "$disko_devices_dir"
        \
       MyVolGroup
   fi
-  if ! lvdisplay 'MyVolGroup/encryptedSwap'; then
+  if ! lvdisplay 'MyVolGroup/swap'; then
     lvcreate \
       --yes \
       -l \
         100%FREE \
-      -n encryptedSwap \
+      -n swap \
        \
        \
        \
@@ -327,7 +327,7 @@ mkdir -p "$disko_devices_dir"
       MNTPOINT=$(mktemp -d)
       mount /dev/MyVolGroup/root "$MNTPOINT" -o subvol=/
       trap 'umount $MNTPOINT; rm -rf $MNTPOINT' EXIT
-      SUBVOL_ABS_PATH="$MNTPOINT//nix"
+      SUBVOL_ABS_PATH="$MNTPOINT//"
       mkdir -p "$(dirname "$SUBVOL_ABS_PATH")"
       if ! btrfs subvolume show "$SUBVOL_ABS_PATH" > /dev/null 2>&1; then
         btrfs subvolume create "$SUBVOL_ABS_PATH" 
@@ -338,7 +338,7 @@ mkdir -p "$disko_devices_dir"
       MNTPOINT=$(mktemp -d)
       mount /dev/MyVolGroup/root "$MNTPOINT" -o subvol=/
       trap 'umount $MNTPOINT; rm -rf $MNTPOINT' EXIT
-      SUBVOL_ABS_PATH="$MNTPOINT//rootfs"
+      SUBVOL_ABS_PATH="$MNTPOINT//nix"
       mkdir -p "$(dirname "$SUBVOL_ABS_PATH")"
       if ! btrfs subvolume show "$SUBVOL_ABS_PATH" > /dev/null 2>&1; then
         btrfs subvolume create "$SUBVOL_ABS_PATH" 
@@ -352,19 +352,19 @@ mkdir -p "$disko_devices_dir"
     
   )
   
-  ( # swap  /dev/MyVolGroup/encryptedSwap   #
-    device='/dev/MyVolGroup/encryptedSwap'
+  ( # swap  /dev/MyVolGroup/swap   #
+    device='/dev/MyVolGroup/swap'
     discardPolicy=''
     declare -a extraArgs=()
-    priority='100'
-    randomEncryption='1'
-    resumeDevice=''
+    priority=''
+    randomEncryption=''
+    resumeDevice='1'
     type='swap'
     
-    if ! blkid "/dev/MyVolGroup/encryptedSwap" -o export | grep -q '^TYPE='; then
+    if ! blkid "/dev/MyVolGroup/swap" -o export | grep -q '^TYPE='; then
       mkswap \
          \
-        /dev/MyVolGroup/encryptedSwap
+        /dev/MyVolGroup/swap
     fi
     
     
@@ -454,7 +454,7 @@ set -efux
     
     if ! findmnt /dev/MyVolGroup/root "/mnt/" > /dev/null 2>&1; then
       mount /dev/MyVolGroup/root "/mnt/" \
-      -o compress=zstd:8 -o noatime -o enospc_debug -o subvol=/rootfs \
+      -o compress=zstd:8 -o noatime -o enospc_debug -o subvol=/ \
       -o X-mount.mkdir
     fi
     
@@ -491,6 +491,28 @@ set -efux
       
       
     )
+    
+    
+  )
+  
+  
+)
+(
+  name='MyVolGroup'
+  type='lvm_vg'
+  
+  (
+    device='/dev/MyVolGroup/swap'
+    discardPolicy=''
+    declare -a extraArgs=()
+    priority=''
+    randomEncryption=''
+    resumeDevice='1'
+    type='swap'
+    
+    if ! swapon --show | grep -q "^$(readlink -f /dev/MyVolGroup/swap) "; then
+      swapon   /dev/MyVolGroup/swap
+    fi
     
     
   )
@@ -563,6 +585,3 @@ set -efux
   
   
 )
-
-
-
