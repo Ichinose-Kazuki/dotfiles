@@ -94,6 +94,19 @@
   # Enable touchpad support (enabled default in most desktopManager).
   services.libinput.enable = true;
 
+  # Enable fingerprint.
+  # Don't forget to run `sudo fprintd-enroll` and test with `sudo fprintd-verify`.
+  # Bug: pam_fprintd.so should come before pam_unix.so.
+  # https://github.com/NixOS/nixpkgs/issues/239770
+  # https://github.com/NixOS/nixpkgs/blob/2becde3c1913fc74dec4108a067bfb5f5b93096b/nixos/modules/security/pam.nix#L663
+  services.fprintd = {
+    enable = true;
+    tod = {
+      enable = true;
+      driver = pkgs.libfprint-2-tod1-vfs0090;
+    };
+  };
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.kazuki = {
     isNormalUser = true;
@@ -136,7 +149,10 @@
     lshw
     usbutils
     pciutils
+    ripgrep
     kdePackages.sddm-kcm
+    kdePackages.kwallet-pam
+    kdePackages.kwallet
   ];
 
   # environment.etc = {
