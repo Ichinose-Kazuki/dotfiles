@@ -104,6 +104,7 @@
       kdePackages.kate
       #  thunderbird
       nixpkgs-fmt
+      microsoft-edge
     ];
     shell = pkgs.zsh;
   };
