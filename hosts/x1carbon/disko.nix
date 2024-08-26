@@ -118,12 +118,11 @@
                 };
               };
             };
-          encryptedSwap = {
+          swap = {
             size = "100%FREE";
             content = {
               type = "swap";
-              randomEncryption = true;
-              priority = 100; # prefer to encrypt as long as we have space for it
+              resumeDevice = true; # resume from hiberation from this device
             };
           };
         };
