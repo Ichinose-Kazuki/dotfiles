@@ -101,7 +101,10 @@
   };
 
   # Enable CUPS to print documents.
-  services.printing.enable = true;
+  services.printing = {
+    enable = true;
+    wantedBy = mkForce [ ];
+  };
 
   # Enable sound.
   # hardware.pulseaudio.enable = true;
@@ -130,6 +133,7 @@
 
   services.avahi = {
     enable = true;
+    wantedBy = mkForce [ ];
     nssmdns4 = true;
   };
 
