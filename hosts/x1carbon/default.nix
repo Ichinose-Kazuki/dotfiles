@@ -128,7 +128,10 @@
     };
   };
 
-  services.avahi.enable = true;
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+  };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.kazuki = {
@@ -141,6 +144,7 @@
       #  thunderbird
       nixpkgs-fmt
       microsoft-edge
+      todoist-electron
     ];
     shell = pkgs.zsh;
   };
