@@ -36,6 +36,7 @@
         "Lock Session" = [ "Screensaver" "Meta+Ctrl+L" ];
       };
 
+      # .config/kglobalshortcutsrc  
       kwin = {
         "Switch Window Down" = "Meta+J";
         "Switch Window Left" = "Meta+H";
@@ -43,6 +44,8 @@
         "Switch Window Up" = "Meta+K";
         "Overview" = "none";
         "Window Close" = "Meta+W";
+        "Window Maximize" = "Meta+Home";
+        "Window Minimize" = "Meta+End";
       };
     };
 
