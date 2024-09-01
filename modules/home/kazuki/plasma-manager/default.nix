@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ pkgs, lib, config, ... }:
 
 {
   programs.plasma = {
@@ -75,9 +75,10 @@
       hiding = "autohide";
     }];
 
+    # TODO: Rewrite as modules?
     # $HOME/.config/
     configFile = {
-      inherit (import ./config/kwinrc.nix) kwinrc;
+      inherit (import ./config/kwin.nix { config = config; }) kwinrc;
       inherit (import ./config/fcitx5.nix) "fcitx5/profile";
       inherit (import ./config/globalTheme.nix) "kdedefaults/ksplashrc" "kdedefaults/plasmarc" kdeglobals;
       inherit (import ./config/locale.nix) plasma-localerc;
@@ -93,5 +94,6 @@
   # e.g. plain text files, images, etc.
   xdg.configFile = {
     inherit (import ./config/globalTheme.nix) "kdedefaults/package";
+    inherit (import ./config/kwin.nix { config = config; }) "kwinoutputconfig.json";
   };
 }
