@@ -49,8 +49,14 @@
       };
     };
 
+    # Workspace and panel settings are applied to monitors that are connected? had been connected once?
+    # at the time of running home-manager switch.
     workspace = {
       wallpaper = "${pkgs.kdePackages.plasma-workspace-wallpapers}/share/wallpapers/MilkyWay/contents/images/5120x2880.png";
+    };
+
+    kwin = {
+      edgeBarrier = 0;
     };
 
     kscreenlocker = {
@@ -69,11 +75,15 @@
     };
 
     # Panels settings causes delay in loading wallpaper after login.
-    panels = [{
-      height = 30;
-      location = "bottom";
-      hiding = "autohide";
-    }];
+    panels = [
+      {
+        height = 30;
+        location = "bottom";
+        hiding = "autohide";
+        floating = false;
+        screen = "all";
+      }
+    ];
 
     # TODO: Rewrite as modules?
     # $HOME/.config/

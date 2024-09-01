@@ -103,8 +103,8 @@
   # Enable CUPS to print documents.
   services.printing = {
     enable = true;
-    wantedBy = mkForce [ ];
   };
+  systemd.services.printing.wantedBy = lib.mkForce [ ];
 
   # Enable sound.
   # hardware.pulseaudio.enable = true;
@@ -133,9 +133,9 @@
 
   services.avahi = {
     enable = true;
-    wantedBy = mkForce [ ];
     nssmdns4 = true;
   };
+  systemd.services.avahi.wantedBy = lib.mkForce [ ];
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.kazuki = {
@@ -184,6 +184,7 @@
     kdePackages.sddm-kcm
     kdePackages.kwallet-pam
     kdePackages.kwallet
+    wol # Wake-on-LAN
   ];
 
   # environment.etc = {
