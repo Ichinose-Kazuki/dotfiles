@@ -1,8 +1,8 @@
 # dotfiles
 
 ## Important commands
-- sudo nixos-rebuild switch --flake .#x1carbon
-- home-manager switch --flake .#kazuki
+- sudo nixos-rebuild switch --flake ".#x1carbon"
+- home-manager switch --flake ".#kazuki"
 - nix-collect-garbage -d [--delete-older-than 7d]
   - Run as sudo to collect system garbages.
   - Run as a normal user to collect garbages in its home directory.

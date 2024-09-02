@@ -181,4 +181,9 @@ in
       locales = [ "ja_JP.UTF-8/UTF-8" ];
     };
   };
+
+  xdg.userDirs = {
+    enable = true;
+    createDirectories = true;
+  };
 }
