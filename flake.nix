@@ -77,8 +77,7 @@
           inherit inputs;
         };
         modules = [
-          # ! lix
-          # lix-module.nixosModules.default
+          nixos-hardware.nixosModules.raspberry-pi-3
           ./hosts/raspi3bp
         ];
       };
