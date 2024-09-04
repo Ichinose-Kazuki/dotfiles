@@ -4,5 +4,6 @@
   imports = [
     ./graphics
     ./networking
+    ./interop
   ];
 }
