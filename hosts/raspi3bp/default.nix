@@ -4,7 +4,8 @@
   imports = with inputs;
     [
       # Include the results of the hardware scan.
-
+      self.nixosModules.common
+      self.nixosModules.raspi3bp
     ];
 
   # Nix settings

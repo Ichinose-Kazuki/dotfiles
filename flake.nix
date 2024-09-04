@@ -25,9 +25,13 @@
       url = "https://git.lix.systems/lix-project/nixos-module/archive/2.91.0.tar.gz";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixos-wsl = {
+      url = "github:nix-community/NixOS-WSL";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = inputs @ { self, nixpkgs, lix-module, home-manager, nixos-hardware, ... }:
+  outputs = inputs @ { self, nixpkgs, lix-module, home-manager, nixos-hardware, nixos-wsl, ... }:
     let
       system = "x86_64-linux"; # Check flake-utils: https://github.com/numtide/flake-utils
       pkgs = import nixpkgs {
@@ -44,10 +48,14 @@
         buildInputs = [ pkgs.nixpkgs-fmt ];
       };
       nixosModules = {
-        x1carbon.docker = ./modules/nixos/x1carbon/docker;
-        raspi3bp = {
-          tailscale = ./modules/nixos/raspi3bp/tailscale;
-        };
+        common = ./modules/nixos/common;
+        x1carbon = ./modules/nixos/x1carbon;
+        wsl2 = ./modules/nixos/wsl2;
+        raspi3bp = ./modules/nixos/raspi3bp;
+      };
+      homeManagerModules.kazuki = {
+        common = ./modules/home/kazuki/common;
+        wsl2 = ./modules/home/kazuki/wsl2;
       };
 
       nixosConfigurations.x1carbon = nixpkgs.lib.nixosSystem {
@@ -68,6 +76,26 @@
           #   home-manager.useUserPackages = true;
           #   home-manager.sharedModules = [ plasma-manager.homeManagerModules.plasma-manager ];
           # }
+        ];
+      };
+
+      nixosConfigurations.wsl2 = nixpkgs.lib.nixosSystem {
+        # Note that you cannot put arbitrary configuration here: the configuration must be placed in the files loaded via modules
+        specialArgs = {
+          inherit inputs;
+        };
+        modules = [
+          ./hosts/wsl2
+          (nixos-wsl.outPath + "/modules")
+          home-manager.nixosModules.home-manager {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.kazuki = import ./users/kazuki/home_wsl.nix;
+            home-manager.extraSpecialArgs = {
+              inherit inputs;
+              host = "wsl2";
+            };
+          }
         ];
       };
 
@@ -96,14 +124,13 @@
         inherit pkgs;
         extraSpecialArgs = {
           inherit inputs;
+          host = "standalone";
         };
         # Specify your home configuration module here, for example,
         # the path to your home.nix
         modules = [
           ./users/kazuki/home.nix
         ];
-        # Optionally use extraSpecialArgs
-        # to pass through arguments to home.nix
       };
     };
 }
