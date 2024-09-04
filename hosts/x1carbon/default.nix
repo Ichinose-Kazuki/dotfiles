@@ -12,7 +12,7 @@
       nix-index-database.nixosModules.nix-index
       disko.nixosModules.disko
       ./disko.nix
-      self.nixosModules.docker
+      self.nixosModules.x1carbon.docker
       ../../modules/nixos/x1carbon/ssh
       ../../modules/nixos/x1carbon/udev
       ../../modules/nixos/x1carbon/sddm

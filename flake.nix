@@ -44,7 +44,10 @@
         buildInputs = [ pkgs.nixpkgs-fmt ];
       };
       nixosModules = {
-        docker = ./modules/nixos/x1carbon/docker;
+        x1carbon.docker = ./modules/nixos/x1carbon/docker;
+        raspi3bp = {
+          tailscale = ./modules/nixos/raspi3bp/tailscale;
+        };
       };
 
       nixosConfigurations.x1carbon = nixpkgs.lib.nixosSystem {
@@ -65,6 +68,18 @@
           #   home-manager.useUserPackages = true;
           #   home-manager.sharedModules = [ plasma-manager.homeManagerModules.plasma-manager ];
           # }
+        ];
+      };
+
+      nixosConfigurations.raspi3bp = nixpkgs.lib.nixosSystem {
+        # Note that you cannot put arbitrary configuration here: the configuration must be placed in the files loaded via modules
+        specialArgs = {
+          inherit inputs;
+        };
+        modules = [
+          # ! lix
+          # lix-module.nixosModules.default
+          ./hosts/raspi3bp
         ];
       };
 
