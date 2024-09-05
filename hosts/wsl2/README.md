@@ -3,7 +3,4 @@
 
 ## How to install
 - Install "NixOS-WSL".
-- ~~Run `sudo nixos-generate-config`~~ (Probably shouldn't do this).
-- Clone this repo ~~and copy hardware-configuration.nix~~.
-    - ~~Disk UUIDs can be different.~~
-- Rebuild as usual.
+- Rebuild: `sudo nixos-rebuild switch --refresh --flake "github:Ichinose-Kazuki/dotfiles#wsl2"`.
