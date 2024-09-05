@@ -66,8 +66,8 @@
         modules = [
           #! lix
           lix-module.nixosModules.default
-          ./hosts/x1carbon
           nixos-hardware.nixosModules.lenovo-thinkpad-x1-10th-gen
+          ./hosts/x1carbon
           # ! Not needed if using standalone home-manager.
           # ! Import standalone settings
           # home-manager.nixosModules.home-manager
@@ -87,7 +87,8 @@
         modules = [
           ./hosts/wsl2
           (nixos-wsl.outPath + "/modules")
-          home-manager.nixosModules.home-manager {
+          home-manager.nixosModules.home-manager
+          {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.kazuki = import ./users/kazuki/home_wsl.nix;
@@ -107,6 +108,16 @@
         modules = [
           nixos-hardware.nixosModules.raspberry-pi-3
           ./hosts/raspi3bp
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.kazuki = import ./users/kazuki/home_raspi.nix;
+            home-manager.extraSpecialArgs = {
+              inherit inputs;
+              host = "raspi3bp";
+            };
+          }
         ];
       };
 
