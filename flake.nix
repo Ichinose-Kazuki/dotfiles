@@ -1,6 +1,7 @@
 {
   description = "A very basic flake";
 
+  # Run `nix flake metadata [this dir]` to know which "follows" need to be added.
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nix-index-database = {
@@ -29,24 +30,26 @@
       url = "github:nix-community/NixOS-WSL";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    raspberry-pi-nix = {
+      url = "github:nix-community/raspberry-pi-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    flake-utils.url = "github:numtide/flake-utils";
   };
 
-  outputs = inputs @ { self, nixpkgs, lix-module, home-manager, nixos-hardware, nixos-wsl, ... }:
-    let
-      system = "x86_64-linux"; # Check flake-utils: https://github.com/numtide/flake-utils
-      pkgs = import nixpkgs {
-        inherit system;
-        config = {
-          allowUnfree = true;
-          allowUnfreePredicate = (_: true);
-        };
-      };
-    in
+  outputs =
+    inputs@{ self
+    , nixpkgs
+    , lix-module
+    , home-manager
+    , nixos-hardware
+    , nixos-wsl
+    , raspberry-pi-nix
+    , flake-utils
+    , ...
+    }:
     {
-      formatter.${system} = pkgs.nixpkgs-fmt;
-      devShells.${system}.default = pkgs.mkShell {
-        buildInputs = [ pkgs.nixpkgs-fmt ];
-      };
+      # Details: https://nixos.wiki/wiki/Flakes
       nixosModules = {
         common = ./modules/nixos/common;
         x1carbon = ./modules/nixos/x1carbon;
@@ -131,17 +134,50 @@
         ];
       };
 
-      homeConfigurations.kazuki = home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
-        extraSpecialArgs = {
-          inherit inputs;
-          host = "standalone";
+      homeConfigurations.kazuki =
+        let
+          system = "x86_64-linux";
+          pkgs = import nixpkgs {
+            inherit system;
+            config = {
+              allowUnfree = true;
+              allowUnfreePredicate = (_: true);
+            };
+          };
+        in
+        home-manager.lib.homeManagerConfiguration {
+          inherit pkgs;
+          extraSpecialArgs = {
+            inherit inputs;
+            host = "standalone";
+          };
+          # Specify your home configuration module here, for example,
+          # the path to your home.nix
+          modules = [
+            ./users/kazuki/home.nix
+          ];
         };
-        # Specify your home configuration module here, for example,
-        # the path to your home.nix
-        modules = [
-          ./users/kazuki/home.nix
-        ];
-      };
-    };
+    }
+    // flake-utils.lib.eachDefaultSystem (
+      system:
+      let
+        pkgs = import nixpkgs {
+          inherit system;
+          config = {
+            allowUnfree = true;
+            allowUnfreePredicate = (_: true);
+          };
+        };
+      in
+      {
+        # Formatter used in this directory by `nix fmt`.
+        formatter = pkgs.nixpkgs-fmt;
+        # Does not work with direnv. https://github.com/NixOS/nixfmt/issues/151
+        # formatter = nixpkgs.legacyPackages.x86_64-linux.nixfmt-rfc-style;
+        # `nix develop`
+        devShells.default = pkgs.mkShell {
+          buildInputs = [ pkgs.nixpkgs-fmt ];
+        };
+      }
+    );
 }

@@ -2,19 +2,24 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, lib, pkgs, inputs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
 
 {
-  imports = with inputs;
-    [
-      # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      nix-index-database.nixosModules.nix-index
-      disko.nixosModules.disko
-      ./disko.nix
-      self.nixosModules.common
-      self.nixosModules.x1carbon
-    ];
+  imports = with inputs; [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+    nix-index-database.nixosModules.nix-index
+    disko.nixosModules.disko
+    ./disko.nix
+    self.nixosModules.common
+    self.nixosModules.x1carbon
+  ];
 
   # Use the grub EFI boot loader.
   # TODO: Enable lanzaboote, set systemd-boot as default, set timeout to 0, and chainload grub...?
@@ -55,7 +60,7 @@
     layout = "us";
     variant = "";
   };
-  
+
   # Select internationalisation properties.
   i18n = {
     defaultLocale = "ja_JP.UTF-8";
@@ -156,13 +161,16 @@
   # };
 
   fonts = {
-    packages = with pkgs;
-      [
-        noto-fonts-cjk-sans
-        (nerdfonts.override {
-          fonts = [ "Hack" "RobotoMono" "IntelOneMono" ];
-        })
-      ];
+    packages = with pkgs; [
+      noto-fonts-cjk-sans
+      (nerdfonts.override {
+        fonts = [
+          "Hack"
+          "RobotoMono"
+          "IntelOneMono"
+        ];
+      })
+    ];
   };
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -195,4 +203,3 @@
   system.stateVersion = "24.11"; # Did you read the comment?
 
 }
-

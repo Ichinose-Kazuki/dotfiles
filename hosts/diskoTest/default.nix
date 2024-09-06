@@ -4,18 +4,23 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, inputs, lib, ... }:
+{
+  config,
+  pkgs,
+  inputs,
+  lib,
+  ...
+}:
 
 {
-  imports =
-    [
-      # Include the results of the hardware scan.
-      ./hardware.nix
-      inputs.nix-index-database.nixosModules.nix-index
-      inputs.disko.nixosModules.disko
-      (import ./disko.nix { lib = lib; })
-      ../../modules/nixos/docker
-    ];
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware.nix
+    inputs.nix-index-database.nixosModules.nix-index
+    inputs.disko.nixosModules.disko
+    (import ./disko.nix { lib = lib; })
+    ../../modules/nixos/docker
+  ];
 
   # Nix settings
   nix.settings = {
@@ -122,7 +127,14 @@
     isNormalUser = true;
     description = "Kazuki Ichinose";
     hashedPassword = "$6$SJ579N5INL5GkkFX$GaNRYmajPpOXqW7dSxtV2wRX/ikTyOMVUWk1piqMKxMXvJvc2ow07ZsVWk3zatbCi1WwPRn4TDVV9vZXHQ5e8/";
-    extraGroups = [ "networkmanager" "wheel" "audio" "video" "input" "docker" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "audio"
+      "video"
+      "input"
+      "docker"
+    ];
     packages = with pkgs; [
       kate
       #  thunderbird
@@ -184,4 +196,3 @@
   system.stateVersion = "24.11"; # Did you read the comment?
 
 }
-

@@ -1,4 +1,10 @@
-{ config, lib, pkgs, inputs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
 
 {
   # Nix settings
@@ -11,7 +17,7 @@
 
   # make sure less supports utf-8 character
   environment.sessionVariables.LESSCHARSET = "utf-8";
-  
+
   # Set your time zone.
   time.timeZone = "Asia/Tokyo";
 
@@ -23,7 +29,14 @@
     isNormalUser = true;
     description = "Kazuki Ichinose";
     hashedPassword = "$6$SJ579N5INL5GkkFX$GaNRYmajPpOXqW7dSxtV2wRX/ikTyOMVUWk1piqMKxMXvJvc2ow07ZsVWk3zatbCi1WwPRn4TDVV9vZXHQ5e8/";
-    extraGroups = [ "networkmanager" "wheel" "audio" "video" "input" "docker" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "audio"
+      "video"
+      "input"
+      "docker"
+    ];
     packages = with pkgs; [
       nixpkgs-fmt
     ];
@@ -32,7 +45,6 @@
   users.mutableUsers = false;
   users.users.root.shell = pkgs.zsh;
 
-  
   # Comma
   programs.nix-index-database.comma.enable = true;
 

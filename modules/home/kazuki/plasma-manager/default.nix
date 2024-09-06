@@ -1,4 +1,9 @@
-{ pkgs, lib, config, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 
 {
   programs.plasma = {
@@ -33,7 +38,10 @@
     # Delete the default key binding with "***" = "none".
     shortcuts = {
       ksmserver = {
-        "Lock Session" = [ "Screensaver" "Meta+Ctrl+L" ];
+        "Lock Session" = [
+          "Screensaver"
+          "Meta+Ctrl+L"
+        ];
       };
 
       # .config/kglobalshortcutsrc  

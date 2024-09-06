@@ -73,7 +73,11 @@
           root =
             let
               # In the current btrfs implementation, all subvolumes share the same options.
-              rootBtrfsOptions = [ "compress=zstd:8" "noatime" "enospc_debug" ];
+              rootBtrfsOptions = [
+                "compress=zstd:8"
+                "noatime"
+                "enospc_debug"
+              ];
             in
             {
               size = "100G";
@@ -98,7 +102,12 @@
             let
               # In the current btrfs implementation, all subvolumes share the same options.
               # LZO is better on nvme-ssd: https://gist.github.com/braindevices/fde49c6a8f6b9aaf563fb977562aafec
-              homeBtrfsOptions = [ "compress=lzo" "noatime" "enospc_debug" "usebackuproot" ];
+              homeBtrfsOptions = [
+                "compress=lzo"
+                "noatime"
+                "enospc_debug"
+                "usebackuproot"
+              ];
             in
             {
               size = "150G";

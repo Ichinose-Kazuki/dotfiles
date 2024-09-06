@@ -1,4 +1,10 @@
-{ config, pkgs, lib, inputs, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  inputs,
+  ...
+}:
 let
   import_app = [
     ../../modules/home/kazuki/chromium
@@ -14,7 +20,6 @@ let
   ];
 
 in
-
 
 {
   imports = import_app ++ import_external ++ import_plasma;
@@ -111,7 +116,10 @@ in
     };
     zoxide = {
       enable = true;
-      options = [ "--cmd" "cd" ];
+      options = [
+        "--cmd"
+        "cd"
+      ];
     };
     direnv = {
       enable = true;
@@ -171,8 +179,6 @@ in
       };
     };
   };
-
-
 
   # Internationalization
   i18n = {

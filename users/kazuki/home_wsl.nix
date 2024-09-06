@@ -1,4 +1,11 @@
-{ config, pkgs, lib, inputs, host, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  inputs,
+  host,
+  ...
+}:
 
 {
   imports = with inputs; [
@@ -86,7 +93,10 @@
     # };
     zoxide = {
       enable = true;
-      options = [ "--cmd" "cd" ];
+      options = [
+        "--cmd"
+        "cd"
+      ];
     };
     direnv = {
       enable = true;

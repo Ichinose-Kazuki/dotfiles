@@ -17,8 +17,7 @@
     };
   };
   "kdedefaults/package" = {
-    text =
-      "org.kde.breezetwilight.desktop";
+    text = "org.kde.breezetwilight.desktop";
     # force = true;
   };
 }

@@ -1,7 +1,7 @@
 { pkgs, ... }:
 
 {
-    # Zsh and Bash
+  # Zsh and Bash
   programs.zsh = {
     enable = true;
     # Copied from the following URL and modified:
