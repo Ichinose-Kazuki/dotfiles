@@ -50,6 +50,12 @@
     , impermanence
     , ...
     }:
+    let
+      cross-compile = { config, ... }: {
+        boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+        nix.settings.extra-platforms = config.boot.binfmt.emulatedSystems;
+      };
+    in
     {
       # Details: https://nixos.wiki/wiki/Flakes
       nixosModules = {
@@ -102,6 +108,7 @@
               host = "wsl2";
             };
           }
+          # cross-compile
         ];
       };
 
