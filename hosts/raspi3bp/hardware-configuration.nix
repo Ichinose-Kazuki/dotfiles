@@ -29,7 +29,10 @@
     device = "tmpfs";
     fsType = "ext4";
   };
-
+  # Make a directory to store persistent files.
+  environment.persistence."/persistent" = {
+    hideMounts = true;
+  };
 
   swapDevices = [ ];
 

@@ -34,6 +34,7 @@
       url = "github:nix-community/raspberry-pi-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    impermanence.url = "github:nix-community/impermanence";
     flake-utils.url = "github:numtide/flake-utils";
   };
 
@@ -46,6 +47,7 @@
     , nixos-wsl
     , raspberry-pi-nix
     , flake-utils
+    , impermanence
     , ...
     }:
     {
@@ -145,6 +147,7 @@
           modules = [
             nixos-hardware.nixosModules.raspberry-pi-3
             raspberry-pi-nix.nixosModules.raspberry-pi
+            impermanence.nixosModules.impermanence
             basic-config
             ./hosts/raspi3bp
             home-manager.nixosModules.home-manager
