@@ -1,19 +1,6 @@
 {
   description = "A very basic flake";
 
-  # nixConfig = {
-  #   extra-trusted-public-keys = [
-  # "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-  # "raspberry-pi-nix.cachix.org-1:WmV2rdSangxW0rZjY/tBvBDSaNFQ3DyEQsVw8EvHn9o="
-  # "cache.lix.systems:aBnZUw8zA7H35Cz2RyKFVs3H4PlGTLawyY5KRbvJR8o="
-  # ];
-  # extra-substituters = [
-  # "https://nix-community.cachix.org"
-  # "https://raspberry-pi-nix.cachix.org"
-  # "https://cache.lix.systems"
-  #   ];
-  # };
-
   # Run `nix flake metadata [this dir]` to know which "follows" need to be added.
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
@@ -63,12 +50,7 @@
     , impermanence
     , ...
     }:
-    let
-      cross-compile = { config, ... }: {
-        boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
-        nix.settings.extra-platforms = config.boot.binfmt.emulatedSystems;
-      };
-    in
+
     {
       # Details: https://nixos.wiki/wiki/Flakes
       nixosModules = {
@@ -123,7 +105,6 @@
               host = "wsl2";
             };
           }
-          # cross-compile
         ];
       };
 
@@ -145,7 +126,6 @@
               host = "tsuyoServer";
             };
           }
-          cross-compile
         ];
       };
 

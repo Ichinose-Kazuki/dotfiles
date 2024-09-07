@@ -20,7 +20,11 @@
     self.nixosModules.tsuyoServer
   ];
 
-  nix.settings.trusted-users = [ "@wheel" ];
+  nix.settings = {
+    trusted-users = [ "@wheel" ];
+    extra-substituters = [ "https://cache.lix.systems" ];
+    extra-trusted-public-keys = [ "cache.lix.systems:aBnZUw8zA7H35Cz2RyKFVs3H4PlGTLawyY5KRbvJR8o=" ];
+  };
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
