@@ -18,6 +18,32 @@
     self.nixosModules.raspi3bp
   ];
 
+  nix.buildMachines = [{
+    systems = [
+      "x86_64-linux"
+      "aarch64-linux"
+    ];
+    supportedFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
+    sshUser = "kazuki";
+    sshKey = "/root/.ssh/id_ed25519";
+    speedFactor = 2;
+    protocol = "ssh-ng";
+    maxJobs = 1;
+    mandatoryFeatures = [ ];
+    hostName = "192.168.11.7";
+  }];
+  nix.distributedBuilds = true;
+  # Let remote builder use binary cache.
+  nix.extraOptions = ''
+    	  builders-use-substitutes = true
+    	'';
+  # Make ssh keys persistent for remote build.
+  environment.persistence."/persistent" = {
+    directories = [
+      "/home/kazuki/.ssh"
+    ];
+  };
+
   # Use the extlinux boot loader. (NixOS wants to enable GRUB by default)
   boot.loader.grub.enable = false;
   # Enables the generation of /boot/extlinux/extlinux.conf
