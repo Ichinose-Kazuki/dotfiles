@@ -2,8 +2,16 @@
   description = "A very basic flake";
 
   nixConfig = {
-    trusted-public-keys = [ "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs=" "raspberry-pi-nix.cachix.org-1:WmV2rdSangxW0rZjY/tBvBDSaNFQ3DyEQsVw8EvHn9o=" ];
-    substituters = [ "https://nix-community.cachix.org" "https://raspberry-pi-nix.cachix.org" ];
+    trusted-public-keys = [
+      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+      "raspberry-pi-nix.cachix.org-1:WmV2rdSangxW0rZjY/tBvBDSaNFQ3DyEQsVw8EvHn9o="
+      "cache.lix.systems:aBnZUw8zA7H35Cz2RyKFVs3H4PlGTLawyY5KRbvJR8o="
+    ];
+    substituters = [
+      "https://nix-community.cachix.org"
+      "https://raspberry-pi-nix.cachix.org"
+      "https://cache.lix.systems"
+    ];
   };
 
   # Run `nix flake metadata [this dir]` to know which "follows" need to be added.
@@ -67,11 +75,13 @@
         common = ./modules/nixos/common;
         x1carbon = ./modules/nixos/x1carbon;
         wsl2 = ./modules/nixos/wsl2;
+        tsuyoServer = ./modules/nixos/tsuyoServer;
         raspi3bp = ./modules/nixos/raspi3bp;
       };
       homeManagerModules.kazuki = {
         common = ./modules/home/kazuki/common;
         wsl2 = ./modules/home/kazuki/wsl2;
+        tsuyoServer = ./modules/home/kazuki/tsuyoServer;
       };
 
       nixosConfigurations.x1carbon = nixpkgs.lib.nixosSystem {
@@ -114,6 +124,28 @@
             };
           }
           # cross-compile
+        ];
+      };
+
+      nixosConfigurations.tsuyoServer = nixpkgs.lib.nixosSystem {
+        # Note that you cannot put arbitrary configuration here: the configuration must be placed in the files loaded via modules
+        specialArgs = {
+          inherit inputs;
+        };
+        modules = [
+          lix-module.nixosModules.default
+          ./hosts/tsuyoServer
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.kazuki = import ./users/kazuki/home_tsuyoServer.nix;
+            home-manager.extraSpecialArgs = {
+              inherit inputs;
+              host = "tsuyoServer";
+            };
+          }
+          cross-compile
         ];
       };
 
