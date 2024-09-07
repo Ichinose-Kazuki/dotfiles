@@ -4,7 +4,7 @@
 
 ### Build a SD card image
 - On a powerful server (with either native or qemu aarch64-linux support), run:
-    `nix build ".#nixosConfigurations.raspi3bp.config.system.build.sdImage"`.
+    `sudo nix build ".#nixosConfigurations.raspi3bp.config.system.build.sdImage"`.
     - Running this on Raspberry Pi will take forever.
 
 ### Write to SD card.

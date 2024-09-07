@@ -27,8 +27,8 @@
   };
 
   # qemu emulation of "aarch64-linux"
+  # nix.settings.extra-platforms is set automatically by boot.binfmt.
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
-  nix.settings.extra-platforms = "aarch64-linux";
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
