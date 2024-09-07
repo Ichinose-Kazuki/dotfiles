@@ -1,9 +1,10 @@
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 
 {
   # Zsh and Bash
   programs.zsh = {
     enable = true;
+    histSize = 10000000;
     # Copied from the following URL and modified:
     # https://discourse.nixos.org/t/using-zsh-with-grml-config-and-nix-shell-prompt-indicator/13838
     interactiveShellInit = ''
@@ -12,7 +13,7 @@
       source ${pkgs.grml-zsh-config}/etc/zsh/zshrc
 
       # Increase history size.
-      HISTSIZE=10000000
+      HISTSIZE=${builtins.toString config.programs.zsh.histSize}
 
       # Prompt modifications.
       #

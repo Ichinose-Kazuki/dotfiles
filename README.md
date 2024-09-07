@@ -46,3 +46,11 @@ curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix 
   `bash diskoScript`
 - `nixos-install --no-root-passwd --flake github:Ichinose-Kazuki/dotfiles#x1carbon`
 - Need to change disk-by-uuid -> Use disko
+
+## nix repl
+- Build check
+  `nixosConfigurations.*.config.system.build.toplevel`
+- nixpkgs options
+  `nixosConfigurations.*.config`
+- homeManager options
+  `nixosConfigurations.*.config.home-manager.users.*`
