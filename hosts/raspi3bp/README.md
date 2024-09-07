@@ -1,6 +1,15 @@
 # Raspberry Pi 3B+
 
-## Building an sd-card image
-- In `flake.nix`, add `cross-compile` in the modules in your current system, if it's not "aarch64-linux" system.
-- Run `sudo nix build ".#nixosConfigurations.raspi3bp.config.system.build.sdImage"`.
-    - Run as root to enable binary cache.
+## Install
+
+### Build a SD card image
+- On a powerful server (with either native or qemu aarch64-linux support), run:
+    `nix build ".#nixosConfigurations.raspi3bp.config.system.build.sdImage"`.
+    - Running this on Raspberry Pi will take forever.
+
+### Write to SD card.
+- Fetch the image.
+- Use imager to write the image to SD card.
+
+## Update
+- 

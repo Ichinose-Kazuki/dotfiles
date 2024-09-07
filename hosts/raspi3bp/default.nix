@@ -18,29 +18,25 @@
     self.nixosModules.raspi3bp
   ];
 
-  # Errors out on a x86_64-linux machine with boot.binfmt.emulatedSystems enabled.
-  # Use binary cache instead.
-  # Note that cross builds and native builds have different DRV hashes (https://discourse.nixos.org/t/remote-cross-compile-for-nixos/412/6).
-  # Probably that's why nix build didn't hit any binary cache when built from x86_64 machine.
-  # nix.buildMachines = [{
-  #   systems = [
-  #     "x86_64-linux"
-  #     "aarch64-linux"
-  #   ];
-  #   supportedFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
-  #   sshUser = "kazuki";
-  #   sshKey = "/home/kazuki/.ssh/id_ed25519";
-  #   speedFactor = 2;
-  #   protocol = "ssh-ng";
-  #   maxJobs = 1;
-  #   mandatoryFeatures = [ ];
-  #   hostName = "192.168.11.7";
-  # }];
-  # nix.distributedBuilds = true;
-  # # Let remote builder use binary cache.
-  # nix.extraOptions = ''
-  #   	  builders-use-substitutes = true
-  #   	'';
+  nix.buildMachines = [{
+    systems = [
+      "x86_64-linux"
+      "aarch64-linux"
+    ];
+    supportedFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
+    sshUser = "kazuki";
+    sshKey = "/home/kazuki/.ssh/id_ed25519";
+    speedFactor = 2;
+    protocol = "ssh-ng";
+    maxJobs = 1;
+    mandatoryFeatures = [ ];
+    hostName = "192.168.11.7";
+  }];
+  nix.distributedBuilds = true;
+  # Let remote builder use binary cache.
+  nix.extraOptions = ''
+    	  builders-use-substitutes = true
+    	'';
 
   nix.settings = {
     extra-trusted-public-keys = [
