@@ -1,18 +1,18 @@
 {
   description = "A very basic flake";
 
-  nixConfig = {
-    extra-trusted-public-keys = [
-      # "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-      # "raspberry-pi-nix.cachix.org-1:WmV2rdSangxW0rZjY/tBvBDSaNFQ3DyEQsVw8EvHn9o="
-      # "cache.lix.systems:aBnZUw8zA7H35Cz2RyKFVs3H4PlGTLawyY5KRbvJR8o="
-    ];
-    extra-substituters = [
-      # "https://nix-community.cachix.org"
-      # "https://raspberry-pi-nix.cachix.org"
-      # "https://cache.lix.systems"
-    ];
-  };
+  # nixConfig = {
+  #   extra-trusted-public-keys = [
+  # "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+  # "raspberry-pi-nix.cachix.org-1:WmV2rdSangxW0rZjY/tBvBDSaNFQ3DyEQsVw8EvHn9o="
+  # "cache.lix.systems:aBnZUw8zA7H35Cz2RyKFVs3H4PlGTLawyY5KRbvJR8o="
+  # ];
+  # extra-substituters = [
+  # "https://nix-community.cachix.org"
+  # "https://raspberry-pi-nix.cachix.org"
+  # "https://cache.lix.systems"
+  #   ];
+  # };
 
   # Run `nix flake metadata [this dir]` to know which "follows" need to be added.
   inputs = {
