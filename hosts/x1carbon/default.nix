@@ -2,12 +2,11 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{
-  config,
-  lib,
-  pkgs,
-  inputs,
-  ...
+{ config
+, lib
+, pkgs
+, inputs
+, ...
 }:
 
 {
@@ -20,6 +19,12 @@
     self.nixosModules.common
     self.nixosModules.x1carbon
   ];
+
+  # TODO: Make this a module like: https://github.com/stepbrobd/dotfiles/blob/8a90166bbabe4b32769df9aea11d6ee6d042b6de/modules/common/lix.nix#L24.
+  nix.settings = {
+    extra-substituters = [ "https://cache.lix.systems" ];
+    trusted-public-keys = [ "cache.lix.systems:aBnZUw8zA7H35Cz2RyKFVs3H4PlGTLawyY5KRbvJR8o=" ];
+  };
 
   # Use the grub EFI boot loader.
   # TODO: Enable lanzaboote, set systemd-boot as default, set timeout to 0, and chainload grub...?

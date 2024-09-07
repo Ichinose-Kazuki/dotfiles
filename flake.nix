@@ -1,6 +1,11 @@
 {
   description = "A very basic flake";
 
+  nixConfig = {
+    trusted-public-keys = [ "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs=" "raspberry-pi-nix.cachix.org-1:WmV2rdSangxW0rZjY/tBvBDSaNFQ3DyEQsVw8EvHn9o=" ];
+    substituters = [ "https://nix-community.cachix.org" "https://raspberry-pi-nix.cachix.org" ];
+  };
+
   # Run `nix flake metadata [this dir]` to know which "follows" need to be added.
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
