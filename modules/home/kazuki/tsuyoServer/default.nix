@@ -1,5 +1,5 @@
 { ... }:
 
 {
-  local.zshUserNameColor = "206"; # Cherry blossom
+  local.zshUserNameColor = "212"; # Cherry blossom
 }
