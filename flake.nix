@@ -133,7 +133,7 @@
           inherit inputs;
         };
         modules = [
-          lix-module.nixosModules.default
+          # lix-module.nixosModules.default
           ./hosts/tsuyoServer
           home-manager.nixosModules.home-manager
           {
