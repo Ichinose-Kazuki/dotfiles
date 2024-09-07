@@ -23,7 +23,7 @@
   # TODO: Make this a module like: https://github.com/stepbrobd/dotfiles/blob/8a90166bbabe4b32769df9aea11d6ee6d042b6de/modules/common/lix.nix#L24.
   nix.settings = {
     extra-substituters = [ "https://cache.lix.systems" ];
-    trusted-public-keys = [ "cache.lix.systems:aBnZUw8zA7H35Cz2RyKFVs3H4PlGTLawyY5KRbvJR8o=" ];
+    extra-trusted-public-keys = [ "cache.lix.systems:aBnZUw8zA7H35Cz2RyKFVs3H4PlGTLawyY5KRbvJR8o=" ];
   };
 
   # Use the grub EFI boot loader.
