@@ -1,10 +1,12 @@
 { ... }:
 
 {
-  # Use openSSH which is installed in Windows.
-  programs.git.extraConfig.core.sshCommand = "ssh.exe";
+  # Use OpenSSH which is installed in Windows.
+  # Built-in OpenSSH has limited features.
+  # Install fully functional OpenSSH with `winget install Microsoft.OpenSSH.Beta `
+  programs.git.extraConfig.core.sshCommand = "/mnt/c/Program\\ Files/OpenSSH/ssh.exe";
   home.shellAliases = {
-    ssh = "ssh.exe";
-    ssh-add = "ssh-add.exe";
+    ssh = "/mnt/c/Program\\ Files/OpenSSH/ssh.exe";
+    ssh-add = "/mnt/c/Program\\ Files/OpenSSH/ssh-add.exe";
   };
 }
