@@ -50,16 +50,18 @@
   };
 
   # Make ssh-related files persistent.
-  environment.persistence."/persistent" = {
-    directories = [
-      "/home/kazuki/.ssh"
-    ];
-  };
+  # environment.persistence."/persistent" = {
+  #   directories = [
+  #     "/home/kazuki/.ssh"
+  #   ];
+  # };
 
   # Limit journal size
   services.journald.extraConfig = ''
     SystemMaxUse=50M
   '';
+  # Store log on RAM.
+  services.journald.storage = "volatile";
 
   # Use the extlinux boot loader. (NixOS wants to enable GRUB by default)
   boot.loader.grub.enable = false;

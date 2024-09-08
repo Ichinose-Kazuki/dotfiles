@@ -18,21 +18,21 @@
   boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
 
-  fileSystems."/nix" = {
-    device = "/dev/disk/by-label/ROOT_NIX";
-    fsType = "ext4";
-  };
+  # fileSystems."/nix" = {
+  #   device = "/dev/disk/by-label/ROOT_NIX";
+  #   fsType = "ext4";
+  # };
 
   # Use impermanence to maximize the life of the SD card.
   # "/" (and "/boot/firmware") are defined in raspberry-pi-nix.
-  fileSystems."/" = lib.mkForce {
-    device = "tmpfs";
-    fsType = "ext4";
-  };
+  # fileSystems."/" = lib.mkForce {
+  #   device = "tmpfs";
+  #   fsType = "ext4";
+  # };
   # Make a directory to store persistent files.
-  environment.persistence."/persistent" = {
-    hideMounts = true;
-  };
+  # environment.persistence."/persistent" = {
+  #   hideMounts = true;
+  # };
 
   swapDevices = [ ];
 

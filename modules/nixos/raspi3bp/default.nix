@@ -3,5 +3,6 @@
 {
   imports = [
     ./tailscale
+    # ./sd-image
   ];
 }
