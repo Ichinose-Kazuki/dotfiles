@@ -36,6 +36,9 @@
   # nix.settings.extra-platforms is set automatically by boot.binfmt.
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
+  # usePredictableInterfaceNames is true by default, so the name enp5s0 shouldn't change.
+  networking.interfaces.enp5s0.wakeOnLan.enable = true;
+
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
