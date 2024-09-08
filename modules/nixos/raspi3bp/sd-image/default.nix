@@ -127,7 +127,7 @@ in
     # contents of a directory that can be populated with commands. The
     # generated image is sized to only fit its contents, with the expectation
     # that a script resizes the filesystem at boot time.
-    # Single partition is probably a limitation.
+    # Single partition is probably a limitation of make-ext4-fs.nix. -> lvm?
     boot.postBootCommands = lib.mkIf config.sdImage.expandOnBoot ''
       # On the first boot do some maintenance tasks
       if [ -f /nix-path-registration ]; then
