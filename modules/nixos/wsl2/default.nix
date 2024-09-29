@@ -5,5 +5,6 @@
     ./graphics
     ./networking
     ./interop
+    ../common/tailscale
   ];
 }
