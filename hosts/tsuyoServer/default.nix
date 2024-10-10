@@ -17,6 +17,7 @@
     disko.nixosModules.disko
     ./disko.nix
     self.nixosModules.common
+    (self.nixosModules.common + /devtool)
     self.nixosModules.tsuyoServer
   ];
 
