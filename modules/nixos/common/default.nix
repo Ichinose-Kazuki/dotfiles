@@ -3,6 +3,7 @@
 {
   imports = [
     ./basic
+    ./compatibility
     ./zsh
   ];
 }
