@@ -1,0 +1,114 @@
+TODO
+	make my-sd-image.nix
+	config.system.build.mySdImage
+	where you can speficy arbitrary device label and more than 1 partitions. /nix and /persistent
+
+https://github.com/nix-community/impermanence/tree/63f4d0443e32b0dd7189001ee1894066765d18a5
+
+{
+  fileSystems."/" = {
+    device = "none";
+    fsType = "tmpfs";
+    options = [ "defaults" "size=25%" "mode=755" ];
+  };
+
+  fileSystems."/persistent" = {
+    device = "/dev/root_vg/root";
+    neededForBoot = true;
+    fsType = "btrfs";
+    options = [ "subvol=persistent" ];
+  };
+
+  fileSystems."/nix" = {
+    device = "/dev/root_vg/root";
+    fsType = "btrfs";
+    options = [ "subvol=nix" ];
+  };
+
+  fileSystems."/boot" = {
+    device = "/dev/disk/by-uuid/XXXX-XXXX";
+    fsType = "vfat";
+  };
+}
+
+Error
+	Dependency failed for File System Check on /dev/disk/by-label/ROOT_NIX
+	,,		      /nix
+	,,		      Create SUID/SGID Wrappers.
+	,,		      Local File Systems.
+
+This may be caused by:
+	wrong fstab
+		cat /nix/store/18id3z1v67c9gfc8q2w4r76z8caz582c-etc-fstab
+		# This is a generated file.  Do not edit!
+		#
+		# To make changes, edit the fileSystems and swapDevices NixOS options
+		# in your /etc/nixos/configuration.nix file.
+		#
+		# <file system> <mount point>   <type>  <options>       <dump>  <pass>
+
+		# Filesystems.
+		tmpfs / ext4 x-initrd.mount 0 1
+		/dev/disk/by-label/FIRMWARE /boot/firmware vfat defaults 0 2
+		/persistent/home/kazuki/.ssh /home/kazuki/.ssh auto x-systemd.requires-mounts-for=/persistent,bind,X-fstrim.notrim,x-gvfs-hide 0 0
+		/dev/disk/by-label/ROOT_NIX /nix ext4 x-initrd.mount 0 2
+
+
+		# Swap devices.
+
+	wrong gpt label on SD card
+		sudo fdisk nixos-sd-image-24.11.20240904.ad416d0-aarch64-linux.img
+		Disk nixos-sd-image-24.11.20240904.ad416d0-aarch64-linux.img: 3.7 GiB, 3968000000 bytes, 7750000 sectors
+		Units: sectors of 1 * 512 = 512 bytes
+		Sector size (logical/physical): 512 bytes / 512 bytes
+		I/O size (minimum/optimal): 512 bytes / 512 bytes
+		Disklabel type: dos
+		Disk identifier: 0x2178694e
+
+		Device                                                   Boot  Start     End Sectors  Size Id Type
+		nixos-sd-image-24.11.20240904.ad416d0-aarch64-linux.img1       16384  278527  262144  128M  b W95 FAT32
+		nixos-sd-image-24.11.20240904.ad416d0-aarch64-linux.img2 *    278528 7749999 7471472  3.6G 83 Linux
+
+		Command (m for help): i
+		Partition number (1,2, default 2):
+
+			 Device: nixos-sd-image-24.11.20240904.ad416d0-aarch64-linux.img2
+			   Boot: *
+			  Start: 278528
+			    End: 7749999
+			Sectors: 7471472
+		      Cylinders: 466
+			   Size: 3.6G
+			     Id: 83
+			   Type: Linux
+		    Start-C/H/S: 17/86/6
+		      End-C/H/S: 482/105/55
+			  Attrs: 80
+
+		Command (m for help): i
+		Partition number (1,2, default 2): 1
+
+			 Device: nixos-sd-image-24.11.20240904.ad416d0-aarch64-linux.img1
+			  Start: 16384
+			    End: 278527
+			Sectors: 262144
+		      Cylinders: 17
+			   Size: 128M
+			     Id: b
+			   Type: W95 FAT32
+		    Start-C/H/S: 1/5/5
+		      End-C/H/S: 17/86/5
+
+		Command (m for help):
+
+GPT generation part:
+	https://github.com/nix-community/raspberry-pi-nix/blob/97c85054d16579b5bbc3e31ea346e273990f0f93/sd-image/sd-image.nix#L212
+	sfdisk $img <<EOF
+                label: dos
+                label-id: ${config.sdImage.firmwarePartitionID}
+
+                start=''${gap}M, size=$firmwareSizeBlocks, type=b
+                start=$((gap + ${
+                  toString config.sdImage.firmwareSize
+                }))M, type=83, bootable
+    	EOF
