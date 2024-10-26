@@ -1,7 +1,6 @@
-{
-  config,
-  pkgs,
-  ...
+{ config
+, pkgs
+, ...
 }:
 
 {
@@ -21,6 +20,10 @@
       st = "status";
       df = "diff";
       lg = "log";
+    };
+
+    extraConfig = {
+      init.defaultBranch = "main";
     };
 
     # Settings for ikazuk repositories
