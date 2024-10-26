@@ -36,6 +36,8 @@
   # qemu emulation of "aarch64-linux"
   # nix.settings.extra-platforms is set automatically by boot.binfmt.
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+  # Access Windows partition.
+  boot.supportedFilesystems = [ "ntfs" ];
 
   # usePredictableInterfaceNames is true by default, so the name enp5s0 shouldn't change.
   networking.interfaces.enp5s0.wakeOnLan.enable = true;
