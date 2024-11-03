@@ -22,6 +22,11 @@
       df = "diff";
       lg = "log";
     };
+    extraConfig = {
+      init = {
+        defaultBranch = "main";
+      };
+    };
 
     # Settings for ikazuk repositories
     includes = [

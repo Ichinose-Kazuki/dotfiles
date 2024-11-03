@@ -61,5 +61,6 @@
     usbutils
     pciutils
     ripgrep
+    cachix
   ];
 }
