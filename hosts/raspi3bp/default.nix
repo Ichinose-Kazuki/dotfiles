@@ -39,6 +39,7 @@
     	'';
 
   nix.settings = {
+    trusted-users = [ "@wheel" "kazuki" ];
     extra-substituters = [
       "https://nix-community.cachix.org"
       "https://raspberry-pi-nix.cachix.org"

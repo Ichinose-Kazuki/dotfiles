@@ -130,6 +130,10 @@
     };
   };
 
+  programs.git.extraConfig = {
+    safe.directory = "/home/kazuki/mnt/windows/Users/tsuyotsuyo/Desktop/gopro";
+  };
+
   # Internationalization
   i18n = {
     glibcLocales = pkgs.glibcLocales.override {
