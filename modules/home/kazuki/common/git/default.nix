@@ -21,6 +21,11 @@
       df = "diff";
       lg = "log";
     };
+    extraConfig = {
+      init = {
+        defaultBranch = "main";
+      };
+    };
 
     extraConfig = {
       init.defaultBranch = "main";
