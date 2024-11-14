@@ -39,6 +39,9 @@
   # Access Windows partition.
   boot.supportedFilesystems = [ "ntfs" ];
 
+  # Fix wol problem: https://wiki.archlinux.org/title/Wake-on-LAN#Fix_by_kernel_quirks
+  boot.kernelParams = [ "xhci_hcd.quirks=270336" ];
+
   # usePredictableInterfaceNames is true by default, so the name enp5s0 shouldn't change.
   networking.interfaces.enp5s0.wakeOnLan.enable = true;
 
