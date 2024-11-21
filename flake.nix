@@ -10,43 +10,6 @@
     ];
   };
 
-  # Run `nix flake metadata [this dir]` to know which "follows" need to be added.
-  inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nix-index-database = {
-      url = "github:nix-community/nix-index-database";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    nixos-hardware.url = "github:nixos/nixos-hardware";
-    home-manager = {
-      url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    plasma-manager = {
-      url = "github:nix-community/plasma-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.home-manager.follows = "home-manager";
-    };
-    disko = {
-      url = "github:nix-community/disko";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    lix-module = {
-      url = "https://git.lix.systems/lix-project/nixos-module/archive/2.91.0.tar.gz";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    nixos-wsl = {
-      url = "github:nix-community/NixOS-WSL";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    raspberry-pi-nix = {
-      url = "github:nix-community/raspberry-pi-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    impermanence.url = "github:nix-community/impermanence";
-    flake-utils.url = "github:numtide/flake-utils";
-  };
-
   outputs =
     inputs@{ self
     , nixpkgs
@@ -55,6 +18,8 @@
     , nixos-hardware
     , nixos-wsl
     , raspberry-pi-nix
+    , raspi-nixpkgs
+    , raspi-home-manager
     , flake-utils
     , impermanence
     , ...
@@ -172,8 +137,7 @@
             };
           };
         in
-        nixpkgs.lib.nixosSystem {
-          # Note that you cannot put arbitrary configuration here: the configuration must be placed in the files loaded via modules
+        raspi-nixpkgs.lib.nixosSystem {
           specialArgs = {
             inherit inputs;
           };
@@ -183,7 +147,7 @@
             impermanence.nixosModules.impermanence
             basic-config
             ./hosts/raspi3bp
-            home-manager.nixosModules.home-manager
+            raspi-home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
@@ -252,4 +216,47 @@
         };
       }
     );
+
+  # Run `nix flake metadata [this dir]` to know which "follows" need to be added.
+  inputs = {
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nix-index-database = {
+      url = "github:nix-community/nix-index-database";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nixos-hardware.url = "github:nixos/nixos-hardware";
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    plasma-manager = {
+      url = "github:nix-community/plasma-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+    };
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    lix-module = {
+      url = "https://git.lix.systems/lix-project/nixos-module/archive/2.91.0.tar.gz";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nixos-wsl = {
+      url = "github:nix-community/NixOS-WSL";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    raspberry-pi-nix.url = "github:nix-community/raspberry-pi-nix?ref=refs/tags/v0.4.1";
+    raspi-nixpkgs.follows = "raspberry-pi-nix/nixpkgs"; # Avoid rebuilding linux kernel
+    raspi-home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "raspi-nixpkgs";
+    };
+    raspi-nix-index-database = {
+      url = "github:nix-community/nix-index-database";
+      inputs.nixpkgs.follows = "raspi-nixpkgs";
+    };
+    impermanence.url = "github:nix-community/impermanence";
+    flake-utils.url = "github:numtide/flake-utils";
+  };
 }
