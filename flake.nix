@@ -219,14 +219,14 @@
 
   # Run `nix flake metadata [this dir]` to know which "follows" need to be added.
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
     nix-index-database = {
       url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixos-hardware.url = "github:nixos/nixos-hardware";
     home-manager = {
-      url = "github:nix-community/home-manager";
+      url = "github:nix-community/home-manager/release-24.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     plasma-manager = {
@@ -249,7 +249,7 @@
     raspberry-pi-nix.url = "github:nix-community/raspberry-pi-nix?ref=refs/tags/v0.4.1";
     raspi-nixpkgs.follows = "raspberry-pi-nix/nixpkgs"; # Avoid rebuilding linux kernel
     raspi-home-manager = {
-      url = "github:nix-community/home-manager";
+      url = "github:nix-community/home-manager/release-24.05";
       inputs.nixpkgs.follows = "raspi-nixpkgs";
     };
     raspi-nix-index-database = {
