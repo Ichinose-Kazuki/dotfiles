@@ -18,35 +18,13 @@
     self.nixosModules.raspi3bp
   ];
 
-  # nix.buildMachines = [{
-  #   systems = [
-  #     "x86_64-linux"
-  #     "aarch64-linux"
-  #   ];
-  #   supportedFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
-  #   sshUser = "kazuki";
-  #   sshKey = "/home/kazuki/.ssh/id_ed25519";
-  #   speedFactor = 2;
-  #   protocol = "ssh-ng";
-  #   maxJobs = 1;
-  #   mandatoryFeatures = [ ];
-  #   hostName = "192.168.11.7";
-  # }];
-  # nix.distributedBuilds = true;
-  # # Let remote builder use binary cache.
-  # nix.extraOptions = ''
-  #   	  builders-use-substitutes = true
-  #   	'';
-
   nix.settings = {
     trusted-users = [ "@wheel" "kazuki" ];
     extra-substituters = [
       "https://nix-community.cachix.org"
-      "https://raspberry-pi-nix.cachix.org"
     ];
     extra-trusted-public-keys = [
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-      "raspberry-pi-nix.cachix.org-1:WmV2rdSangxW0rZjY/tBvBDSaNFQ3DyEQsVw8EvHn9o="
     ];
   };
 
