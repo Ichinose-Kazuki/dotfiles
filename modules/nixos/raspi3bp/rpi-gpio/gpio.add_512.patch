@@ -1,0 +1,76 @@
+--- RPi.GPIO-0.7.1/source/event_gpio.c	2021-11-05 15:55:49.000000000 -0400
++++ rpi.gpio-0.7.1~a4/source/event_gpio.c	2024-03-16 17:57:33.000000000 -0400
+@@ -75,10 +75,10 @@
+ int gpio_export(unsigned int gpio)
+ {
+     int fd, len;
+-    char str_gpio[3];
++    char str_gpio[4];
+     char filename[33];
+ 
+-    snprintf(filename, sizeof(filename), "/sys/class/gpio/gpio%d", gpio);
++    snprintf(filename, sizeof(filename), "/sys/class/gpio/gpio%d", gpio + 512);
+ 
+     /* return if gpio already exported */
+     if (access(filename, F_OK) != -1) {
+@@ -89,7 +89,7 @@
+        return -1;
+     }
+ 
+-    len = snprintf(str_gpio, sizeof(str_gpio), "%d", gpio);
++    len = snprintf(str_gpio, sizeof(str_gpio), "%d", gpio + 512);
+     x_write(fd, str_gpio, len);
+     close(fd);
+ 
+@@ -99,12 +99,12 @@
+ int gpio_unexport(unsigned int gpio)
+ {
+     int fd, len;
+-    char str_gpio[3];
++    char str_gpio[4];
+ 
+     if ((fd = open("/sys/class/gpio/unexport", O_WRONLY)) < 0)
+         return -1;
+ 
+-    len = snprintf(str_gpio, sizeof(str_gpio), "%d", gpio);
++    len = snprintf(str_gpio, sizeof(str_gpio), "%d", gpio + 512);
+     x_write(fd, str_gpio, len);
+     close(fd);
+ 
+@@ -116,9 +116,9 @@
+     int retry;
+     struct timespec delay;
+     int fd;
+-    char filename[33];
++    char filename[34];
+ 
+-    snprintf(filename, sizeof(filename), "/sys/class/gpio/gpio%d/direction", gpio);
++    snprintf(filename, sizeof(filename), "/sys/class/gpio/gpio%d/direction", gpio + 512);
+ 
+     // retry waiting for udev to set correct file permissions
+     delay.tv_sec = 0;
+@@ -143,9 +143,9 @@
+ int gpio_set_edge(unsigned int gpio, unsigned int edge)
+ {
+     int fd;
+-    char filename[28];
++    char filename[29];
+ 
+-    snprintf(filename, sizeof(filename), "/sys/class/gpio/gpio%d/edge", gpio);
++    snprintf(filename, sizeof(filename), "/sys/class/gpio/gpio%d/edge", gpio + 512);
+ 
+     if ((fd = open(filename, O_WRONLY)) < 0)
+         return -1;
+@@ -158,10 +158,10 @@
+ int open_value_file(unsigned int gpio)
+ {
+     int fd;
+-    char filename[29];
++    char filename[30];
+ 
+     // create file descriptor of value file
+-    snprintf(filename, sizeof(filename), "/sys/class/gpio/gpio%d/value", gpio);
++    snprintf(filename, sizeof(filename), "/sys/class/gpio/gpio%d/value", gpio + 512);
+     if ((fd = open(filename, O_RDONLY | O_NONBLOCK)) < 0)
+         return -1;
+     return fd;

@@ -2,13 +2,13 @@
 
 { stdenv, fetchFromGitHub, which }:
 
-stdenv.mkDerivation {
+stdenv.mkDerivation rec {
   name = "lgpio";
   version = "v0.2.2";
   src = fetchFromGitHub {
     owner = "joan2937";
     repo = "lg";
-    rev = "v0.2.2";
+    rev = inherit version;
     sha256 = "sha256-92lLV+EMuJj4Ul89KIFHkpPxVMr/VvKGEocYSW2tFiE=";
   };
   buildInputs = [ which ];
