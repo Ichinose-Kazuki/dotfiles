@@ -1,13 +1,18 @@
 #include <stdio.h>
-#include <pigpio.h>
+#include <lgpio.h>
 #include <stdlib.h>
+#include <errno.h>
+#include <string.h>
 #include <signal.h> // signal用
+
+int chip;                 // GPIOチップ
+lgLineInfo_t button_line; // 電源ボタン
 
 // プログラム終了処理
 void cleanup()
 {
-    printf("プログラム終了: gpioTerminate()を呼び出します。\n");
-    gpioTerminate();
+    printf("プログラム終了: lgGpiochipClose()を呼び出します。\n");
+    lgGpiochipClose(chip);
 }
 
 // SIGINTシグナル（Ctrl+C）ハンドラ
@@ -71,9 +76,9 @@ int main()
 
     //------------------------------
     // ライブラリの初期化
-    if (gpioInitialise() < 0)
+    if (h = lgGpiochipOpen(0) < 0)
     {
-        fprintf(stderr, "pigpioの初期化に失敗しました。\n");
+        fprintf(stderr, "gpioの初期化に失敗しました。\n");
         return 1;
     }
 
