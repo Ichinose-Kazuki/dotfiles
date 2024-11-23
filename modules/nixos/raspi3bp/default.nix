@@ -4,6 +4,6 @@
   imports = [
     ./tailscale
     # ./sd-image
-    ./pigpio
+    # ./pigpio
   ];
 }

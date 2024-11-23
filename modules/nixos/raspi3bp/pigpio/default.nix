@@ -4,5 +4,8 @@ let
     pigpio = pkgs.callPackage ./pigpio.nix {};
 in
 {
-  environment.systemPackages = [ pigpio ];
+  environment.systemPackages = [ 
+    pigpio 
+    pkgs.gcc 
+  ];
 }
