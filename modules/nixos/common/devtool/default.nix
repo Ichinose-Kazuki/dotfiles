@@ -1,4 +1,4 @@
-{pkgs, ...}:
+{ pkgs, ... }:
 {
   environment.systemPackages = with pkgs; [
     # Linux Kernel Build
@@ -24,5 +24,5 @@
     flex
     bison
     libelf
-];
+  ];
 }
