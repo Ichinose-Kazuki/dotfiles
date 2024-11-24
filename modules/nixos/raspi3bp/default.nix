@@ -4,6 +4,8 @@
   imports = [
     ./tailscale
     # ./sd-image
-    ./rpi-gpio
+    # ./rpi-gpio
+    # ./gpiozero
+    ./libgpiod
   ];
 }
