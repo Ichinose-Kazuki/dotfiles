@@ -182,6 +182,8 @@
       '';
     };
   };
+  # Zsh: username color
+  local.zshUserNameColor = "green";
 
   # Internationalization
   # i18n = {
