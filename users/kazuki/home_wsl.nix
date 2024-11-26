@@ -169,7 +169,13 @@
         zstyle ':prompt:grml:left:items:path' post '%f'
         zstyle ':prompt:grml:left:items:percent' pre '%F{245}'
         zstyle ':prompt:grml:left:items:percent' post '%f'
-        zstyle ':prompt:grml:left:setup' items rc nix-shell-indicator change-root user path vcs percent
+
+        # Don't show the vcs info and nix-shell-indicator in a vscode terminal
+        if [[ $(printenv | grep -c "VSCODE_") -gt 0 ]]; then
+          zstyle ':prompt:grml:left:setup' items rc change-root user path percent
+        else
+          zstyle ':prompt:grml:left:setup' items rc nix-shell-indicator change-root user path vcs percent
+        fi
 
         # Set locale to English
         LANG=en_US.UTF-8
