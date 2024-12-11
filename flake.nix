@@ -258,5 +258,8 @@
     };
     impermanence.url = "github:nix-community/impermanence";
     flake-utils.url = "github:numtide/flake-utils";
+
+    efi-power.url = "github:jordanisaacs/efi-power";
+    efi-power.inputs.nixpkgs.follows = "nixpkgs";
   };
 }
