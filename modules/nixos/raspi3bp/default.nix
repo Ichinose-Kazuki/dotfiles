@@ -3,6 +3,6 @@
 {
   imports = [
     ./tailscale
-    ./libgpiod
+    ./tsuyoServerPowerButton
   ];
 }
