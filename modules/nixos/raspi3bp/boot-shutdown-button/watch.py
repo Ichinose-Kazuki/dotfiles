@@ -82,6 +82,7 @@ def watch_line_value(chip_path, line_offset):
                         power_on_server()
                     else:
                         print('Press the button to power on the server')
+    # TODO: オンオフする分には今のままで問題ないが、ちゃんと状態遷移図を書いて考えて実装する
                 
 
 if __name__ == "__main__":
