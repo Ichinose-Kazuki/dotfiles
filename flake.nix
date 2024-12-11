@@ -170,7 +170,7 @@
         ];
       };
 
-      homeConfigurations.kazuki =
+      homeConfigurations.kazuki-wsl =
         let
           system = "x86_64-linux";
           pkgs = import nixpkgs {
@@ -190,7 +190,7 @@
           # Specify your home configuration module here, for example,
           # the path to your home.nix
           modules = [
-            ./users/kazuki/home.nix
+            ./users/kazuki/home_wsl.nix
           ];
         };
     }

@@ -1,5 +1,5 @@
 { ... }:
 
 {
-  local.zshUserNameColor = "cyan";
+  myOps.zshUserNameColor = "cyan";
 }
