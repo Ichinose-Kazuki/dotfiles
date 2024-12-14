@@ -50,7 +50,6 @@
     enable = true;
     configurationLimit = 3;
     editor = false; # Recommended to set this to false.
-    # Todo: Add windows entry. https://wiki.archlinux.jp/index.php/Systemd-boot#efibootmgr_.E3.82.92.E4.BD.BF.E3.81.A3.E3.81.A6.E6.89.8B.E5.8B.95.E3.82.A8.E3.83.B3.E3.83.88.E3.83.AA.E3.82.92.E8.BF.BD.E5.8A.A0.E3.81.99.E3.82.8B:~:text=EFI/shellx64_v2.efi-,%E5%88%A5%E3%81%AE%E3%83%87%E3%82%A3%E3%82%B9%E3%82%AF%E3%81%8B%E3%82%89%E8%B5%B7%E5%8B%95,-systemd%2Dboot%20%E3%81%AF
     # https://github.com/Gerg-L/nixos/blob/3563e757eee5201420a8dc61a543a329f2bb08d7/hosts/gerg-desktop/boot.nix#L74
     extraFiles = {
       "shellx64.efi" = pkgs.edk2-uefi-shell.efi;
@@ -61,11 +60,12 @@
     };
     extraEntries = {
       # Sort-key is configured so that these come after the nixos entries (which have sort-key nixos).
+      # Remove -noconsolein to be able to type any pins.
       "windows.conf" = ''
         title Windows
         sort-key w
         efi /shellx64.efi
-        options -nointerrupt -noconsolein -noconsoleout HD2d65535a1:EFI\Microsoft\Boot\Bootmgfw.efi
+        options -nointerrupt -noconsolein -noconsoleout HD0b:EFI\Microsoft\Boot\bootmgfw.efi
       '';
       "power.conf" = ''
         title Power Off
@@ -76,12 +76,6 @@
         title Reboot
         sort-key z1
         efi /efi/efi-power/reboot.efi
-      '';
-      "efi-shell.conf" = ''
-        title EFI Shell
-        sort-key z2
-        efi /shellx64.efi
-        options -nointerrupt
       '';
     };
   };

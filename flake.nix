@@ -61,26 +61,35 @@
         ];
       };
 
-      nixosConfigurations.tsuyoServer = nixpkgs.lib.nixosSystem {
-        # Note that you cannot put arbitrary configuration here: the configuration must be placed in the files loaded via modules
-        specialArgs = {
-          inherit inputs;
+      nixosConfigurations.tsuyoServer =
+        let
+          system = "x86_64-linux";
+          overlays = [ inputs.efi-power.overlays.default ];
+          pkgs = import nixpkgs {
+            inherit system overlays;
+          };
+        in
+        nixpkgs.lib.nixosSystem {
+          # Note that you cannot put arbitrary configuration here: the configuration must be placed in the files loaded via modules
+          inherit pkgs;
+          specialArgs = {
+            inherit inputs;
+          };
+          modules = [
+            # lix-module.nixosModules.default
+            ./hosts/tsuyoServer
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.kazuki = import ./users/kazuki/home_tsuyoServer.nix;
+              home-manager.extraSpecialArgs = {
+                inherit inputs;
+                host = "tsuyoServer";
+              };
+            }
+          ];
         };
-        modules = [
-          # lix-module.nixosModules.default
-          ./hosts/tsuyoServer
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.kazuki = import ./users/kazuki/home_tsuyoServer.nix;
-            home-manager.extraSpecialArgs = {
-              inherit inputs;
-              host = "tsuyoServer";
-            };
-          }
-        ];
-      };
 
       nixosConfigurations.raspi3bp =
         let
@@ -258,8 +267,9 @@
     };
     impermanence.url = "github:nix-community/impermanence";
     flake-utils.url = "github:numtide/flake-utils";
-
-    efi-power.url = "github:jordanisaacs/efi-power";
-    efi-power.inputs.nixpkgs.follows = "nixpkgs";
+    efi-power = {
+      url = "github:Ichinose-Kazuki/efi-power";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 }
