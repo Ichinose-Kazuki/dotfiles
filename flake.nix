@@ -99,6 +99,7 @@
             # See the docs at:
             # https://www.raspberrypi.com/documentation/computers/linux_kernel.html#native-build-configuration
             raspberry-pi-nix.board = "bcm2711";
+            raspberry-pi-nix.uboot.enable = true;
             networking = {
               useDHCP = false;
               interfaces = {
