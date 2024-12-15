@@ -119,6 +119,12 @@
                       #   value = "on";
                       # };
                     };
+                    dt-overlays = {
+                      disable-bt = {
+                        enable = true;
+                        params = { };
+                      };
+                    };
                   };
                 };
               };

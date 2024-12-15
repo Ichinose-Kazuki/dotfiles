@@ -1,5 +1,8 @@
-{ lib, pkgs, ... }:
+{ lib, pkgs, inputs, ... }:
 
+let
+  pkgs-latest = import inputs.nixpkgs { system = "aarch64-linux"; };
+in
 {
   services.tailscale = {
     enable = true;
@@ -10,12 +13,14 @@
       "--advertise-routes=192.168.11.0/24"
       "--advertise-exit-node"
     ];
+    package = pkgs-latest.tailscale;
   };
 
   # Linux optimizations for subnet routers and exit nodes
   # https://tailscale.com/kb/1320/performance-best-practices#linux-optimizations-for-subnet-routers-and-exit-nodes
   environment.systemPackages = with pkgs; [
     ethtool
+    wirelesstools # Required by networkd-dispatcher for iwconfig (networkd-dispatcher is still not working, saying "No valid path found for iwconfig")
   ];
   # tx-udp-segmentation described in https://tailscale.com/blog/more-throughput is not supported by the Raspberry Pi 3B+.
   services.networkd-dispatcher = {
