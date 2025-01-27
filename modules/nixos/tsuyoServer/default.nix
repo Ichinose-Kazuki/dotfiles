@@ -6,6 +6,10 @@
 }:
 
 {
+  imports = [
+    ../common/gopro
+  ];
+
   environment.systemPackages = with pkgs; [
     unzip
   ];
