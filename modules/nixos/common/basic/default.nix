@@ -1,8 +1,9 @@
-{ config
-, lib
-, pkgs
-, inputs
-, ...
+{
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
 }:
 
 {
@@ -61,5 +62,6 @@
     pciutils
     ripgrep
     cachix
+    nixfmt-rfc-style
   ];
 }
