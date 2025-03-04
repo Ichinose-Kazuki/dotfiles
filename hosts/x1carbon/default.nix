@@ -27,30 +27,43 @@
     extra-trusted-public-keys = [ "cache.lix.systems:aBnZUw8zA7H35Cz2RyKFVs3H4PlGTLawyY5KRbvJR8o=" ];
   };
 
-  # Use the grub EFI boot loader.
   # TODO: Enable lanzaboote, set systemd-boot as default, set timeout to 0, and chainload grub...?
   # TODO: https://wiki.archlinux.org/title/Systemd-boot#GRUB
-  boot.loader.grub = {
+  # Use the systemd-boot EFI boot loader.
+  boot.loader.systemd-boot = {
     enable = true;
-    efiSupport = true;
-    device = "nodev"; # EFI related things are installed in a partition, not a device.
     configurationLimit = 3;
-    configurationName = "grub";
-    useOSProber = true;
-    # I simply dislike the idea of depending on NVRAM state to make my drive bootable.
-    # Grub is installed as /boot/EFI/BOOT/BOOTX64.EFI. Motherboard firmware looks for this file before reading NVRAM.
-    # In NVRAM, /boot/EFI/BOOT/BOOTX64.EFI is represented as device name "SKHynix ***". Move this entry to the top.
-    efiInstallAsRemovable = true;
-    extraEntries = ''
-      menuentry "Reboot" {
-        reboot
-      }
-      menuentry "Poweroff" {
-        halt
-      }
-    '';
+    editor = false; # Recommended to set this to false.
+    # https://github.com/Gerg-L/nixos/blob/3563e757eee5201420a8dc61a543a329f2bb08d7/hosts/gerg-desktop/boot.nix#L74
+    extraFiles = {
+      "shellx64.efi" = pkgs.edk2-uefi-shell.efi;
+      # https://github.com/jordanisaacs/dotfiles/blob/4a779f42204c4fff743c12b26e28567eaf8cc334/overlays/default.nix#L6
+      # https://github.com/jordanisaacs/dotfiles/blob/4a779f42204c4fff743c12b26e28567eaf8cc334/modules/system/boot/default.nix#L47
+      "efi/efi-power/reboot.efi" = "${pkgs.efi-power}/reboot.efi";
+      "efi/efi-power/poweroff.efi" = "${pkgs.efi-power}/poweroff.efi";
+    };
+    extraEntries = {
+      # Sort-key is configured so that these come after the nixos entries (which have sort-key nixos).
+      # Remove -noconsolein to be able to type any pins.
+      "power.conf" = ''
+        title Power Off
+        sort-key z0
+        efi /efi/efi-power/poweroff.efi
+      '';
+      "reboot.conf" = ''
+        title Reboot
+        sort-key z1
+        efi /efi/efi-power/reboot.efi
+      '';
+      "windows.conf" = ''
+        title Windows
+        sort-key z2
+        efi /shellx64.efi
+        options -nointerrupt -noconsolein -noconsoleout HD0b:EFI\Microsoft\Boot\bootmgfw.efi
+      '';
+    };
   };
-  # boot.loader.efi.canTouchEfiVariables = true; # Required to write boot entry to NVRAM.
+  boot.loader.efi.canTouchEfiVariables = true; # Required to write boot entry to NVRAM.
 
   networking.hostName = "x1carbon"; # Define your hostname.
   # Pick only one of the below networking options.
@@ -147,8 +160,8 @@
   # Install firefox.
   programs.firefox.enable = true;
 
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
+  # Allow unfree packages (already allowed in flake.nix)
+  # nixpkgs.config.allowUnfree = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget

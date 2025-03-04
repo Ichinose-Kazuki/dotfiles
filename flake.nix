@@ -11,18 +11,19 @@
   };
 
   outputs =
-    inputs@{ self
-    , nixpkgs
-    , lix-module
-    , home-manager
-    , nixos-hardware
-    , nixos-wsl
-    , raspberry-pi-nix
-    , raspi-nixpkgs
-    , raspi-home-manager
-    , flake-utils
-    , impermanence
-    , ...
+    inputs@{
+      self,
+      nixpkgs,
+      lix-module,
+      home-manager,
+      nixos-hardware,
+      nixos-wsl,
+      raspberry-pi-nix,
+      raspi-nixpkgs,
+      raspi-home-manager,
+      flake-utils,
+      impermanence,
+      ...
     }:
 
     {
@@ -40,26 +41,39 @@
         tsuyoServer = ./modules/home/kazuki/tsuyoServer;
       };
 
-      nixosConfigurations.x1carbon = nixpkgs.lib.nixosSystem {
-        # Note that you cannot put arbitrary configuration here: the configuration must be placed in the files loaded via modules
-        specialArgs = {
-          inherit inputs;
+      nixosConfigurations.x1carbon =
+        let
+          system = "x86_64-linux";
+          overlays = [ inputs.efi-power.overlays.default ];
+          pkgs = import nixpkgs {
+            inherit system overlays;
+            config = {
+              allowUnfree = true;
+              allowUnfreePredicate = (_: true);
+            };
+          };
+        in
+        nixpkgs.lib.nixosSystem {
+          # Note that you cannot put arbitrary configuration here: the configuration must be placed in the files loaded via modules
+          inherit pkgs;
+          specialArgs = {
+            inherit inputs;
+          };
+          modules = [
+            #! lix
+            lix-module.nixosModules.default
+            nixos-hardware.nixosModules.lenovo-thinkpad-x1-10th-gen
+            ./hosts/x1carbon
+            # ! Not needed if using standalone home-manager.
+            # ! Import standalone settings
+            # home-manager.nixosModules.home-manager
+            # {
+            #   home-manager.useGlobalPkgs = true;
+            #   home-manager.useUserPackages = true;
+            #   home-manager.sharedModules = [ plasma-manager.homeManagerModules.plasma-manager ];
+            # }
+          ];
         };
-        modules = [
-          #! lix
-          lix-module.nixosModules.default
-          nixos-hardware.nixosModules.lenovo-thinkpad-x1-10th-gen
-          ./hosts/x1carbon
-          # ! Not needed if using standalone home-manager.
-          # ! Import standalone settings
-          # home-manager.nixosModules.home-manager
-          # {
-          #   home-manager.useGlobalPkgs = true;
-          #   home-manager.useUserPackages = true;
-          #   home-manager.sharedModules = [ plasma-manager.homeManagerModules.plasma-manager ];
-          # }
-        ];
-      };
 
       nixosConfigurations.tsuyoServer =
         let
@@ -93,44 +107,46 @@
 
       nixosConfigurations.raspi3bp =
         let
-          basic-config = { pkgs, lib, ... }: {
-            # bcm2711 for rpi 3, 3+, 4, zero 2 w
-            # bcm2712 for rpi 5
-            # See the docs at:
-            # https://www.raspberrypi.com/documentation/computers/linux_kernel.html#native-build-configuration
-            raspberry-pi-nix.board = "bcm2711";
-            raspberry-pi-nix.uboot.enable = true;
-            networking = {
-              useDHCP = false;
-              interfaces = {
-                # wlan0.useDHCP = true;
-                eth0.useDHCP = true;
+          basic-config =
+            { pkgs, lib, ... }:
+            {
+              # bcm2711 for rpi 3, 3+, 4, zero 2 w
+              # bcm2712 for rpi 5
+              # See the docs at:
+              # https://www.raspberrypi.com/documentation/computers/linux_kernel.html#native-build-configuration
+              raspberry-pi-nix.board = "bcm2711";
+              raspberry-pi-nix.uboot.enable = true;
+              networking = {
+                useDHCP = false;
+                interfaces = {
+                  # wlan0.useDHCP = true;
+                  eth0.useDHCP = true;
+                };
               };
-            };
-            hardware = {
-              # bluetooth.enable = true;
-              raspberry-pi = {
-                config = {
-                  all = {
-                    base-dt-params = {
-                      # enable autoprobing of bluetooth driver
-                      # https://github.com/raspberrypi/linux/blob/c8c99191e1419062ac8b668956d19e788865912a/arch/arm/boot/dts/overlays/README#L222-L224
-                      # krnbt = {
-                      #   enable = true;
-                      #   value = "on";
-                      # };
-                    };
-                    dt-overlays = {
-                      disable-bt = {
-                        enable = true;
-                        params = { };
+              hardware = {
+                # bluetooth.enable = true;
+                raspberry-pi = {
+                  config = {
+                    all = {
+                      base-dt-params = {
+                        # enable autoprobing of bluetooth driver
+                        # https://github.com/raspberrypi/linux/blob/c8c99191e1419062ac8b668956d19e788865912a/arch/arm/boot/dts/overlays/README#L222-L224
+                        # krnbt = {
+                        #   enable = true;
+                        #   value = "on";
+                        # };
+                      };
+                      dt-overlays = {
+                        disable-bt = {
+                          enable = true;
+                          params = { };
+                        };
                       };
                     };
                   };
                 };
               };
             };
-          };
         in
         raspi-nixpkgs.lib.nixosSystem {
           specialArgs = {
