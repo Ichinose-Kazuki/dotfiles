@@ -10,7 +10,7 @@
             p1_ESP = {
               # Partitions are sorted in alphabetical order?
               type = "EF00";
-              size = "260M";
+              size = "1G";
               content = {
                 type = "filesystem";
                 format = "vfat";
@@ -18,35 +18,8 @@
                 mountOptions = [ "umask=0077" ];
               };
             };
-            p2_msReserved = {
-              type = "0C01";
-              size = "16M";
-              content = {
-                type = "filesystem";
-                format = "none";
-                # To be ignored in disk-deactivate.jq. "/dev/nvme0n1p2".
-              };
-            };
-            p3_msBasicData = {
-              type = "0700";
-              size = "200G";
-              content = {
-                type = "filesystem";
-                format = "none";
-                # To be ignored in disk-deactivate.jq. "/dev/nvme0n1p3".
-              };
-            };
-            p4_winRecovery = {
-              type = "2700";
-              size = "2G";
-              content = {
-                type = "filesystem";
-                format = "none";
-                # To be ignored in disk-deactivate.jq. "/dev/nvme0n1p4".
-              };
-            };
-            p5_luksLvm = {
-              size = "100%";
+            p2_luksLvm = {
+              size = "1480G";
               content = {
                 type = "luks";
                 name = "crypted";
@@ -60,6 +33,33 @@
                   type = "lvm_pv";
                   vg = "MyVolGroup";
                 };
+              };
+            };
+            p3_msReserved = {
+              type = "0C01";
+              size = "16M";
+              content = {
+                type = "filesystem";
+                format = "none";
+                # To be ignored in disk-deactivate.jq. "/dev/nvme0n1p2".
+              };
+            };
+            p4_msBasicData = {
+              type = "0700";
+              size = "500G";
+              content = {
+                type = "filesystem";
+                format = "none";
+                # To be ignored in disk-deactivate.jq. "/dev/nvme0n1p3".
+              };
+            };
+            p5_winRecovery = {
+              type = "2700";
+              size = "100%";
+              content = {
+                type = "filesystem";
+                format = "none";
+                # To be ignored in disk-deactivate.jq. "/dev/nvme0n1p4".
               };
             };
           };
@@ -80,7 +80,7 @@
               ];
             in
             {
-              size = "100G";
+              size = "500G";
               content = {
                 type = "btrfs";
                 extraArgs = [ "-f" ]; # Override existing partition
@@ -110,7 +110,7 @@
               ];
             in
             {
-              size = "150G";
+              size = "950G";
               content = {
                 type = "btrfs";
                 extraArgs = [ "-f" ];
