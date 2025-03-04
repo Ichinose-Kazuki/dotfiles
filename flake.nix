@@ -62,7 +62,7 @@
           modules = [
             #! lix
             lix-module.nixosModules.default
-            nixos-hardware.nixosModules.lenovo-thinkpad-x1-10th-gen
+            nixos-hardware.nixosModules.lenovo-thinkpad-x1-12th-gen
             ./hosts/x1carbon
             # ! Not needed if using standalone home-manager.
             # ! Import standalone settings
