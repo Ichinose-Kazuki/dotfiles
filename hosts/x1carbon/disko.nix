@@ -19,7 +19,7 @@
               };
             };
             p2_luksLvm = {
-              size = "1480G";
+              size = "1400G";
               content = {
                 type = "luks";
                 name = "crypted";
@@ -46,7 +46,7 @@
             };
             p4_msBasicData = {
               type = "0700";
-              size = "500G";
+              size = "460G";
               content = {
                 type = "filesystem";
                 format = "none";
