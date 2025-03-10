@@ -110,7 +110,7 @@
               ];
             in
             {
-              size = "950G";
+              size = "870G";
               content = {
                 type = "btrfs";
                 extraArgs = [ "-f" ];
