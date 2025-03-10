@@ -1,7 +1,7 @@
 # since lsblk lacks zfs support, we have to do it this way
 def remove:
   if .fstype == "zfs_member" then
-    "zpool destroy -f \(.label)"
+    "if type zpool >/dev/null; then zpool destroy -f \(.label); zpool labelclear -f \(.label); fi"
   elif .fstype == "LVM2_member" then
     [
       "vg=$(pvs \(.path) --noheadings --options vg_name | grep -o '[a-zA-Z0-9-]*')",
@@ -14,8 +14,8 @@ def remove:
     # maybe its zfs
     [
       # the next line has some horrible escaping
-      "zpool=$(zdb -l \(.path) | sed -nr $'s/ +name: \\'(.*)\\'/\\\\1/p')",
-      "if [[ -n \"${zpool}\" ]]; then zpool destroy -f \"$zpool\"; fi",
+      "zpool=$(if type zdb >/dev/null; then zdb -l \(.path) | sed -nr $'s/ +name: \\'(.*)\\'/\\\\1/p'; fi)",
+      "if [[ -n \"${zpool}\" ]]; then zpool destroy -f \"$zpool\"; zpool labelclear -f \"$zpool\"; fi",
       "unset zpool"
     ]
   else
@@ -34,7 +34,7 @@ def deactivate:
       # Remove the MBR bootstrap code
       "dd if=/dev/zero of=\(.path) bs=440 count=1"
     ]
-  elif .type == "part" and select(.path | IN("/dev/nvme0n1p2", "/dev/nvme0n1p3", "/dev/nvme0n1p4") | not) then
+  elif .type == "part" and select(.path | IN("/dev/nvme0n1p3", "/dev/nvme0n1p4", "/dev/nvme0n1p5") | not) then # edited3
     [
       "wipefs --all -f \(.path)"
     ]
