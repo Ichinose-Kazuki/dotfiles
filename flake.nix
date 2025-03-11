@@ -16,6 +16,7 @@
       nixpkgs,
       lix-module,
       home-manager,
+      plasma-manager,
       nixos-hardware,
       nixos-wsl,
       raspberry-pi-nix,
