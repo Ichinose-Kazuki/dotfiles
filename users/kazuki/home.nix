@@ -7,8 +7,8 @@
 let
   import_app = [
     ../../modules/home/kazuki/chromium
-    ../../modules/home/kazuki/git
     ../../modules/home/kazuki/ssh
+    inputs.self.homeManagerModules.kazuki.common
     ../../modules/home/kazuki/flameshot
   ];
   import_external = [
