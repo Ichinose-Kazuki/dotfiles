@@ -14,10 +14,10 @@ let
     ../../modules/home/kazuki/hyprland
   ];
   import_external = [
-    # inputs.plasma-manager.homeManagerModules.plasma-manager
+    inputs.plasma-manager.homeManagerModules.plasma-manager
   ];
   import_config = [
-    # ../../modules/home/kazuki/plasma-manager
+    ../../modules/home/kazuki/plasma-manager
   ];
 
 in
