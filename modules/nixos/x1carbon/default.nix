@@ -3,8 +3,9 @@
 {
   imports = [
     ./docker
+    ./regreet
     ./hyprland
-    ./sddm
+    # ./sddm
     ./ssh
     ./udev
   ];
