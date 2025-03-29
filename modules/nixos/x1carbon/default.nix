@@ -2,10 +2,15 @@
 
 {
   imports = [
+    ./bootloader
     ./docker
-    ./regreet
     ./hyprland
+    # ./kdePlasma
+    ./regreet
+    ./printing
+    ./programs
     # ./sddm
+    ./sound
     ./ssh
     ./udev
   ];

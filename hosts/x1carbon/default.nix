@@ -27,44 +27,6 @@
     extra-trusted-public-keys = [ "cache.lix.systems:aBnZUw8zA7H35Cz2RyKFVs3H4PlGTLawyY5KRbvJR8o=" ];
   };
 
-  # TODO: Enable lanzaboote, set systemd-boot as default, set timeout to 0, and chainload grub...?
-  # TODO: https://wiki.archlinux.org/title/Systemd-boot#GRUB
-  # Use the systemd-boot EFI boot loader.
-  boot.loader.systemd-boot = {
-    enable = true;
-    configurationLimit = 3;
-    editor = false; # Recommended to set this to false.
-    # https://github.com/Gerg-L/nixos/blob/3563e757eee5201420a8dc61a543a329f2bb08d7/hosts/gerg-desktop/boot.nix#L74
-    extraFiles = {
-      "shellx64.efi" = pkgs.edk2-uefi-shell.efi;
-      # https://github.com/jordanisaacs/dotfiles/blob/4a779f42204c4fff743c12b26e28567eaf8cc334/overlays/default.nix#L6
-      # https://github.com/jordanisaacs/dotfiles/blob/4a779f42204c4fff743c12b26e28567eaf8cc334/modules/system/boot/default.nix#L47
-      "efi/efi-power/reboot.efi" = "${pkgs.efi-power}/reboot.efi";
-      "efi/efi-power/poweroff.efi" = "${pkgs.efi-power}/poweroff.efi";
-    };
-    extraEntries = {
-      # Sort-key is configured so that these come after the nixos entries (which have sort-key nixos).
-      # Remove -noconsolein to be able to type any pins.
-      "power.conf" = ''
-        title Power Off
-        sort-key z0
-        efi /efi/efi-power/poweroff.efi
-      '';
-      "reboot.conf" = ''
-        title Reboot
-        sort-key z1
-        efi /efi/efi-power/reboot.efi
-      '';
-      "windows.conf" = ''
-        title Windows
-        sort-key z2
-        efi /shellx64.efi
-        options -nointerrupt -noconsolein -noconsoleout HD0b:EFI\Microsoft\Boot\bootmgfw.efi
-      '';
-    };
-  };
-  boot.loader.efi.canTouchEfiVariables = true; # Required to write boot entry to NVRAM.
-
   networking.hostName = "x1carbon"; # Define your hostname.
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -100,39 +62,7 @@
     };
   };
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.kazuki = {
-    packages = with pkgs; [
-      # kdePackages.kate
-      #  thunderbird
-      microsoft-edge
-      todoist-electron
-    ];
-  };
-
-  # Enable the X11 windowing system.
-  # services.xserver.enable = true;
-
-  # Enable the KDE Plasma Desktop Environment.
-  # services.displayManager.sddm.enable = true;
-  # services.xserver.desktopManager.plasma5.enable = true;
-  # services.desktopManager.plasma6.enable = true;
-
-  # Enable CUPS to print documents.
-  services.printing = {
-    enable = true;
-  };
-  systemd.services.printing.wantedBy = lib.mkForce [ ];
-
-  # Enable sound.
-  # hardware.pulseaudio.enable = true;
-  # OR
-  services.pipewire = {
-    enable = true;
-    pulse.enable = true;
-  };
-
-  # Enable touchpad support (enabled default in most desktopManager).
+  # Enable touchpad support (enabled by default in most desktopManager).
   services.libinput.enable = true;
 
   # Enable fingerprint.
@@ -148,31 +78,6 @@
   # driver = pkgs.libfprint-2-tod1-vfs0090;
   # };
   # };
-
-  services.avahi = {
-    enable = true;
-    nssmdns4 = true;
-  };
-  systemd.services.avahi.wantedBy = lib.mkForce [ ];
-
-  # VMWare
-  # virtualisation.vmware.guest.enable = true;
-
-  # Install firefox.
-  programs.firefox.enable = true;
-
-  # Allow unfree packages (already allowed in flake.nix)
-  # nixpkgs.config.allowUnfree = true;
-
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  environment.systemPackages = with pkgs; [
-    home-manager
-    # kdePackages.sddm-kcm
-    # kdePackages.kwallet-pam
-    # kdePackages.kwallet
-    wol # Wake-on-LAN
-  ];
 
   # environment.etc = {
   #   "default/locale".text = ''
@@ -194,14 +99,6 @@
   # programs.mtr.enable = true;
   programs.gnupg.agent = {
     enable = true;
-  };
-
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  services.openssh = {
-    enable = true;
-    startWhenNeeded = true;
   };
 
   # Open ports in the firewall.
