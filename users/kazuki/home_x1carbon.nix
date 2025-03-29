@@ -16,14 +16,14 @@ let
   import_external = [
     # inputs.plasma-manager.homeManagerModules.plasma-manager
   ];
-  import_plasma = [
+  import_config = [
     # ../../modules/home/kazuki/plasma-manager
   ];
 
 in
 
 {
-  imports = import_app ++ import_external ++ import_plasma;
+  imports = import_app ++ import_external ++ import_config;
 
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
