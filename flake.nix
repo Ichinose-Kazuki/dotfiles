@@ -16,7 +16,7 @@
       nixpkgs,
       lix-module,
       home-manager,
-      plasma-manager,
+      # plasma-manager,
       nixos-hardware,
       nixos-wsl,
       raspberry-pi-nix,
@@ -71,7 +71,7 @@
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-              home-manager.sharedModules = [ plasma-manager.homeManagerModules.plasma-manager ];
+              # home-manager.sharedModules = [ plasma-manager.homeManagerModules.plasma-manager ];
               home-manager.users.kazuki = import ./users/kazuki/home.nix;
               home-manager.extraSpecialArgs = {
                 inherit inputs;
@@ -267,11 +267,11 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    plasma-manager = {
-      url = "github:nix-community/plasma-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.home-manager.follows = "home-manager";
-    };
+    # plasma-manager = {
+    #   url = "github:nix-community/plasma-manager";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    #   inputs.home-manager.follows = "home-manager";
+    # };
     disko = {
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";

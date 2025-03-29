@@ -1,8 +1,9 @@
-{ config
-, pkgs
-, lib
-, inputs
-, ...
+{
+  config,
+  pkgs,
+  lib,
+  inputs,
+  ...
 }:
 let
   import_app = [
@@ -10,12 +11,13 @@ let
     ../../modules/home/kazuki/ssh
     inputs.self.homeManagerModules.kazuki.common
     ../../modules/home/kazuki/flameshot
+    ../../modules/home/kazuki/hyprland
   ];
   import_external = [
-    inputs.plasma-manager.homeManagerModules.plasma-manager
+    # inputs.plasma-manager.homeManagerModules.plasma-manager
   ];
   import_plasma = [
-    ../../modules/home/kazuki/plasma-manager
+    # ../../modules/home/kazuki/plasma-manager
   ];
 
 in
@@ -45,8 +47,8 @@ in
     # # "Hello, world!" when run.
     hello
     slack
-    kdePackages.kfind
-    kdePackages.ksshaskpass
+    # kdePackages.kfind
+    # kdePackages.ksshaskpass
     # kdePackages.gwenview
 
     # # It is sometimes useful to fine-tune packages, for example, by applying

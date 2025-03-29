@@ -94,7 +94,7 @@
           fcitx5-mozc
           fcitx5-configtool
         ];
-        plasma6Support = true;
+        # plasma6Support = true;
         waylandFrontend = true;
       };
     };
@@ -103,7 +103,7 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.kazuki = {
     packages = with pkgs; [
-      kdePackages.kate
+      # kdePackages.kate
       #  thunderbird
       microsoft-edge
       todoist-electron
@@ -114,9 +114,9 @@
   # services.xserver.enable = true;
 
   # Enable the KDE Plasma Desktop Environment.
-  # services.xserver.displayManager.sddm.enable = true;
+  services.displayManager.sddm.enable = true;
   # services.xserver.desktopManager.plasma5.enable = true;
-  services.desktopManager.plasma6.enable = true;
+  # services.desktopManager.plasma6.enable = true;
 
   # Enable CUPS to print documents.
   services.printing = {
@@ -140,13 +140,14 @@
   # Bug: pam_fprintd.so should come before pam_unix.so.
   # https://github.com/NixOS/nixpkgs/issues/239770
   # https://github.com/NixOS/nixpkgs/blob/2becde3c1913fc74dec4108a067bfb5f5b93096b/nixos/modules/security/pam.nix#L663
-  services.fprintd = {
-    enable = true;
-    tod = {
-      enable = true;
-      driver = pkgs.libfprint-2-tod1-vfs0090;
-    };
-  };
+  # ! Build failure as of 2025/03/29
+  # services.fprintd = {
+  # enable = true;
+  # tod = {
+  # enable = true;
+  # driver = pkgs.libfprint-2-tod1-vfs0090;
+  # };
+  # };
 
   services.avahi = {
     enable = true;
@@ -167,9 +168,9 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     home-manager
-    kdePackages.sddm-kcm
-    kdePackages.kwallet-pam
-    kdePackages.kwallet
+    # kdePackages.sddm-kcm
+    # kdePackages.kwallet-pam
+    # kdePackages.kwallet
     wol # Wake-on-LAN
   ];
 
@@ -182,13 +183,9 @@
   fonts = {
     packages = with pkgs; [
       noto-fonts-cjk-sans
-      (nerdfonts.override {
-        fonts = [
-          "Hack"
-          "RobotoMono"
-          "IntelOneMono"
-        ];
-      })
+      nerd-fonts.hack
+      nerd-fonts.roboto-mono
+      nerd-fonts.intone-mono
     ];
   };
 
