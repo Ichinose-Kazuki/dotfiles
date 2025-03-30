@@ -1,7 +1,10 @@
+{ pkgs, ... }:
+
 {
   environment.systemPackages = with pkgs; [
-    kdePackages.sddm-kcm
+    kdePackages.kate
     kdePackages.kwallet-pam
     kdePackages.kwallet
+    kdePackages.sddm-kcm
   ];
 }
