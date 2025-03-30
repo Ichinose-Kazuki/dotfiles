@@ -6,6 +6,7 @@
 
 {
   imports = [
+    ./alacritty
     ./chromium
     ./flameshot
   ];
