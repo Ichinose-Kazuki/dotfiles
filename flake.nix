@@ -47,7 +47,11 @@
       nixosConfigurations.x1carbon =
         let
           system = "x86_64-linux";
-          overlays = [ inputs.efi-power.overlays.default ];
+          generated = pkgs.callPackage ./_sources/generated.nix { };
+          overlays = [
+            inputs.efi-power.overlays.default
+            (import ./overlays/wallpaper-springcity.nix generated.wallpaper-springcity)
+          ];
           pkgs = import nixpkgs {
             inherit system overlays;
             config = {
@@ -60,7 +64,7 @@
           # Note that you cannot put arbitrary configuration here: the configuration must be placed in the files loaded via modules
           inherit pkgs;
           specialArgs = {
-            inherit inputs;
+            inherit inputs system;
           };
           modules = [
             #! lix
@@ -69,14 +73,15 @@
             ./hosts/x1carbon
             # ! Not needed if using standalone home-manager.
             # ! Import standalone settings
+            { nixpkgs.overlays = [ inputs.hyprpanel.overlay ]; }
             home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-              home-manager.sharedModules = [ plasma-manager.homeManagerModules.plasma-manager ];
+              # home-manager.sharedModules = [ plasma-manager.homeManagerModules.plasma-manager ];
               home-manager.users.kazuki = import ./users/kazuki/home_x1carbon.nix;
               home-manager.extraSpecialArgs = {
-                inherit inputs;
+                inherit inputs system;
                 host = "x1carbon";
               };
             }
@@ -300,6 +305,17 @@
     flake-utils.url = "github:numtide/flake-utils";
     efi-power = {
       url = "github:Ichinose-Kazuki/efi-power";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    hyprland.url = "github:hyprwm/Hyprland";
+    split-monitor-workspaces = {
+      url = "github:Duckonaut/split-monitor-workspaces";
+      inputs.hyprland.follows = "hyprland";
+    };
+    hyprpanel.url = "github:Jas-SinghFSU/HyprPanel";
+    ags.url = "github:aylur/ags";
+    hyprpolkitagent = {
+      url = "github:hyprwm/hyprpolkitagent";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
