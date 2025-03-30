@@ -1,4 +1,4 @@
-# https://github.com/turtton/dotnix/tree/daa44ea1c09d16a9ecfcd610b66d7a5d5dbc1708/home-manager/wm/hyprland
+# From https://github.com/turtton/dotnix/tree/daa44ea1c09d16a9ecfcd610b66d7a5d5dbc1708/home-manager/wm/hyprland
 
 {
   pkgs,

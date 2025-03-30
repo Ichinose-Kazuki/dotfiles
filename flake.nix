@@ -54,6 +54,7 @@
           generated = pkgs.callPackage ./_sources/generated.nix { };
           overlays = [
             inputs.efi-power.overlays.default
+            inputs.hyprpanel.overlay
             (import ./overlays/wallpaper-springcity.nix generated.wallpaper-springcity)
           ];
           pkgs = import nixpkgs {
@@ -77,7 +78,6 @@
             ./hosts/x1carbon
             # ! Not needed if using standalone home-manager.
             # ! Import standalone settings
-            { nixpkgs.overlays = [ inputs.hyprpanel.overlay ]; }
             home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;

@@ -1,4 +1,4 @@
-# https://github.com/turtton/dotnix/blob/daa44ea1c09d16a9ecfcd610b66d7a5d5dbc1708/os/wm/hyprland.nix
+# From https://github.com/turtton/dotnix/blob/daa44ea1c09d16a9ecfcd610b66d7a5d5dbc1708/os/wm/hyprland.nix
 
 { inputs, system, ... }:
 {
