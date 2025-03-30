@@ -1,7 +1,8 @@
-{ pkgs
-, lib
-, config
-, ...
+{
+  pkgs,
+  lib,
+  config,
+  ...
 }:
 
 {
@@ -43,7 +44,7 @@
         ];
       };
 
-      # .config/kglobalshortcutsrc  
+      # .config/kglobalshortcutsrc
       kwin = {
         "Switch Window Down" = "Meta+J";
         "Switch Window Left" = "Meta+H";

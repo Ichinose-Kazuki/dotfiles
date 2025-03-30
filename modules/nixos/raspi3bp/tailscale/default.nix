@@ -1,4 +1,9 @@
-{ lib, pkgs, inputs, ... }:
+{
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
 
 let
   pkgs-latest = import inputs.nixpkgs { system = "aarch64-linux"; };

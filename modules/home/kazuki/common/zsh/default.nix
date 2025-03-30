@@ -1,8 +1,13 @@
-{ pkgs, lib, config, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 
 {
   options.myOps.zshUserNameColor = lib.mkOption {
-    # Show numbers of colors:
+    # See color codes with:
     # seq 0 255 | xargs -I {} printf '\033[38;5;{}m{}\033[m '
     default = "blue";
     type = lib.types.str;

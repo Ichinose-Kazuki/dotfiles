@@ -2,11 +2,12 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ config
-, lib
-, pkgs
-, inputs
-, ...
+{
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
 }:
 
 {
@@ -19,7 +20,10 @@
   ];
 
   nix.settings = {
-    trusted-users = [ "@wheel" "kazuki" ];
+    trusted-users = [
+      "@wheel"
+      "kazuki"
+    ];
     extra-substituters = [
       "https://nix-community.cachix.org"
     ];
