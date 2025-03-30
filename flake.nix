@@ -312,13 +312,22 @@
       url = "github:Ichinose-Kazuki/efi-power";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    hyprland.url = "github:hyprwm/Hyprland";
+    hyprland = {
+      url = "github:hyprwm/Hyprland";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     split-monitor-workspaces = {
       url = "github:Duckonaut/split-monitor-workspaces";
       inputs.hyprland.follows = "hyprland";
     };
-    hyprpanel.url = "github:Jas-SinghFSU/HyprPanel";
-    ags.url = "github:aylur/ags";
+    hyprpanel = {
+      url = "github:Jas-SinghFSU/HyprPanel";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    ags = {
+      url = "github:aylur/ags";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     hyprpolkitagent = {
       url = "github:hyprwm/hyprpolkitagent";
       inputs.nixpkgs.follows = "nixpkgs";
