@@ -56,7 +56,6 @@
           fcitx5-mozc
           fcitx5-configtool
         ];
-        # plasma6Support = true;
         waylandFrontend = true;
       };
     };
