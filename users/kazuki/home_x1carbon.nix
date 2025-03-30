@@ -7,17 +7,15 @@
 }:
 let
   import_app = [
-    ../../modules/home/kazuki/chromium
-    ../../modules/home/kazuki/ssh
     inputs.self.homeManagerModules.kazuki.common
-    ../../modules/home/kazuki/flameshot
-    ../../modules/home/kazuki/hyprland
+    inputs.self.homeManagerModules.kazuki.x1carbon
   ];
   import_external = [
     inputs.plasma-manager.homeManagerModules.plasma-manager
   ];
   import_config = [
     ../../modules/home/kazuki/plasma-manager
+    # ../../modules/home/kazuki/hyprland
   ];
 
 in

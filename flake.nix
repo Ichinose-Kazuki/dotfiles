@@ -31,15 +31,17 @@
       # Details: https://nixos.wiki/wiki/Flakes
       nixosModules = {
         common = ./modules/nixos/common;
-        x1carbon = ./modules/nixos/x1carbon;
-        wsl2 = ./modules/nixos/wsl2;
-        tsuyoServer = ./modules/nixos/tsuyoServer;
         raspi3bp = ./modules/nixos/raspi3bp;
+        tsuyoServer = ./modules/nixos/tsuyoServer;
+        wsl2 = ./modules/nixos/wsl2;
+        x1carbon = ./modules/nixos/x1carbon;
       };
       homeManagerModules.kazuki = {
         common = ./modules/home/kazuki/common;
-        wsl2 = ./modules/home/kazuki/wsl2;
+        raspi3bp = ./modules/home/kazuki/raspi3bp;
         tsuyoServer = ./modules/home/kazuki/tsuyoServer;
+        wsl2 = ./modules/home/kazuki/wsl2;
+        x1carbon = ./modules/home/kazuki/x1carbon;
       };
 
       nixosConfigurations.x1carbon =

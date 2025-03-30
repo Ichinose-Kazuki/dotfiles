@@ -3,6 +3,7 @@
 {
   imports = [
     ./git
+    ./ssh
     ./zsh
   ];
 }
