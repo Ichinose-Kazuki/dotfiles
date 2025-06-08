@@ -4,12 +4,10 @@
   nixConfig = {
     extra-substituters = [
       "https://nix-community.cachix.org"
-      "https://hyprland.cachix.org"
       "https://ags.cachix.org"
     ];
     extra-trusted-public-keys = [
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-      "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
       "ags.cachix.org-1:naAvMrz0CuYqeyGNyLgE010iUiuf/qx6kYrUv3NwAJ8="
     ];
   };
@@ -54,8 +52,6 @@
           generated = pkgs.callPackage ./_sources/generated.nix { };
           overlays = [
             inputs.efi-power.overlays.default
-            inputs.hyprpanel.overlay
-            (import ./overlays/wallpaper-springcity.nix generated.wallpaper-springcity)
           ];
           pkgs = import nixpkgs {
             inherit system overlays;
@@ -312,24 +308,8 @@
       url = "github:Ichinose-Kazuki/efi-power";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    hyprland = {
-      url = "github:hyprwm/Hyprland";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    split-monitor-workspaces = {
-      url = "github:Duckonaut/split-monitor-workspaces";
-      inputs.hyprland.follows = "hyprland";
-    };
-    hyprpanel = {
-      url = "github:Jas-SinghFSU/HyprPanel";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     ags = {
       url = "github:aylur/ags";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    hyprpolkitagent = {
-      url = "github:hyprwm/hyprpolkitagent";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };

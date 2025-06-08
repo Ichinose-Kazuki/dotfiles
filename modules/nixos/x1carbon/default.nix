@@ -4,9 +4,7 @@
   imports = [
     ./bootloader
     ./docker
-    # ./hyprland
     ./kdePlasma
-    # ./regreet
     ./printing
     ./programs
     ./sddm
