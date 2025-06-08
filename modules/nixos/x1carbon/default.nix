@@ -4,7 +4,9 @@
   imports = [
     ./bootloader
     ./docker
-    ./kdePlasma
+    # ./kdePlasma
+    ./sway
+    ./wayland
     ./printing
     ./programs
     ./sddm
