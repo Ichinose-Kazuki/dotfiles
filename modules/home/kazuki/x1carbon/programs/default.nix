@@ -12,7 +12,6 @@
   ];
 
   home.packages = with pkgs; [
-    microsoft-edge
     todoist-electron
   ];
 }

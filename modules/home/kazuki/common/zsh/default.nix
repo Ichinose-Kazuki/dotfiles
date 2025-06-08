@@ -14,7 +14,7 @@
   };
 
   config = {
-    programs.zsh.initExtra = ''
+    programs.zsh.initContent = ''
       zstyle ':prompt:grml:*:items:user' pre '%F{${config.myOps.zshUserNameColor}}'
     '';
   };
