@@ -9,7 +9,8 @@
     ./wayland
     ./printing
     ./programs
-    ./sddm
+    # ./sddm
+    ./ly
     ./sound
     ./ssh
     ./udev
