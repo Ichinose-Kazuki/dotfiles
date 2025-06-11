@@ -2,6 +2,7 @@
 
 {
   imports = [
+    ./boot
     ./bootloader
     ./docker
     # ./kdePlasma
