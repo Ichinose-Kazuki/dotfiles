@@ -11,7 +11,8 @@
     ./printing
     ./programs
     # ./sddm
-    ./ly
+    # ./ly
+    ./regreet
     ./sound
     ./ssh
     ./udev
