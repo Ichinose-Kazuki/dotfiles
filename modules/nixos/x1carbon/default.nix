@@ -5,8 +5,9 @@
     ./bootloader
     ./docker
     # ./kdePlasma
-    ./sway
-    ./wayland
+    # ./sway
+    ./hyprland
+    # ./wayland
     ./printing
     ./programs
     # ./sddm

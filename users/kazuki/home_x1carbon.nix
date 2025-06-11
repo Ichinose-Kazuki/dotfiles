@@ -15,7 +15,8 @@ let
   ];
   import_config = [
     # ../../modules/home/kazuki/plasma-manager
-    ../../modules/home/kazuki/sway
+    # ../../modules/home/kazuki/sway
+    ../../modules/home/kazuki/hyprland
   ];
 
 in
