@@ -61,13 +61,11 @@ in
       };
 
       Unit = {
-        Description = "run windows-spotlight unit every 24h";
+        Description = "run windows-spotlight unit every 12h";
       };
 
       Timer = {
-        # テスト用
-        OnUnitActiveSec = "3s";
-        AccuracySec = "1s";
+        OnUnitActiveSec = "12h";
         Persistent = true;
       };
     };
