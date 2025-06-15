@@ -21,6 +21,15 @@
     self.nixosModules.x1carbon
   ];
 
+  # avoid inputs of this flake from being garbage-collected.
+  system.extraDependencies =
+    let
+      collectFlakeInputs =
+        input:
+        [ input ] ++ builtins.concatMap collectFlakeInputs (builtins.attrValues (input.inputs or { }));
+    in
+    builtins.concatMap collectFlakeInputs (builtins.attrValues inputs);
+
   # TODO: Make this a module like: https://github.com/stepbrobd/dotfiles/blob/8a90166bbabe4b32769df9aea11d6ee6d042b6de/modules/common/lix.nix#L24.
   nix.settings = {
     extra-substituters = [ "https://cache.lix.systems" ];

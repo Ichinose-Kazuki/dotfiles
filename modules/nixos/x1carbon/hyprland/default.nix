@@ -6,13 +6,21 @@
 }:
 
 {
+  imports = [
+    ./must-have.nix
+  ];
+
   programs.hyprland = {
     enable = true;
     withUWSM = true;
   };
 
   # kwallet settings from plasma6 module.
-  environment.systemPackages = with pkgs.kdePackages; [ kwallet kwallet-pam kwalletmanager ];
+  environment.systemPackages = with pkgs.kdePackages; [
+    kwallet
+    kwallet-pam
+    kwalletmanager
+  ];
   xdg.portal = {
     enable = true;
     extraPortals = with pkgs.kdePackages; [ kwallet ];
@@ -25,5 +33,8 @@
   };
 
   # not sure if this is needed. see description of hm xdg.portal.
-  environment.pathsToLink = [ "/share/xdg-desktop-portal" "/share/applications" ];
+  environment.pathsToLink = [
+    "/share/xdg-desktop-portal"
+    "/share/applications"
+  ];
 }
