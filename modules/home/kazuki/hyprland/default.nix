@@ -84,8 +84,8 @@
         disable_hyprland_logo = true;
         disable_splash_rendering = true;
         disable_autoreload = true; # might save on battery.
+        close_special_on_empty = false;
       };
-      # todo: configure window snap for picture-in-picture mode.
       # input
       # refer to https://wayland-book.com/seat/xkb.html for details of xkb.
       input = {
@@ -122,13 +122,14 @@
       };
       # keybindings
       "$mainMod" = "ALT";
-      "$appMod" = "CTRL + SHIFT";
+      # This works as if, every time a key is pressed, hyprctl reads through
+      # all the (in-memory) keybinds from top to bottom and dispatches all matching ones.
       bind = [
         "$mainMod + SHIFT, Q, killactive,"
         "$mainMod, F, fullscreen, 0"
         # "$mainMod, F, fullscreenstate, 0" # send fullscreen state to client app?
-        "$appMod, T, exec, $terminal"
-        "$appMod, E, exec, $fileManager"
+        "$mainMod + SHIFT, T, exec, $terminal"
+        "$mainMod + SHIFT, E, exec, $fileManager"
         "$mainMod, SPACE, exec, $menu"
 
         # Move focus with mainMod + hjkl
@@ -167,10 +168,16 @@
         "$mainMod + SHIFT, 9, movetoworkspace, 9"
         "$mainMod + SHIFT, 0, movetoworkspace, 10"
 
-        # # Example special workspace (scratchpad)
-        # "$mainMod, S, togglespecialworkspace, magic"
-        # "$mainMod SHIFT, S, movetoworkspace, special:magic"
+        # Example special workspace (scratchpad)
+        "$mainMod, S, togglespecialworkspace,"
+        "$mainMod SHIFT, S, movetoworkspace, special"
+
+        # Global Keybinds
+        "SUPER, F10, pass, class:^(com\.obsproject\.Studio)$"
+        # See also: https://wiki.hypr.land/Configuring/Binds/#dbus-global-shortcuts
       ];
+
+      # m, e, l in bindm, bindel are flags: https://wiki.hypr.land/Configuring/Binds/#bind-flags
 
       # Move/resize windows with mainMod + LMB/RMB and dragging
       bindm = [
@@ -188,12 +195,20 @@
         ",XF86MonBrightnessDown, exec, brightnessctl -e4 -n2 set 5%-"
       ];
 
-      # Requires playerctl
       bindl = [
+        # Requires playerctl
         ", XF86AudioNext, exec, playerctl next"
         ", XF86AudioPause, exec, playerctl play-pause"
         ", XF86AudioPlay, exec, playerctl play-pause"
         ", XF86AudioPrev, exec, playerctl previous"
+        # Switches
+        # View switches in `hyprctl devices`
+        # Only Lid Switch is found on my ThinkPad.
+        # eDP-1 is the internal monitor.
+        # Lock if no external monitor is connected.
+        ", switch:Lid Switch, exec, [ \"$(hyprctl monitors | grep \"Monitor\" | awk '{print $2}')\" = \"eDP-1\" ] && hyprlock"
+        ", switch:on:Lid Switch, exec, hyprctl keyword monitor \"eDP-1,disable\""
+        ", switch:off:Lid Switch, exec, hyprctl keyword monitor \"eDP-1,preferred,auto,auto\""
       ];
       # windows and workspaces
       windowrule = [
@@ -202,9 +217,25 @@
         "nofocus,class:^$,title:^$,xwayland:1,floating:1,fullscreen:0,pinned:0"
       ];
     };
-  };
 
-  home.packages = with pkgs; [ kitty ]; # recommended by hyprland?
+    # Submaps have to be declared this way.
+    extraConfig = ''
+      bind = ALT, R, submap, resize
+      submap = resize
+
+      binde = , l, resizeactive, 10 0
+      binde = , h, resizeactive, -10 0
+      binde = , k, resizeactive, 0 -10
+      binde = , j, resizeactive, 0 10
+
+      # use reset to go back to the global submap
+      # reset is a special mapping name meaning global.
+      # * - NEVER FAIL TO ADD THESE LINES. - *
+      bind = , catchall, submap, reset 
+      submap = reset 
+      # * ---------------------------------- *
+    '';
+  };
 
   xdg.portal = {
     enable = lib.mkForce true; # is set false in the hyprland module.
