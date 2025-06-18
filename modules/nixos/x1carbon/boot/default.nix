@@ -8,5 +8,5 @@
     };
   };
   console.earlySetup = false;
-  boot.initrd.systemd.enable = false;    
+  boot.initrd.systemd.enable = false;
 }
