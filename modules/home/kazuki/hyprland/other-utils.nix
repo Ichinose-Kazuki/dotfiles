@@ -251,4 +251,24 @@
     enable = true;
     runAsService = true;
   };
+
+  # terminal
+  xdg.dataFile."defined_with_nix.profile".text = ''
+    [Appearance]
+    Font=Hack Nerd Font,12,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
+
+    [General]
+    Name=defined_with_nix
+    Parent=FALLBACK/
+  '';
+  xdg.configFile."konsolerc".text = ''
+    [Desktop Entry]
+    DefaultProfile=defined_with_nix.profile
+
+    [General]
+    ConfigVersion=1
+
+    [UiSettings]
+    ColorScheme=
+  '';
 }
