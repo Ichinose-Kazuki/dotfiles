@@ -6,11 +6,35 @@
   ...
 }:
 
+let
+  qt6ct-kde = pkgs.callPackage ../../../pkgs/qt6ct-kde {
+    inherit (pkgs.kdePackages)
+      qtbase
+      qtsvg
+      qttools
+      qtwayland
+      wrapQtAppsHook
+      ;
+  };
+in
 {
   imports = [
     ./must-have.nix
     ./hypr-ecosystem.nix
     ./other-utils.nix
+  ];
+
+  home.packages = with pkgs; [
+    # theme
+    # qt5 variants conflict with these qt6 variants. qt5 is installed along with qt6...?
+    # Other attractive themes include Layan, Qogir, and Sweet, but their appearance isn't very consistent between Qt and GTK.
+    qt6ct-kde # doesn't work like this: https://www.lorenzobettini.it/2024/08/better-kde-theming-and-styling-in-hyprland/
+    kdePackages.breeze
+    kdePackages.breeze-icons
+    kdePackages.kcolorscheme # Breeze Dark
+    kdePackages.qtstyleplugin-kvantum
+    kdePackages.breeze-gtk
+    dejavu_fonts # default fonts for kde apps.
   ];
 
   wayland.windowManager.hyprland = {
@@ -25,12 +49,7 @@
       "$terminal" = "konsole";
       "$fileManager" = "dolphin";
       "$menu" = "walker";
-      # autostart
-      # environment variables
-      env = [
-        "XCURSOR_SIZE,24"
-        "HYPRCURSOR_SIZE,24"
-      ];
+      # Don't set env here: https://wiki.hypr.land/Configuring/Environment-variables/
       # permissions
       # look and feel: https://wiki.hypr.land/Configuring/Variables/
       general = rec {
@@ -236,6 +255,26 @@
       # * ---------------------------------- *
     '';
   };
+
+  # environment variables: https://wiki.hypr.land/Configuring/Environment-variables/
+  # theming, xcursor, nvidia and toolkit variables
+  # uniform look for Qt and GTK apps: https://wiki.archlinux.org/title/Uniform_look_for_Qt_and_GTK_applications
+  # note that QT_QPA_PLATFORMTHEME is applied to non-KDE apps only.
+  # for KDE apps, edit their rc files in $XDG_CONFIG_HOME. e.g. konsolerc.
+  # kvantum, qt6ct etc does not work rn.
+  xdg.configFile."uwsm/env".text = ''
+    export XCURSOR_SIZE=24
+    export GTK_THEME=Breeze-Dark
+    export QT_QPA_PLATFORMTHEME=qt6ct
+    export QT_STYLE_OVERRIDE=kvantum
+    export QT_AUTO_SCREEN_SCALE_FACTOR=1
+    export QT_QPA_PLATFORM=wayland;xcb
+    export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
+  '';
+  # HYPR* and AQ_* variables
+  xdg.configFile."uwsm/env-hyprland".text = ''
+    export HYPRCURSOR_SIZE=24
+  '';
 
   xdg.portal = {
     enable = lib.mkForce true; # is set false in the hyprland module.

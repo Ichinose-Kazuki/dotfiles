@@ -269,6 +269,23 @@
     ConfigVersion=1
 
     [UiSettings]
-    ColorScheme=
+    ColorScheme=Breeze Dark
+  '';
+
+  # file explorer
+  xdg.configFile."dolphinrc".text = ''
+    [General]
+    Version=202
+    ViewPropsTimestamp=2025,6,20,0,35,28.437
+
+    [KFileDialog Settings]
+    Places Icons Auto-resize=false
+    Places Icons Static Size=22
+
+    [MainWindow]
+    MenuBar=Disabled
+
+    [UiSettings]
+    ColorScheme=Breeze Dark
   '';
 }
