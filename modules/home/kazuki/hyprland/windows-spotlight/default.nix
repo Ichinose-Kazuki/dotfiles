@@ -19,19 +19,20 @@ let
   cfg = config.windows-spotlight;
 in
 {
-  options.windows-spotlight = {
+  options.windows-spotlight = with lib.types; {
+    enable = lib.options.mkEnableOption "Windows Spotlight";
     imageFilepath = lib.mkOption {
-      type = lib.types.str;
+      type = str;
     };
     requiredService = lib.mkOption {
-      type = lib.types.str;
+      type = str;
     };
     reloadCommand = lib.mkOption {
-      type = lib.types.str;
+      type = str;
     };
   };
 
-  config = {
+  config = lib.modules.mkIf cfg.enable {
     home.packages = [ fetchScript ];
 
     systemd.user.services.windows-spotlight = {

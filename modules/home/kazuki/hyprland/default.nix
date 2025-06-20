@@ -264,17 +264,24 @@ in
   # kvantum, qt6ct etc does not work rn.
   xdg.configFile."uwsm/env".text = ''
     export XCURSOR_SIZE=24
+
     export GTK_THEME=Breeze-Dark
     export QT_QPA_PLATFORMTHEME=qt6ct
     export QT_STYLE_OVERRIDE=kvantum
+
     export QT_AUTO_SCREEN_SCALE_FACTOR=1
-    export QT_QPA_PLATFORM=wayland;xcb
     export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
+
+    export GDK_BACKEND=wayland,x11,*
+    export QT_QPA_PLATFORM=wayland;xcb
+    export SDL_VIDEODRIVER=wayland
+    export CLUTTER_BACKEND=wayland
   '';
   # HYPR* and AQ_* variables
   xdg.configFile."uwsm/env-hyprland".text = ''
     export HYPRCURSOR_SIZE=24
   '';
+  # todo: XCURSOR_THEME
 
   xdg.portal = {
     enable = lib.mkForce true; # is set false in the hyprland module.

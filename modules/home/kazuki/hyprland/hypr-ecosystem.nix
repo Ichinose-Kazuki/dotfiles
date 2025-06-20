@@ -33,6 +33,7 @@ in
     };
   };
   windows-spotlight = {
+    enable = true;
     imageFilepath = wallpaperPath;
     requiredService = "hyprpaper.service";
     reloadCommand = "${lib.getExe' pkgs.hyprland "hyprctl"} hyprpaper reload ,\"${wallpaperPath}\"";
