@@ -33,6 +33,7 @@ in
 
     home.packages = with pkgs; [
       font-awesome
+      nerd-fonts.symbols-only # solves off-centered icons problem: https://github.com/Alexays/Waybar/issues/3556#issuecomment-2558272497
       roboto
       mediaplayer
       # gobject dependencies
@@ -252,7 +253,7 @@ in
             "menu": "on-click",
             "menu-file": "${powerMenuXml}", // Menu file in resources folder
             "menu-actions": {
-              "shutdown": "shutdown",
+              "shutdown": "poweroff",
               "reboot": "reboot",
               "suspend": "systemctl suspend",
               "hibernate": "systemctl hibernate",

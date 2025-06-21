@@ -23,8 +23,9 @@
 }
 
 #waybar {
-	font-family: 'Source Code Pro', sans-serif;
-	font-size: 0.85em;
+	font-family: "Symbols Nerd Font", 'Source Code Pro', sans-serif;
+	font-feature-settings: '"zero", "tnum", "ss01", "ss02", "ss03", "cv01"';
+  font-size: 0.85em;
 	font-weight: 300;
   color: @base04;
   background: @base01;
