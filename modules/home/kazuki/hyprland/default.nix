@@ -35,6 +35,7 @@ in
     kdePackages.qtstyleplugin-kvantum
     kdePackages.breeze-gtk
     dejavu_fonts # default fonts for kde apps.
+    playerctl
   ];
 
   wayland.windowManager.hyprland = {
@@ -62,8 +63,9 @@ in
       };
       decoration = {
         rounding = 10;
-        blur.enabled = false;
+        blur.enabled = false; # saves on battery.
         shadow = {
+          enabled = false; # saves on battery.
           color = "rgba(1a1a1aaf)";
         };
       };
@@ -104,6 +106,7 @@ in
         disable_splash_rendering = true;
         disable_autoreload = true; # might save on battery.
         close_special_on_empty = false;
+        vfr = true; # saves on battery.
       };
       # input
       # refer to https://wayland-book.com/seat/xkb.html for details of xkb.

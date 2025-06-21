@@ -22,6 +22,10 @@
     kdePackages.konsole
     # file manager
     kdePackages.dolphin
+    # networkmanager gui
+    networkmanagerapplet
+    kdePackages.kwallet
+    gcr
   ];
 
   # status bar
@@ -69,4 +73,30 @@
     [UiSettings]
     ColorScheme=Breeze Dark
   '';
+
+  # nm-applet for wifi
+  systemd.user.services.nm-applet = {
+    Install = {
+      WantedBy = [ config.wayland.systemd.target ];
+    };
+
+    Unit = {
+      Description = "Network manager applet";
+      After = [ config.wayland.systemd.target ];
+      PartOf = [ config.wayland.systemd.target ];
+    };
+
+    Service = {
+      Type = "oneshot";
+      ExecStart = "${lib.getExe' pkgs.networkmanagerapplet "nm-applet"} --indicator";
+      Restart = "on-failure";
+    };
+  };
+  dbus.packages = with pkgs; [
+    gcr
+    kdePackages.kwallet
+  ];
+
+  # blueman applet for bluetooth
+  services.blueman-applet.enable = true;
 }
