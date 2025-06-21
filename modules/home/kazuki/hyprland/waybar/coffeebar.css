@@ -24,7 +24,7 @@
 
 #waybar {
 	font-family: 'Source Code Pro', sans-serif;
-	font-size: 1.0em;
+	font-size: 0.85em;
 	font-weight: 300;
   color: @base04;
   background: @base01;

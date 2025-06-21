@@ -53,9 +53,9 @@ in
         {
           "layer": "top", // Waybar at top layer
           "position": "top", // Waybar position (top|bottom|left|right)
-          "height": 25, // Waybar height (to be removed for auto height)
+          "height": 20, // Waybar height (to be removed for auto height)
           // "width": 1280, // Waybar width
-          "spacing": 4, // Gaps between modules (4px)
+          "spacing": 3, // Gaps between modules (4px)
           // Choose the order of the modules
           "modules-left": ["hyprland/workspaces", "idle_inhibitor", "pulseaudio", "custom/media", "backlight", "network"],
           "modules-center": ["hyprland/window"],
