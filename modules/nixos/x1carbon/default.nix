@@ -9,6 +9,7 @@
     # ./sway
     ./hyprland
     # ./wayland
+    ./location
     ./printing
     ./programs
     # ./sddm
