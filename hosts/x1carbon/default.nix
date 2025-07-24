@@ -58,20 +58,6 @@
   # Select internationalisation properties.
   i18n = {
     defaultLocale = "ja_JP.UTF-8";
-    # extraLocaleSettings = {
-    #   LC_MESSAGES = "en_US.UTF-8";
-    # };
-    inputMethod = {
-      enable = true;
-      type = "fcitx5";
-      fcitx5 = {
-        addons = with pkgs; [
-          fcitx5-mozc
-          fcitx5-configtool
-        ];
-        waylandFrontend = true;
-      };
-    };
   };
 
   # Enable touchpad support (enabled by default in most desktopManager).
