@@ -17,6 +17,6 @@
     ./regreet
     ./sound
     ./ssh
-    ./udev
+    ./keymap
   ];
 }
