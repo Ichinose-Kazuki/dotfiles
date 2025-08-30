@@ -5,18 +5,19 @@
     ./boot
     ./bootloader
     ./docker
-    # ./kdePlasma
-    # ./sway
+    ./gaming
     ./hyprland
-    # ./wayland
+    # ./kdePlasma
+    ./keymap
     ./location
+    # ./ly
     ./printing
     ./programs
-    # ./sddm
-    # ./ly
     ./regreet
+    # ./sddm
     ./sound
     ./ssh
-    ./keymap
+    # ./sway
+    # ./wayland
   ];
 }

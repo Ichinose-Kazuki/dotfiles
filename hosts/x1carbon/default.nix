@@ -30,12 +30,6 @@
     in
     builtins.concatMap collectFlakeInputs (builtins.attrValues inputs);
 
-  # TODO: Make this a module like: https://github.com/stepbrobd/dotfiles/blob/8a90166bbabe4b32769df9aea11d6ee6d042b6de/modules/common/lix.nix#L24.
-  nix.settings = {
-    extra-substituters = [ "https://cache.lix.systems" ];
-    extra-trusted-public-keys = [ "cache.lix.systems:aBnZUw8zA7H35Cz2RyKFVs3H4PlGTLawyY5KRbvJR8o=" ];
-  };
-
   networking.hostName = "x1carbon"; # Define your hostname.
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.

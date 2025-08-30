@@ -49,7 +49,7 @@ in
       # my programs
       "$terminal" = "konsole";
       "$fileManager" = "dolphin";
-      "$menu" = "walker";
+      "$menu" = "rofi -show combi";
       # Don't set env here: https://wiki.hypr.land/Configuring/Environment-variables/
       # permissions
       # look and feel: https://wiki.hypr.land/Configuring/Variables/
@@ -253,8 +253,8 @@ in
       # use reset to go back to the global submap
       # reset is a special mapping name meaning global.
       # * - NEVER FAIL TO ADD THESE LINES. - *
-      bind = , catchall, submap, reset 
-      submap = reset 
+      bind = , catchall, submap, reset
+      submap = reset
       # * ---------------------------------- *
     '';
   };

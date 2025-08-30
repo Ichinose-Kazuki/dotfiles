@@ -10,7 +10,6 @@
 {
   imports = [
     # app launcher
-    inputs.walker.homeManagerModules.default
     ./waybar
   ];
 
@@ -32,9 +31,32 @@
   my-waybar.enable = true;
 
   # app launcher
-  programs.walker = {
+  programs.rofi = {
     enable = true;
-    runAsService = true;
+    package = pkgs.rofi-wayland;
+    cycle = true;
+    modes = [
+      "combi"
+      "emoji" # not working on electron
+    ];
+    # terminal = "kitty";
+    extraConfig = {
+      # run rofi -h to see all options
+      combi-modi = [
+        "drun"
+        "run"
+      ];
+      combi-display-format = "{text} {mode}";
+      show-icons = true;
+      steal-focus = true;
+      window-thumbnail = true;
+      click-to-exit = true; # not working
+      global-kb = true; # not working
+    };
+    theme = "Arc-Dark";
+    plugins = with pkgs; [
+      rofi-emoji
+    ];
   };
 
   # terminal

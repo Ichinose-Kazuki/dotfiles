@@ -25,11 +25,9 @@
   nix.settings = {
     trusted-users = [ "@wheel" ];
     extra-substituters = [
-      "https://cache.lix.systems"
       "https://raspberry-pi-nix.cachix.org"
     ];
     extra-trusted-public-keys = [
-      "cache.lix.systems:aBnZUw8zA7H35Cz2RyKFVs3H4PlGTLawyY5KRbvJR8o="
       "raspberry-pi-nix.cachix.org-1:WmV2rdSangxW0rZjY/tBvBDSaNFQ3DyEQsVw8EvHn9o="
     ];
   };
