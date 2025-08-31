@@ -265,6 +265,7 @@ in
   # note that QT_QPA_PLATFORMTHEME is applied to non-KDE apps only.
   # for KDE apps, edit their rc files in $XDG_CONFIG_HOME. e.g. konsolerc.
   # kvantum, qt6ct etc does not work rn.
+  # about fcitx: https://fcitx-im.org/wiki/Using_Fcitx_5_on_Wayland
   xdg.configFile."uwsm/env".text = ''
     export XCURSOR_SIZE=24
 
@@ -279,6 +280,12 @@ in
     export QT_QPA_PLATFORM=wayland;xcb
     export SDL_VIDEODRIVER=wayland
     export CLUTTER_BACKEND=wayland
+
+    export XMODIFIERS=@im=fcitx
+    export QT_IM_MODULE=fcitx
+    export QT_IM_MODULES="wayland;fcitx;ibus"
+
+    export NIXOS_OZONE_WL=1
   '';
   # HYPR* and AQ_* variables
   xdg.configFile."uwsm/env-hyprland".text = ''
