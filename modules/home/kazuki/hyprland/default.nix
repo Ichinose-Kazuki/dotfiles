@@ -52,6 +52,12 @@ in
       "$menu" = "rofi -show combi";
       # Don't set env here: https://wiki.hypr.land/Configuring/Environment-variables/
       # permissions
+      permission = [
+        "${lib.getExe pkgs.grim}, screencopy, allow"
+        # https://github.com/hyprwm/hyprlock/pull/726
+        "${lib.escapeRegex (lib.getExe config.programs.hyprlock.package)}, screencopy, allow"
+        "${pkgs.xdg-desktop-portal-hyprland}/libexec/.xdg-desktop-portal-hyprland-wrapped, screencopy, allow"
+      ];
       # look and feel: https://wiki.hypr.land/Configuring/Variables/
       general = rec {
         border_size = 2;
