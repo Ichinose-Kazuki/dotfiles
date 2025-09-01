@@ -23,8 +23,6 @@
     kdePackages.dolphin
     # networkmanager gui
     networkmanagerapplet
-    kdePackages.kwallet
-    gcr
   ];
 
   # status bar
@@ -114,10 +112,6 @@
       Restart = "on-failure";
     };
   };
-  dbus.packages = with pkgs; [
-    gcr
-    kdePackages.kwallet
-  ];
 
   # blueman applet for bluetooth
   services.blueman-applet.enable = true;

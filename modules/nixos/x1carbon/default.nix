@@ -19,5 +19,6 @@
     ./ssh
     # ./sway
     # ./wayland
+    ../keyring
   ];
 }

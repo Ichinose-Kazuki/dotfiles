@@ -123,10 +123,10 @@ in
         "cd"
       ];
     };
-    # direnv = {
-    #   enable = true;
-    #   nix-direnv.enable = true;
-    # };
+    direnv = {
+      enable = true;
+      nix-direnv.enable = true;
+    };
     bash = {
       enable = true;
     };

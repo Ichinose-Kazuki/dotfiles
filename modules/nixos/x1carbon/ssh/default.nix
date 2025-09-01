@@ -1,12 +1,15 @@
-{ lib, pkgs, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 
 {
   # Client side
   programs.ssh = {
-    startAgent = true;
+    startAgent = lib.mkIf (!config.services.gnome.gcr-ssh-agent.enable) true;
     enableAskPassword = true;
-    # ! TODO
-    # askPassword = lib.getExe pkgs.kdePackages.ksshaskpass;
   };
 
   # Server side
