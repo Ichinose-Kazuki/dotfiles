@@ -295,9 +295,9 @@ in
   '';
   # HYPR* and AQ_* variables
   xdg.configFile."uwsm/env-hyprland".text = ''
-    export HYPRCURSOR_SIZE=24
+    export HYPRCURSOR_SIZE=32
+    export HYPRCURSOR_THEME=rose-pine-hyprcursor
   '';
-  # todo: XCURSOR_THEME
 
   xdg.portal = {
     enable = lib.mkForce true; # is set false in the hyprland module.

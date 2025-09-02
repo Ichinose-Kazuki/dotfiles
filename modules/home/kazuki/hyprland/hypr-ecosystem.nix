@@ -24,6 +24,9 @@ in
     hyprland-qt-support
     # idle management
     brightnessctl
+    # hyprcursor
+    hyprcursor
+    rose-pine-hyprcursor
   ];
 
   # wallpaper
@@ -176,5 +179,17 @@ in
   # blue light filter
   services.hyprsunset = {
     enable = true;
+  };
+
+  # cursor theme
+  # hyprcursor settings are done in hyprland/default.nix.
+  # GTK doesn't support hyprcursor.
+  gtk = {
+    enable = true;
+    cursorTheme = {
+      name = "BreezeX-RosePine-Linux";
+      package = pkgs.rose-pine-cursor;
+      size = 32;
+    };
   };
 }

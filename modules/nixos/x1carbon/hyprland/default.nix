@@ -14,6 +14,8 @@
   programs.hyprland = {
     enable = true;
     withUWSM = true;
+    # debug = true to enable debug logging
+    package = pkgs.hyprland.override { debug = false; };
   };
 
   # not sure if this is needed. see description of hm xdg.portal.
