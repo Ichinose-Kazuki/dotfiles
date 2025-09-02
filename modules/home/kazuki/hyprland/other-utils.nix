@@ -17,10 +17,16 @@
     # status bar
     font-awesome
     roboto
-    # terminal
-    kdePackages.konsole
+    # terminal theme
+    kitty-themes
     # file manager
-    kdePackages.dolphin
+    # installs folder-color-switcher, nemo-emblems, nemo-fileroller, nemo-python by default.
+    (nemo-with-extensions.override { extensions = [ nemo-preview ]; })
+    gnome-font-viewer
+    p7zip-rar # for encrypted archives
+    zip
+    unzip
+    webp-pixbuf-loader # for webp thumbnails
     # networkmanager gui
     networkmanagerapplet
   ];
@@ -37,7 +43,7 @@
       "combi"
       "emoji" # not working on electron
     ];
-    # terminal = "kitty";
+    terminal = "kitty";
     extraConfig = {
       # run rofi -h to see all options
       combi-modi = [
@@ -58,6 +64,16 @@
   };
 
   # terminal
+  programs.kitty = {
+    enable = true;
+    shellIntegration = {
+      enableBashIntegration = true;
+      enableZshIntegration = true;
+    };
+    enableGitIntegration = true;
+    # run "kitten themes" to preview all themes.
+    themeFile = "Chalk"; # afterglow, bluloco dark, broadcast, chalk,
+  };
   xdg.dataFile."defined_with_nix.profile".text = ''
     [Appearance]
     Font=Hack Nerd Font,12,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
@@ -77,7 +93,8 @@
     ColorScheme=Breeze Dark
   '';
 
-  # file explorer
+  # file manager
+
   xdg.configFile."dolphinrc".text = ''
     [General]
     Version=202
@@ -95,6 +112,7 @@
   '';
 
   # nm-applet for wifi
+  # not using nixos side option because waybar doesn't show the indicator.
   systemd.user.services.nm-applet = {
     Install = {
       WantedBy = [ config.wayland.systemd.target ];
@@ -107,7 +125,6 @@
     };
 
     Service = {
-      Type = "oneshot";
       ExecStart = "${lib.getExe' pkgs.networkmanagerapplet "nm-applet"} --indicator";
       Restart = "on-failure";
     };

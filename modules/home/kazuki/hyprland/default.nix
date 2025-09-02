@@ -47,8 +47,8 @@ in
       # monitors
       monitor = ",preferred,auto,auto";
       # my programs
-      "$terminal" = "konsole";
-      "$fileManager" = "dolphin";
+      "$terminal" = "kitty";
+      "$fileManager" = "nemo";
       "$menu" = "rofi -show combi";
       # Don't set env here: https://wiki.hypr.land/Configuring/Environment-variables/
       # permissions

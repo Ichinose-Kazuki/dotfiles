@@ -9,6 +9,7 @@
   imports = [
     ./must-have.nix
     ./hypr-ecosystem.nix
+    ./other-utils.nix
   ];
 
   programs.hyprland = {
