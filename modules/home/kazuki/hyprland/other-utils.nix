@@ -71,6 +71,11 @@
       enableZshIntegration = true;
     };
     enableGitIntegration = true;
+    settings = {
+      tab_bar_edge = "top";
+      tab_bar_min_tabs = 1;
+      window_padding_width = "5 5";
+    };
     # run "kitten themes" to preview all themes.
     themeFile = "Chalk"; # afterglow, bluloco dark, broadcast, chalk,
   };
