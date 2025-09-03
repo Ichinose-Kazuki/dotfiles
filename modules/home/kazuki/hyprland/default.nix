@@ -160,6 +160,10 @@ in
         "$mainMod + SHIFT, E, exec, $fileManager"
         "$mainMod, SPACE, exec, $menu"
 
+        # Windows-like SUPER key bindings
+        "SUPER + SHIFT, L, exec, [ \"$(hyprctl monitors | grep \"Monitor\" | awk '{print $2}')\" = \"eDP-1\" ] && hyprlock"
+        "SUPER + SHIFT, S, exec, grimblast save area - | swappy -f - -o /tmp/screenshot.png && zenity --question --text=\"Save?\" && cp /tmp/screenshot.png \"$HOME/Pictures/$(date +%Y-%m-%dT%H:%M:%S).png\""
+
         # Move focus with mainMod + hjkl
         "$mainMod, h, movefocus, l"
         "$mainMod, l, movefocus, r"
