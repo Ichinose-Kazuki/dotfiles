@@ -122,7 +122,7 @@ in
           outline_thickness = 3;
           inner_color = "rgba(0, 0, 0, 0.0)"; # no fill
 
-          outer_color = "rgba(33ccffee) rgba(00ff99ee) 45deg";
+          outer_color = config.wayland.windowManager.hyprland.settings.general."col.active_border";
           check_color = "rgba(00ff99ee) rgba(ff6633ee) 120deg";
           fail_color = "rgba(ff6633ee) rgba(ff0066ee) 40deg";
 
@@ -155,22 +155,16 @@ in
           text = "$TIME"; # ref. https://wiki.hyprland.org/Hypr-Ecosystem/hyprlock/#variable-substitution
           font_size = 90;
           font_family = "$font";
-
-          position = "-30, 0";
-          halign = "right";
-          valign = "top";
+          position = "0, 170";
         }
 
         # DATE
         {
           monitor = "";
-          text = "cmd[update:60000] date +\"%A, %d %B %Y\""; # update every 60 seconds
+          text = "cmd[update:60000] LC_TIME=en_US.UTF-8 date +\"%a %-d %b\""; # update every 60 seconds
           font_size = 25;
           font_family = "$font";
-
-          position = "-30, -150";
-          halign = "right";
-          valign = "top";
+          position = "0, 90";
         }
       ];
     };

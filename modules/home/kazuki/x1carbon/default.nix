@@ -2,8 +2,10 @@
 
 {
   imports = [
-    ./programs
-    ../ime
     ../desktop-utils
+    ../dev-utils
+    ../entertainment
+    ../ime
+    ./programs
   ];
 }
