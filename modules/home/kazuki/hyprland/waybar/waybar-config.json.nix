@@ -52,7 +52,7 @@
       ];
     };
     clock = {
-      format = "{:%a %e %b %H:%M %p}"; # padding_modifier doesn't seem to be supported
+      format = "{:%a %e %b %H:%M}"; # padding_modifier doesn't seem to be supported
       tooltip-format = "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>";
     };
     cpu = {
