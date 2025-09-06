@@ -2,6 +2,7 @@
   pkgs,
   lib,
   config,
+  osConfig,
   ...
 }:
 
@@ -16,6 +17,11 @@
   config = {
     programs.zsh.initContent = ''
       zstyle ':prompt:grml:*:items:user' pre '%F{${config.myOps.zshUserNameColor}}'
+
+      # Source temporary zshrc if exists
+      if [ -f "${osConfig.users.users.kazuki.home}/.zshrc.tmp" ]; then
+        source "${osConfig.users.users.kazuki.home}/.zshrc.tmp"
+      fi
     '';
   };
 }

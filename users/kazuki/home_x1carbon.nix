@@ -153,32 +153,6 @@ in
           l = "ls";
         }
       ];
-      zplug = {
-        enable = false; # Too slow
-        plugins = [
-          {
-            name = "zsh-users/zsh-autosuggestions";
-            tags = [
-              "as:plugin"
-              "depth:1"
-            ];
-          }
-          {
-            name = "zsh-users/zsh-completions";
-            tags = [
-              "as:plugin"
-              "depth:1"
-            ];
-          }
-          {
-            name = "zsh-users/zsh-syntax-highlighting";
-            tags = [
-              "as:plugin"
-              "depth:1"
-            ];
-          }
-        ];
-      };
     };
   };
 
