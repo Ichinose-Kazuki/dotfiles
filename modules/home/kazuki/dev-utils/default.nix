@@ -3,5 +3,6 @@
 {
   imports = [
     ./btop
+    ./fastfetch
   ];
 }
