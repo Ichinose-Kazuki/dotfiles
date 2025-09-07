@@ -175,25 +175,19 @@ in
     enable = true;
     # gamma control is broken
     # suspend is not supported...?
-    transitions = {
-      sunrise = {
-        calendar = "*-*-* 07:00:00";
-        requests = [
-          [
-            "identity"
-            "true"
-          ]
-        ];
-      };
-      sunset = {
-        calendar = "*-*-* 23:00:00";
-        requests = [
-          [
-            "temperature"
-            "3500"
-          ]
-        ];
-      };
+    settings = {
+      profile = [
+        # sunrise
+        {
+          time = "7:00";
+          identity = true;
+        }
+        # sunset
+        {
+          time = "23:00";
+          temperature = 3500;
+        }
+      ];
     };
   };
 

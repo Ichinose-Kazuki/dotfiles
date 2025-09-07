@@ -220,20 +220,22 @@
   };
 
   # Submaps have to be declared this way.
+  # Make sure to add reset bind to every submap.
   extraConfig = ''
+    bind = ALT, P, submap, passthru_Alt_Esc
+    submap = passthru
+    bind = ALT, Escape, submap, reset
+    submap = reset
+
     bind = ALT, R, submap, resize
     submap = resize
-
     binde = , l, resizeactive, 10 0
     binde = , h, resizeactive, -10 0
     binde = , k, resizeactive, 0 -10
     binde = , j, resizeactive, 0 10
-
     # use reset to go back to the global submap
     # reset is a special mapping name meaning global.
-    # * - NEVER FAIL TO ADD THESE LINES. - *
-    bind = , catchall, submap, reset
+    bind = ,Escape,submap,reset
     submap = reset
-    # * ---------------------------------- *
   '';
 }
