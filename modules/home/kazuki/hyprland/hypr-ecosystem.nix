@@ -173,6 +173,28 @@ in
   # blue light filter
   services.hyprsunset = {
     enable = true;
+    # gamma control is broken
+    # suspend is not supported...?
+    transitions = {
+      sunrise = {
+        calendar = "*-*-* 07:00:00";
+        requests = [
+          [
+            "identity"
+            "true"
+          ]
+        ];
+      };
+      sunset = {
+        calendar = "*-*-* 23:00:00";
+        requests = [
+          [
+            "temperature"
+            "3500"
+          ]
+        ];
+      };
+    };
   };
 
   # cursor theme

@@ -8,6 +8,9 @@
 
 {
   imports = [
+    ./clipboard-manager
+    ./screensharing
     ./screenshot
+    ./udiskie
   ];
 }

@@ -90,7 +90,6 @@ in
     extraPortals =
       (with pkgs; [
         xdg-desktop-portal-gtk
-        kdePackages.xdg-desktop-portal-kde # needed for kde file picker
       ]) # coverage of each portal: https://wiki.archlinux.org/title/XDG_Desktop_Portal. xdg-desktop-portal-hyprland is added in the hyprland module.
       ++ osConfig.xdg.portal.extraPortals; # https://github.com/nix-community/home-manager/issues/7124
   };

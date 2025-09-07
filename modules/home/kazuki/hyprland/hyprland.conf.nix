@@ -127,6 +127,7 @@
       # Windows-like SUPER key bindings
       "SUPER, L, exec, hyprlock"
       "SUPER + SHIFT, S, exec, grimblast save area - | swappy -f - -o /tmp/screenshot.png && zenity --question --text=\"Save?\" && cp /tmp/screenshot.png \"$HOME/Pictures/$(date +%Y-%m-%dT%H:%M:%S).png\""
+      "SUPER, V, exec, $terminal --class clipse -e clipse"
 
       # Move focus with mainMod + hjkl
       "$mainMod, h, movefocus, l"
@@ -211,6 +212,10 @@
       "suppressevent maximize, class:.*"
       # Fix some dragging issues with XWayland
       "nofocus,class:^$,title:^$,xwayland:1,floating:1,fullscreen:0,pinned:0"
+      # For clipse
+      "float, class:(clipse)"
+      "size 622 652, class:(clipse)"
+      "stayfocused, class:(clipse)"
     ];
   };
 
