@@ -1,0 +1,5 @@
+{ ... }:
+
+{
+  myOps.zshUserNameColor = "cyan";
+}
