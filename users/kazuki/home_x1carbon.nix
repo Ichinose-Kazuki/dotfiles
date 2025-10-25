@@ -152,6 +152,11 @@ in
           la = "ls -la";
           l = "ls";
         }
+
+        # kitty
+        (lib.mkIf config.programs.kitty.enable {
+          ssh = "kitten ssh";
+        })
       ];
     };
   };
