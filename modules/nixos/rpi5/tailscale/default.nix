@@ -27,7 +27,7 @@ in
     ethtool
     wirelesstools # Required by networkd-dispatcher for iwconfig (networkd-dispatcher is still not working, saying "No valid path found for iwconfig")
   ];
-  # tx-udp-segmentation described in https://tailscale.com/blog/more-throughput is not supported by the Raspberry Pi 3B+.
+  # tx-udp-segmentation described in https://tailscale.com/blog/more-throughput is not supported by Raspberry Pi 5.
   services.networkd-dispatcher = {
     enable = true;
     rules = {
@@ -35,7 +35,7 @@ in
         onState = [ "routable" ];
         script = ''
           #!${pkgs.runtimeShell}
-          ${lib.getExe pkgs.ethtool} -K eth0 rx-udp-gro-forwarding on rx-gro-list off
+          ${lib.getExe pkgs.ethtool} -K end0 rx-udp-gro-forwarding on rx-gro-list off
         '';
       };
     };

@@ -7,11 +7,11 @@
 }:
 
 let
-  isMH2505 = !lib.hasAttrByPath [ "programs" "ssh" "enableDefaultConfig" ] options;
+  isHM2505 = !lib.hasAttrByPath [ "programs" "ssh" "enableDefaultConfig" ] options;
 in
 {
   programs.ssh =
-    if isMH2505 then
+    if isHM2505 then
       {
         enable = true;
         includes = [ "conf.d/*" ];
@@ -28,7 +28,7 @@ in
           serverAliveCountMax = 3;
         };
       }
-    else
+    else # x1carbon, tsuyoServer
       {
         enable = true;
         includes = [ "conf.d/*" ];
