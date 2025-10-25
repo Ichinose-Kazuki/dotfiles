@@ -16,7 +16,7 @@
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = "kazuki";
-  home.homeDirectory = "/home/kazuki";
+  home.homeDirectory = lib.mkForce "/home/kazuki";
   home.language.base = "ja_JP.UTF-8";
 
   # This value determines the Home Manager release that your configuration is

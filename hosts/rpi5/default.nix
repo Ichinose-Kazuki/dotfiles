@@ -3,16 +3,19 @@
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
 {
+  self,
   config,
   lib,
   pkgs,
-  inputs,
+  nixos-raspberrypi-disko,
+  nixos-raspberrypi-index-database,
   ...
 }:
 
 {
-  imports = with inputs; [
-    disko.nixosModules.disko
+
+  imports = [
+    nixos-raspberrypi-disko.nixosModules.disko
     ./disko.nix
     nixos-raspberrypi-index-database.nixosModules.nix-index
     self.nixosModules.common
@@ -58,14 +61,10 @@
   # services.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  # users.users.alice = {
-  #   isNormalUser = true;
-  #   extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
-  #   packages = with pkgs; [
-  #     firefox
-  #     tree
-  #   ];
-  # };
+  users.users.kazuki = {
+    isNormalUser = true;
+    extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+  };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -111,6 +110,6 @@
   # and migrated your data accordingly.
   #
   # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
-  system.stateVersion = "24.05"; # Did you read the comment?
+  system.stateVersion = "25.05"; # Did you read the comment?
 
 }

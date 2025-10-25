@@ -1,0 +1,8 @@
+{ ... }:
+
+{
+  imports = [
+    ./tailscale
+    ./tsuyoServerPowerButton
+  ];
+}

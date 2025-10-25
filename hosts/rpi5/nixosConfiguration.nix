@@ -105,8 +105,6 @@ let
         network-config
       ];
 
-      time.timeZone = "UTC";
-
       services.udev.extraRules = ''
         # Ignore partitions with "Required Partition" GPT partition attribute
         # On our RPis this is firmware (/boot/firmware) partition
@@ -139,7 +137,7 @@ let
         ];
     };
 in
-nixos-raspberrypi.lib.nixosSystemFull {
+nixos-raspberrypi.lib.nixosSystem {
   specialArgs = inputs;
   modules = [
 

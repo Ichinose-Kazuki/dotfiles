@@ -37,7 +37,7 @@
       homeManagerModules.kazuki = {
         common = ./modules/home/kazuki/common;
         raspi3bp = ./modules/home/kazuki/raspi3bp;
-        rpi5 = ./modules/home/kazuki/raspi3bp;
+        rpi5 = ./modules/home/kazuki/rpi5;
         tsuyoServer = ./modules/home/kazuki/tsuyoServer;
         wsl2 = ./modules/home/kazuki/wsl2;
         x1carbon = ./modules/home/kazuki/x1carbon;
@@ -102,8 +102,12 @@
     };
     nixos-hardware.url = "github:nixos/nixos-hardware";
     nixos-raspberrypi.url = "github:nvmd/nixos-raspberrypi/main"; # main is considered being stable
+    nixos-raspberrypi-disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixos-raspberrypi-nixpkgs";
+    };
     nixos-raspberrypi-home-manager = {
-      url = "github:nix-community/home-manager";
+      url = "github:nix-community/home-manager/release-25.05";
       inputs.nixpkgs.follows = "nixos-raspberrypi-nixpkgs";
     };
     nixos-raspberrypi-index-database = {
