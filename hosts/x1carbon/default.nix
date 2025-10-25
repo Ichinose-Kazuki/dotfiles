@@ -30,6 +30,9 @@
     in
     builtins.concatMap collectFlakeInputs (builtins.attrValues inputs);
 
+  # Enable builds for rpi.
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+
   networking.hostName = "x1carbon"; # Define your hostname.
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
