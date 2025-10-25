@@ -54,6 +54,7 @@ curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix 
 
 
 ## Install
+- Boot a NixOS installer image
 - Root privilege 
   ```
   sudo su
