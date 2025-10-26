@@ -37,7 +37,7 @@
   # app launcher
   programs.rofi = {
     enable = true;
-    package = pkgs.rofi-wayland;
+    package = pkgs.rofi;
     cycle = true;
     modes = [
       "combi"

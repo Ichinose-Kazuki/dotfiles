@@ -22,7 +22,7 @@ in
         hashKnownHosts = false;
         userKnownHostsFile = "~/.ssh/known_hosts";
         matchBlocks."*" = {
-          forwardAgent = false;
+          forwardAgent = true;
           compression = false;
           serverAliveInterval = 0;
           serverAliveCountMax = 3;
@@ -34,7 +34,7 @@ in
         includes = [ "conf.d/*" ];
         enableDefaultConfig = false;
         matchBlocks."*" = {
-          forwardAgent = false;
+          forwardAgent = true;
           addKeysToAgent = "confirm";
           compression = false;
           serverAliveInterval = 0;
