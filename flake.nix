@@ -69,7 +69,7 @@
           ];
           nativeBuildInputs = with pkgs; [
             nil # lsp language server for nix
-            nix-output-monitor # utility to get more info about nix-build
+            nix-output-monitor # utility to get more info about nix-build (usage: "nom build")
             nixpkgs-fmt
           ];
         };

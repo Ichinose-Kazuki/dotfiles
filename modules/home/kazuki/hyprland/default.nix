@@ -28,7 +28,7 @@ in
     # theme
     # qt5 variants conflict with these qt6 variants. qt5 is installed along with qt6...?
     # Other attractive themes include Layan, Qogir, and Sweet, but their appearance isn't very consistent between Qt and GTK.
-    qt6ct-kde # doesn't work like this: https://www.lorenzobettini.it/2024/08/better-kde-theming-and-styling-in-hyprland/
+    qt6ct # doesn't work like this: https://www.lorenzobettini.it/2024/08/better-kde-theming-and-styling-in-hyprland/
     kdePackages.breeze
     kdePackages.breeze-icons
     kdePackages.kcolorscheme # Breeze Dark
