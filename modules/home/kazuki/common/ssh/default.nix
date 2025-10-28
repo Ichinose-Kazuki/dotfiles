@@ -28,7 +28,8 @@ in
           serverAliveCountMax = 3;
         };
       }
-    else # x1carbon, tsuyoServer
+    # x1carbon, tsuyoServer
+    else
       {
         enable = true;
         includes = [ "conf.d/*" ];
@@ -46,4 +47,15 @@ in
           controlPersist = "no";
         };
       };
+
+  # workaround for .ssh/config permission problem in vscode-fhs
+  # https://github.com/nix-community/home-manager/issues/322#issuecomment-411904993
+  home.file.".ssh/config".enable = false;
+  home.activation.copySshConfig =
+    let
+      cfgFile = pkgs.writeText "ssh-config" config.home.file.".ssh/config".text;
+    in
+    lib.hm.dag.entryAfter [ "linkGeneration" ] ''
+      run install -m600 -D ${cfgFile} $HOME/.ssh/config
+    '';
 }

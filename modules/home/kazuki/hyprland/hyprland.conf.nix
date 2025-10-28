@@ -91,9 +91,9 @@
         tap-and-drag = false;
       };
     };
-    gestures = {
-      workspace_swipe = false;
-    };
+    gesture = [
+      "3, horizontal, workspace"
+    ];
     xwayland = {
       # Less secure but more compatible.
       # Abstract sockets exist in a kernel-managed namespace independent of the filesystem,

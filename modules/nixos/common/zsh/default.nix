@@ -50,6 +50,7 @@
       # keybindings
       bindkey '^H' backward-delete-word # Ctrl+Backspace to delete a word on the left
       bindkey '^[[3;5~' kill-word # Ctrl+Delete to delete a word on the right
+      WORDCHARS="*?_-.[]~&;=!#$%^(){}<>" # Make these act as word boundary
     '';
     promptInit = ""; # otherwise it'll override the grml prompt
   };
