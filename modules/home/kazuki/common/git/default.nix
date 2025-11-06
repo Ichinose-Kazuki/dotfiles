@@ -21,7 +21,7 @@
         lg = "log";
       };
       user = {
-        email = "ichinose-kazuki657@g.ecc.u-tokyo.ac.jp";
+        email = "mail@ichinose-kazuki.jp";
         name = "Ichinose-Kazuki";
       };
       init = {
@@ -35,7 +35,7 @@
         condition = "gitdir:~/ikazuk/";
         contents = {
           user = {
-            email = "kazuking.ichinose@gmail.com";
+            email = "ikazuk@proton.me";
             name = "ikazuk";
           };
         };
