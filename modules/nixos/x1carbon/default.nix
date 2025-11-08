@@ -5,6 +5,7 @@
     ./boot
     ./bootloader
     ./docker
+    ../files
     ./gaming
     ./hyprland
     # ./kdePlasma

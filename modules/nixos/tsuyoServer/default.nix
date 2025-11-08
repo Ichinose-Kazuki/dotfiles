@@ -9,6 +9,7 @@
 {
   imports = [
     ../common/gopro
+    ../files # for GoPro
     ../x1carbon/docker
   ];
 
