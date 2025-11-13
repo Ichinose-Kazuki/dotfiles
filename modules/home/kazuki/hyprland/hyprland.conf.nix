@@ -8,7 +8,7 @@
   # config: see https://wiki.hypr.land/Configuring
   settings = {
     # monitors
-    monitor = ",preferred,auto,auto";
+    monitor = ",preferred,auto-right,auto";
     # my programs
     "$terminal" = "kitty";
     "$fileManager" = "nemo";
@@ -205,7 +205,7 @@
       # Lock if no external monitor is connected.
       ", switch:Lid Switch, exec, [ \"$(hyprctl monitors | grep \"Monitor\" | awk '{print $2}')\" = \"eDP-1\" ] && hyprlock"
       ", switch:on:Lid Switch, exec, hyprctl keyword monitor \"eDP-1,disable\""
-      ", switch:off:Lid Switch, exec, hyprctl keyword monitor \"eDP-1,preferred,auto,auto\""
+      ", switch:off:Lid Switch, exec, hyprctl keyword monitor \"eDP-1,preferred,auto-right,auto\""
     ];
     # windows and workspaces
     windowrule = [
