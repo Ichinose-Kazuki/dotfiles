@@ -203,8 +203,7 @@
       # Only Lid Switch is found on my ThinkPad.
       # eDP-1 is the internal monitor.
       # Lock if no external monitor is connected.
-      ", switch:Lid Switch, exec, [ \"$(hyprctl monitors | grep \"Monitor\" | awk '{print $2}')\" = \"eDP-1\" ] && hyprlock"
-      ", switch:on:Lid Switch, exec, hyprctl keyword monitor \"eDP-1,disable\""
+      ", switch:on:Lid Switch, exec, if [ \"$(hyprctl monitors | grep \"Monitor\" | awk '{print $2}')\" = \"eDP-1\" ]; then hyprlock & sleep 0.1 && systemctl suspend else hyprctl keyword monitor \"eDP-1,disable\" fi"
       ", switch:off:Lid Switch, exec, hyprctl keyword monitor \"eDP-1,preferred,auto,auto\""
     ];
     # windows and workspaces
