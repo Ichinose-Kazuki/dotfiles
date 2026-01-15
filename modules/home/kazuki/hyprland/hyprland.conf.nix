@@ -118,7 +118,7 @@
     # all the (in-memory) keybinds from top to bottom and dispatches all matching ones.
     bind = [
       "$mainMod + SHIFT, Q, killactive,"
-      "$mainMod, F, fullscreen, 0"
+      "$mainMod, F, fullscreen, 1"
       # "$mainMod, F, fullscreenstate, 0" # send fullscreen state to client app?
       "$mainMod + SHIFT, T, exec, $terminal"
       "$mainMod + SHIFT, E, exec, $fileManager"
