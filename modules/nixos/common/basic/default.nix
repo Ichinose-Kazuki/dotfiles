@@ -62,6 +62,6 @@
     pciutils
     ripgrep
     cachix
-    nixfmt-rfc-style
+    nixfmt
   ];
 }
