@@ -208,13 +208,38 @@
     ];
     # windows and workspaces
     windowrule = [
-      "suppressevent maximize, class:.*"
-      # Fix some dragging issues with XWayland
-      "nofocus,class:^$,title:^$,xwayland:1,floating:1,fullscreen:0,pinned:0"
-      # For clipse
-      "float, class:(clipse)"
-      "size 622 652, class:(clipse)"
-      "stayfocused, class:(clipse)"
+      {
+        # Ignore maximize requests from all apps. You'll probably like this.
+        name = "suppress-masimize-events";
+        "match:class" = ".*";
+        "suppress_event" = "maximize";
+      }
+      {
+        # Fix some dragging issues with XWayland.
+        name = "fix-xwayland-drags";
+        "match:class" = "^$";
+        "match:title" = "^$";
+        "match:xwayland" = "true";
+        "match:float" = "true";
+        "match:fullscreen" = "false";
+        "match:pin" = "false";
+        "no_focus" = "true";
+      }
+      {
+        # Hyprland-run windowrule
+        name = "move-hyprland-run";
+        "match:class" = "hyprland-run";
+        move = "20 monitor_h-120";
+        float = "true";
+      }
+      {
+        # For clipse
+        name = "clipse";
+        "match:class" = "clipse";
+        size = "622 652";
+        float = "true";
+        stay_focused = "true";
+      }
     ];
   };
 
