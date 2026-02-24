@@ -21,5 +21,6 @@
     # ./sway
     # ./wayland
     ../keyring
+    ../common/tailscale
   ];
 }
