@@ -107,7 +107,7 @@
       inputs.nixpkgs.follows = "nixos-raspberrypi-nixpkgs";
     };
     nixos-raspberrypi-home-manager = {
-      url = "github:nix-community/home-manager/release-25.05";
+      url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixos-raspberrypi-nixpkgs";
     };
     nixos-raspberrypi-index-database = {
