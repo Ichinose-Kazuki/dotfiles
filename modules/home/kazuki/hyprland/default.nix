@@ -41,7 +41,14 @@ in
 
   wayland.windowManager.hyprland =
     let
-      hyprland-conf = import ./hyprland.conf.nix { inherit pkgs lib config; };
+      hyprland-conf = import ./hyprland.conf.nix {
+        inherit
+          pkgs
+          lib
+          config
+          osConfig
+          ;
+      };
     in
     {
       enable = true;

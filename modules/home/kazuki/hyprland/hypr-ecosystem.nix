@@ -24,6 +24,8 @@ let
           allowUnfreePredicate = (_: true);
         };
       };
+  lockscreen = "gtklock";
+  lockCommand = "${lib.getExe config.programs.gtklock.package} -d"; # gtklock -d when it is being automatically invoked by something like swayidle
 in
 {
   imports = [
@@ -66,7 +68,7 @@ in
     enable = true;
     settings = {
       general = {
-        lock_cmd = "pidof hyprlock || hyprlock"; # avoid starting multiple hyprlock instances.
+        lock_cmd = "pidof ${lockscreen} || ${lockCommand}"; # avoid starting multiple lockscreen instances.
         before_sleep_cmd = "loginctl lock-session"; # lock before suspend.
         after_sleep_cmd = "hyprctl dispatch dpms on"; # to avoid having to press a key twice to turn on the display.
       };
@@ -97,7 +99,7 @@ in
   # hyprlock
   # example conf: https://github.com/hyprwm/hyprlock/blob/main/assets/example.conf
   programs.hyprlock = {
-    enable = true;
+    enable = false;
     settings = {
       "$font" = "Monospace";
 

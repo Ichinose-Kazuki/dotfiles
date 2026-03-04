@@ -1,5 +1,6 @@
 {
   lib,
+  lockCommand,
   powerMenuXml,
 }:
 
@@ -90,7 +91,7 @@
         suspend = "systemctl suspend";
         hibernate = "systemctl hibernate";
         logout = "uwsm stop"; # https://wiki.hypr.land/Configuring/Dispatchers/
-        lock = "hyprlock";
+        lock = "${lockCommand}";
       };
     };
     idle_inhibitor = {

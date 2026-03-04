@@ -7,6 +7,7 @@
     ./docker
     ../files
     ./gaming
+    ./gtklock
     ./hyprland
     # ./kdePlasma
     ./keymap

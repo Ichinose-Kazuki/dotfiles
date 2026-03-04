@@ -13,8 +13,8 @@ let
     name = "power_menu.xml";
     text = builtins.readFile ./power_menu.xml;
   };
+  lockCommand = "${lib.getExe osConfig.programs.gtklock.package} -d";
 in
-
 {
   options.my-waybar = with lib.types; {
     enable = lib.options.mkEnableOption "my-waybar";
@@ -40,7 +40,7 @@ in
       # systemd.enableInspect = true;
       style = ./coffeebar.css;
       # enable debug logging to debug config
-      settings = import ./waybar-config.json.nix { inherit lib powerMenuXml; };
+      settings = import ./waybar-config.json.nix { inherit lib lockCommand powerMenuXml; };
     };
   };
 }

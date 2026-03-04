@@ -2,8 +2,13 @@
   pkgs,
   lib,
   config,
+  osConfig,
 }:
 
+let
+  lockscreenExe = (lib.getExe osConfig.programs.gtklock.package);
+  lockCommand = "${lockscreenExe} -d"; # gtklock -d when it is being automatically invoked by something like swayidle
+in
 {
   # config: see https://wiki.hypr.land/Configuring
   settings = {
@@ -18,7 +23,7 @@
     permission = [
       "${lib.getExe pkgs.grim}, screencopy, allow"
       # https://github.com/hyprwm/hyprlock/pull/726
-      "${lib.escapeRegex (lib.getExe config.programs.hyprlock.package)}, screencopy, allow"
+      "${lib.escapeRegex lockscreenExe}, screencopy, allow"
       "${pkgs.xdg-desktop-portal-hyprland}/libexec/.xdg-desktop-portal-hyprland-wrapped, screencopy, allow"
     ];
     # look and feel: https://wiki.hypr.land/Configuring/Variables/
@@ -125,7 +130,7 @@
       "$mainMod, SPACE, exec, $menu"
 
       # Windows-like SUPER key bindings
-      "SUPER, L, exec, hyprlock"
+      "SUPER, L, exec, ${lockCommand}"
       "SUPER + SHIFT, S, exec, grimblast save area - | swappy -f - -o /tmp/screenshot.png && zenity --question --text=\"Save?\" && cp /tmp/screenshot.png \"$HOME/Pictures/$(date +%Y-%m-%dT%H:%M:%S).png\""
       "SUPER, V, exec, $terminal --class clipse -e clipse"
 
@@ -203,7 +208,7 @@
       # Only Lid Switch is found on my ThinkPad.
       # eDP-1 is the internal monitor.
       # Lock if no external monitor is connected.
-      ", switch:on:Lid Switch, exec, if [ \"$(hyprctl monitors | grep \"Monitor\" | awk '{print $2}')\" = \"eDP-1\" ]; then hyprlock & sleep 0.1 && systemctl suspend else hyprctl keyword monitor \"eDP-1,disable\" fi"
+      ", switch:on:Lid Switch, exec, if [ \"$(hyprctl monitors | grep \"Monitor\" | awk '{print $2}')\" = \"eDP-1\" ]; then ${lockCommand} & sleep 0.1 && systemctl suspend else hyprctl keyword monitor \"eDP-1,disable\" fi"
       ", switch:off:Lid Switch, exec, hyprctl keyword monitor \"eDP-1,preferred,auto,auto\""
     ];
     # windows and workspaces
