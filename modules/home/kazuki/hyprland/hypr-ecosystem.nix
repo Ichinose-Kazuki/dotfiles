@@ -8,24 +8,8 @@
 
 let
   wallpaperPath = "${config.xdg.dataHome}/windows_spotlight/image.jpg";
-  # Upstream bug
-  # Fix hasn't been merged into nixos-unstable: https://github.com/NixOS/nixpkgs/pull/455451
-  nixpkgs-main =
-    import
-      (builtins.fetchTarball {
-        url = "https://github.com/NixOS/nixpkgs/archive/e5396fdc33d13e0dfd54a74dcc61f4d6878b644d.tar.gz";
-        sha256 = "ZigwmpNdbUrMQku7mdlorkQbOKx5p+Jc2KEWGuNrN9s=";
-      })
-      {
-        system = pkgs.system;
-        overlays = pkgs.overlays;
-        config = {
-          allowUnfree = true;
-          allowUnfreePredicate = (_: true);
-        };
-      };
   lockscreen = "gtklock";
-  lockCommand = "${lib.getExe config.programs.gtklock.package} -d"; # gtklock -d when it is being automatically invoked by something like swayidle
+  lockCommand = "${lib.getExe osConfig.programs.gtklock.package} -d"; # gtklock -d when it is being automatically invoked by something like swayidle
 in
 {
   imports = [
@@ -37,7 +21,7 @@ in
     # color picker
     hyprpicker
     # system info
-    nixpkgs-main.hyprsysteminfo # temporary fix
+    hyprsysteminfo # temporary fix
     # hyprsysteminfo
     # Qt6 QML provider for hypr* apps
     hyprland-qt-support

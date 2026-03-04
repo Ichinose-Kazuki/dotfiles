@@ -6,34 +6,15 @@
   ...
 }:
 
-let
-  # Upstream bug
-  # Fix has not been merged to nixos-unstable: https://github.com/NixOS/nixpkgs/pull/454184
-  nixpkgs-main =
-    import
-      (builtins.fetchTarball {
-        url = "https://github.com/NixOS/nixpkgs/archive/502d59f04a067e754a687a7daa83e85a093e1f88.tar.gz";
-        sha256 = "ZigwmpNdbUrMQku7mdlorkQbOKx5p+Jc2KEWGuNrN9s=";
-      })
-      {
-        system = pkgs.system;
-        overlays = pkgs.overlays;
-        config = {
-          allowUnfree = true;
-          allowUnfreePredicate = (_: true);
-        };
-      };
-in
 {
   i18n = {
     inputMethod = {
       enable = true;
       type = "fcitx5";
       fcitx5 = {
-        fcitx5-with-addons = nixpkgs-main.fcitx5-with-addons; # temporary fix
-        addons = with nixpkgs-main; [
-          fcitx5-mozc # temporary fix
-          fcitx5-configtool # temporary fix
+        addons = with pkgs; [
+          fcitx5-mozc
+          qt6Packages.fcitx5-configtool
         ];
         waylandFrontend = true;
         settings.globalOptions = {
