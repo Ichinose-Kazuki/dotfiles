@@ -245,6 +245,12 @@ in
         float = "true";
         stay_focused = "true";
       }
+      {
+        name = "wtfutil";
+        "match:class" = "startup-wtf-dashboard";
+        size = "1600 1200";
+        float = "true";
+      }
     ];
   };
 

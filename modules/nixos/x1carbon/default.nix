@@ -21,6 +21,7 @@
     ./ssh
     # ./sway
     # ./wayland
+    ./wtfutil
     ../keyring
     ../common/tailscale
   ];
