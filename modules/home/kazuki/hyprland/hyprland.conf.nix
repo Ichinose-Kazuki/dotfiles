@@ -251,6 +251,13 @@ in
         size = "1600 1200";
         float = "true";
       }
+      {
+        # Bold border for fullscreen windows
+        name = "fullscreen-border";
+        "match:class" = ".*";
+        "match:fullscreen" = "true";
+        border_color = "rgba(517b00ff)";
+      }
     ];
   };
 
