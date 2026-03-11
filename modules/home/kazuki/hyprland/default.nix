@@ -109,4 +109,15 @@ in
       "org.freedesktop.impl.portal.FileChooser" = "kde";
     };
   };
+
+  # dark mode
+  dconf.settings = {
+    "org/gnome/desktop/interface" = {
+      color-scheme = "prefer-dark";
+    };
+  };
+  qt = {
+    enable = true;
+    platformTheme.name = "gtk";
+  };
 }
