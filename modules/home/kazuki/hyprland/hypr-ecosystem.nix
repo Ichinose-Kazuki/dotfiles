@@ -193,6 +193,7 @@ in
       ];
     };
   };
+  systemd.user.services.hyprsunset.Service.StandardOutput = "null"; # workaround for hyprsunset spamming the journal
 
   # cursor theme
   # hyprcursor settings are done in hyprland/default.nix.
