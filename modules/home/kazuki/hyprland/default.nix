@@ -22,6 +22,7 @@ in
     ./must-have.nix
     ./hypr-ecosystem.nix
     ./other-utils.nix
+    ./plugins.nix
     ./monitors
   ];
 
