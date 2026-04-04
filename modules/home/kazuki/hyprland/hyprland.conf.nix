@@ -33,7 +33,7 @@ in
       gaps_out = (8 - border_size);
       "col.active_border" = "rgba(9b3da6ff)"; # hex color code + alpha
       "col.inactive_border" = "rgba(595959aa)";
-      layout = "master";
+      layout = "scrolling";
     };
     decoration = {
       rounding = 8;
@@ -96,6 +96,9 @@ in
         tap-and-drag = false;
       };
     };
+    gestures = {
+      workspace_swipe_invert = false;
+    };
     gesture = [
       "3, horizontal, workspace"
     ];
@@ -146,7 +149,7 @@ in
       "$mainMod + SHIFT, k, movewindow, u"
       "$mainMod + SHIFT, j, movewindow, d"
 
-      # Switch workspaces with mainMod + [0-9]
+      # Switch workspaces with mainMod + [0-9]/[F0-F12]
       "$mainMod, 1, workspace, 1"
       "$mainMod, 2, workspace, 2"
       "$mainMod, 3, workspace, 3"
@@ -157,8 +160,20 @@ in
       "$mainMod, 8, workspace, 8"
       "$mainMod, 9, workspace, 9"
       "$mainMod, 0, workspace, 10"
+      "$mainMod, F1, workspace, 11"
+      "$mainMod, F2, workspace, 12"
+      "$mainMod, F3, workspace, 13"
+      "$mainMod, F4, workspace, 14"
+      "$mainMod, F5, workspace, 15"
+      "$mainMod, F6, workspace, 16"
+      "$mainMod, F7, workspace, 17"
+      "$mainMod, F8, workspace, 18"
+      "$mainMod, F9, workspace, 19"
+      "$mainMod, F10, workspace, 20"
+      "$mainMod, F11, workspace, 21"
+      "$mainMod, F12, workspace, 22"
 
-      # Move active window to a workspace with mainMod + SHIFT + [0-9]
+      # Move active window to a workspace with mainMod + SHIFT + [0-9]/[F0-F12]
       "$mainMod + SHIFT, 1, movetoworkspace, 1"
       "$mainMod + SHIFT, 2, movetoworkspace, 2"
       "$mainMod + SHIFT, 3, movetoworkspace, 3"
@@ -169,6 +184,23 @@ in
       "$mainMod + SHIFT, 8, movetoworkspace, 8"
       "$mainMod + SHIFT, 9, movetoworkspace, 9"
       "$mainMod + SHIFT, 0, movetoworkspace, 10"
+      "$mainMod + SHIFT, F1, movetoworkspace, 11"
+      "$mainMod + SHIFT, F2, movetoworkspace, 12"
+      "$mainMod + SHIFT, F3, movetoworkspace, 13"
+      "$mainMod + SHIFT, F4, movetoworkspace, 14"
+      "$mainMod + SHIFT, F5, movetoworkspace, 15"
+      "$mainMod + SHIFT, F6, movetoworkspace, 16"
+      "$mainMod + SHIFT, F7, movetoworkspace, 17"
+      "$mainMod + SHIFT, F8, movetoworkspace, 18"
+      "$mainMod + SHIFT, F9, movetoworkspace, 19"
+      "$mainMod + SHIFT, F10, movetoworkspace, 20"
+      "$mainMod + SHIFT, F11, movetoworkspace, 21"
+      "$mainMod + SHIFT, F12, movetoworkspace, 22"
+
+      # Switch to the next empty workspace
+      "$mainMod, n, workspace, empty"
+      # Move active window to the next empty workspace
+      "$mainMod SHIFT, n, movetoworkspace, empty"
 
       # Example special workspace (scratchpad)
       "$mainMod, S, togglespecialworkspace,"
@@ -211,7 +243,7 @@ in
       ", switch:on:Lid Switch, exec, if [ \"$(hyprctl monitors | grep \"Monitor\" | awk '{print $2}')\" = \"eDP-1\" ]; then ${lockCommand} & sleep 0.1 && systemctl suspend else hyprctl keyword monitor \"eDP-1,disable\" fi"
       ", switch:off:Lid Switch, exec, hyprctl keyword monitor \"eDP-1,preferred,auto,auto\""
     ];
-    # windows and workspaces
+
     windowrule = [
       {
         # Ignore maximize requests from all apps. You'll probably like this.
@@ -260,6 +292,23 @@ in
       }
     ];
   };
+
+  # workspace rules
+  workspace = [
+    # todo: add monitor rules
+    "11, defaultName:F1"
+    "12, defaultName:F2"
+    "13, defaultName:F3"
+    "14, defaultName:F4"
+    "15, defaultName:F5"
+    "16, defaultName:F6"
+    "17, defaultName:F7"
+    "18, defaultName:F8"
+    "19, defaultName:F9"
+    "20, defaultName:F10"
+    "21, defaultName:F11"
+    "22, defaultName:F12"
+  ];
 
   # Submaps have to be declared this way.
   # Make sure to add reset bind to every submap.
