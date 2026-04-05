@@ -8,11 +8,12 @@
     ../files
     ./gaming
     ./gtklock
-    ./hyprland
+    # ./hyprland
     # ./kdePlasma
     ./keymap
     ./location
     # ./ly
+    ./niri
     ./printing
     ./programs
     ./regreet

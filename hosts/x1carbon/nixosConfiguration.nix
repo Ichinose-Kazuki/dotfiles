@@ -1,5 +1,6 @@
 inputs@{
   home-manager,
+  niri,
   nixos-hardware,
   nixpkgs,
   plasma-manager,
@@ -42,5 +43,6 @@ nixpkgs.lib.nixosSystem {
         host = "x1carbon";
       };
     }
+    niri.nixosModules.niri
   ];
 }

@@ -16,7 +16,9 @@ let
   import_config = [
     # ../../modules/home/kazuki/plasma-manager
     # ../../modules/home/kazuki/sway
-    ../../modules/home/kazuki/desktop/compositors/hyprland
+    # ../../modules/home/kazuki/desktop/compositors/hyprland
+    ../../modules/home/kazuki/desktop/compositors/niri
+    ../../modules/home/kazuki/desktop/components/noctalia
   ];
 
 in
