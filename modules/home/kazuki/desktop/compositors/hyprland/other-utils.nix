@@ -10,7 +10,7 @@
 {
   imports = [
     # app launcher
-    ./waybar
+    ../../components/waybar
   ];
 
   home.packages = with pkgs; [

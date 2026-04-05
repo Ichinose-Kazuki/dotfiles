@@ -14,7 +14,7 @@ in
 {
   imports = [
     # wallpaper
-    ./windows-spotlight
+    ../../components/windows-spotlight
   ];
 
   home.packages = with pkgs; [
