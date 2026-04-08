@@ -1,0 +1,24 @@
+{
+  pkgs,
+  lib,
+  config,
+  osConfig,
+  ...
+}:
+
+{
+  programs.satty.enable = true;
+  programs.satty.settings = {
+    general = {
+      # Exit directly after copy / save action.
+      early-exit = true;
+
+      # Ensure clipboard contents persist after satty closes.
+      copy-command = "wl-copy --type image/png";
+
+      # Select the tool on startup:
+      #   pointer, crop, line, arrow, rectangle, text, marker, blur, brush
+      initial-tool = "brush";
+    };
+  };
+}

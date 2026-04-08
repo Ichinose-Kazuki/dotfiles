@@ -11,6 +11,7 @@
     ./clipboard-manager
     ./screensharing
     ./screenshot
+    ./terminal
     ./udiskie
   ];
 }

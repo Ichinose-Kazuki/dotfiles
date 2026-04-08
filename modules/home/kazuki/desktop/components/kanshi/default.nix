@@ -7,9 +7,10 @@
 }:
 
 {
+  # can be used on Wayland compositors supporting the wlr-output-management protocol
   services.kanshi = {
     settings = [
-      # { include  = "path/to/temporary/settings/file"; }
+      { include = "${config.xdg.dataHome}/kanshi/config.tmp"; } # temporary config file
       {
         output.criteria = "JPN JAPANNEXT MNT 0x00000001";
         output.scale = 1.5;

@@ -38,15 +38,15 @@ in
         "Mod+Shift+J".action = move-column-to-workspace-down;
         "Mod+Shift+L".action = move-column-right;
 
-        "Mod+Super+K".action = focus-monitor-up;
-        "Mod+Super+H".action = focus-monitor-left;
-        "Mod+Super+J".action = focus-monitor-down;
-        "Mod+Super+L".action = focus-monitor-right;
+        "Mod+D".action = focus-monitor-up;
+        "Mod+A".action = focus-monitor-left;
+        "Mod+S".action = focus-monitor-down;
+        "Mod+F".action = focus-monitor-right;
 
-        "Mod+Super+Shift+K".action = move-column-to-monitor-up;
-        "Mod+Super+Shift+H".action = move-column-to-monitor-left;
-        "Mod+Super+Shift+J".action = move-column-to-monitor-down;
-        "Mod+Super+Shift+L".action = move-column-to-monitor-right;
+        "Mod+Shift+D".action = move-column-to-monitor-up;
+        "Mod+Shift+A".action = move-column-to-monitor-left;
+        "Mod+Shift+S".action = move-column-to-monitor-down;
+        "Mod+Shift+F".action = move-column-to-monitor-right;
 
         "Mod+O".action = toggle-overview;
       }

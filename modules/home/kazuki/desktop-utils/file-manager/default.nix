@@ -8,6 +8,6 @@
 
 {
   imports = [
-    ./satty
+    ./nemo
   ];
 }

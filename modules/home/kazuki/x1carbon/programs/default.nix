@@ -9,6 +9,7 @@
     ./alacritty
     ./chromium
     ./flameshot
+    # ./obsidian
   ];
 
   home.packages = with pkgs; [

@@ -7,6 +7,7 @@
     ../editor
     ../entertainment
     ../ime
+    # ../rclone
     ./programs
   ];
 }

@@ -99,8 +99,9 @@
     };
 
     # disable-power-key-handling
-    warp-mouse-to-focus = true;
-    focus-follows-mouse._props = {
+    warp-mouse-to-focus.enable = true;
+    focus-follows-mouse = {
+      enable = true;
       max-scroll-amount = "0%";
     };
     # workspace-auto-back-and-forth

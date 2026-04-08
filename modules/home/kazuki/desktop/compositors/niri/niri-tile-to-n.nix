@@ -1,9 +1,15 @@
 # https://github.com/Hikiru/nix-config/blob/5b6d452431df423a47565c9ddcaaf98b5da11f37/derivations/niri-tile-to-n.nix#L35
 
-{ pkgs, lib, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  osConfig,
+  ...
+}:
 
 let
-  niri-tile-to-n-drv = pkgs.stdenv.mkDerivation {
+  niri-tile-to-n = pkgs.stdenv.mkDerivation {
     pname = "niri-tile-to-n";
     version = "b9a8eca759f0788959cdcfa3ed2f49e7ce077e8b";
 
@@ -42,7 +48,6 @@ let
       mainProgram = "niri-tile-to-n";
     };
   };
-  niri-tile-to-n = (pkgs.callPackage niri-tile-to-n-drv);
 in
 {
   systemd.user.services.niri-tile-to-n = {
