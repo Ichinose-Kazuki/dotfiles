@@ -6,12 +6,15 @@
   ...
 }:
 
-with pkgs; with lib;
+# Systemd service processes are isolated from compositor processes. They don't share env vars like $PATH.
+# So we need full paths here.
+with pkgs;
+with lib;
 let
   brightnessctlBin = "${getExe brightnessctl}";
-  noctaliaBin = "${getExe' noctalia-shell "noctalia-shell"}";
+  noctaliaBin = "${getExe' config.programs.noctalia-shell.package "noctalia-shell"}";
   noctalia-lock = "${noctaliaBin} ipc call lockScreen lock";
-  niriBin = "${getExe' niri "niri"}";
+  niriBin = "${getExe' osConfig.programs.niri.package "niri"}";
   niri-monitor = status: "${niriBin} msg action power-${status}-monitors";
   systemctlBin = "${getExe' systemd "systemctl"}";
 in
