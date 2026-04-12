@@ -11,7 +11,7 @@
   # wiki: https://github.com/niri-wm/niri/wiki/Configuration:-Layout
   # todo: should use very-refactor instead
   programs.niri.settings.layout = {
-    gaps = 6;
+    gaps = 4;
     center-focused-column = "never";
     always-center-single-column = true;
     empty-workspace-above-first = true;

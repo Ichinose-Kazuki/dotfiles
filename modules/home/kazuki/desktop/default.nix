@@ -1,5 +1,5 @@
-# Call tree
+# Import tree
 # de/compositors
 # |--components
 # |--desktop-utils
-# `--common-settings
+# `--common

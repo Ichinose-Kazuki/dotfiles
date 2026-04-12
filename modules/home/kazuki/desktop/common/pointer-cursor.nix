@@ -8,8 +8,9 @@
 
 {
   home.pointerCursor = {
-    size = 24;
-
+    size = 36;
+    package = pkgs.vanilla-dmz;
+    name = "Vanilla-DMZ";
     gtk.enable = true;
     x11.enable = true;
   };

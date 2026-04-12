@@ -8,11 +8,13 @@
 
 {
   imports = [
+    ./debug.nix
     ./input.nix
     ./keybindings.nix
     ./layout.nix
     ./niri-tile-to-n.nix
     ./window-rules.nix
+    ../../common
     ../../components/kanshi
     ../../components/swayidle
   ];

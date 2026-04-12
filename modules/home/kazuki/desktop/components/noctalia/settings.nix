@@ -8,6 +8,7 @@
 }:
 
 {
+  # Options undocumented. Tweak from GUI and copy the new setting as json and get diff
   programs.noctalia-shell = {
     settings = {
       settingsVersion = 0;
@@ -39,13 +40,7 @@
         widgets = {
           left = [
             {
-              id = "Launcher";
-            }
-            {
-              id = "Clock";
-            }
-            {
-              id = "SystemMonitor";
+              id = "Workspace";
             }
             {
               id = "ActiveWindow";
@@ -56,7 +51,13 @@
           ];
           center = [
             {
-              id = "Workspace";
+              id = "Clock";
+              "clockColor" = "none";
+              "customFont" = "";
+              "formatHorizontal" = "yyyy/MM/dd HH:mm";
+              "formatVertical" = "";
+              "tooltipFormat" = "";
+              "useCustomFont" = false;
             }
           ];
           right = [
@@ -109,11 +110,11 @@
         showSessionButtonsOnLockScreen = true;
         showHibernateOnLockScreen = false;
         enableLockScreenMediaControls = false;
-        enableShadows = true;
+        enableShadows = false;
         enableBlurBehind = true;
-        shadowDirection = "bottom_right";
-        shadowOffsetX = 2;
-        shadowOffsetY = 3;
+        # shadowDirection = "bottom_right";
+        # shadowOffsetX = 2;
+        # shadowOffsetY = 3;
         language = "";
         allowPanelsOnScreenWithoutBar = true;
         showChangelogOnStartup = true;
@@ -441,7 +442,6 @@
         enabledTypes = [
           0
           1
-          2
         ];
         monitors = [ ];
       };
@@ -478,13 +478,13 @@
         enableUserTheming = false;
       };
       nightLight = {
-        enabled = false;
+        enabled = true;
         forced = false;
-        autoSchedule = true;
+        autoSchedule = false;
         nightTemp = "4000";
         dayTemp = "6500";
-        manualSunrise = "06:30";
-        manualSunset = "18:30";
+        manualSunrise = "07:00";
+        manualSunset = "23:00";
       };
       hooks = {
         enabled = false;

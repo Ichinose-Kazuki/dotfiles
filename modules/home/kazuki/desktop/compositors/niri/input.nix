@@ -26,13 +26,13 @@
     };
 
     touchpad = {
-      # off
-      # tap
+      enable = true;
+      tap = false;
       # dwt
       # dwtp
       # drag false
       # drag-lock
-      natural-scroll = true;
+      natural-scroll = false;
       # accel-speed 0.2
       # accel-profile "flat"
       # scroll-factor 1.0

@@ -10,8 +10,8 @@
   imports = [
     ./pointer-cursor.nix
     # ./fonts.nix
-    # ./session-variables.nix
+    ./session-variables.nix
     # ./mime-apps.nix
-    # ./xdg-portal.nix
+    ./xdg-portal.nix
   ];
 }
