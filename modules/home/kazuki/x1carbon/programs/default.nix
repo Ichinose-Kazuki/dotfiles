@@ -8,8 +8,7 @@
   imports = [
     ./alacritty
     ./chromium
-    ./flameshot
-    # ./obsidian
+    ./obsidian
   ];
 
   home.packages = with pkgs; [

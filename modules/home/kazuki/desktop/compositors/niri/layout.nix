@@ -11,17 +11,17 @@
   # wiki: https://github.com/niri-wm/niri/wiki/Configuration:-Layout
   # todo: should use very-refactor instead
   programs.niri.settings.layout = {
-    gaps = 16;
+    gaps = 6;
     center-focused-column = "never";
     always-center-single-column = true;
     empty-workspace-above-first = true;
-    default-column-display = "tabbed";
+    default-column-display = "normal";
     background-color = "#003300";
 
     preset-column-widths = [
-      { proportion = 0.33333; }
+      { proportion = 0.3; }
       { proportion = 0.5; }
-      { proportion = 0.66667; }
+      { proportion = 0.7; }
     ];
 
     default-column-width = {
@@ -35,8 +35,8 @@
     ];
 
     focus-ring = {
-      enable = true;
-      width = 4;
+      enable = false;
+      # width = 4;
       # active-color = "#7fc8ff";
       # inactive-color = "#505050";
       # urgent-color = "#9b0000";
@@ -46,10 +46,10 @@
     };
 
     border = {
-      enable = false;
-      width = 4;
-      # active-color = "#ffc87f";
-      # inactive-color = "#505050";
+      enable = true;
+      width = 2;
+      active.color = "#9b3da6ff";
+      inactive.color = "#595959aa";
       # urgent-color = "#9b0000";
       # active-gradient from="#ffbb66" to="#ffc880" angle=45 relative-to="workspace-view"
       # inactive-gradient from="#505050" to="#808080" angle=45 relative-to="workspace-view" in="srgb-linear"
@@ -58,15 +58,15 @@
 
     shadow = {
       enable = false;
-      softness = 30;
-      spread = 5;
-      offset = {
-        x = 0;
-        y = 5;
-      };
-      draw-behind-window = true;
-      color = "#00000070";
-      # inactive-color "#00000054"
+      # softness = 30;
+      # spread = 5;
+      # offset = {
+      #   x = 0;
+      #   y = 5;
+      # };
+      # draw-behind-window = true;
+      # color = "#00000070";
+      # inactive.color "#00000054"
     };
 
     tab-indicator = {

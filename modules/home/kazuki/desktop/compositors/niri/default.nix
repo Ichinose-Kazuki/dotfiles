@@ -12,6 +12,7 @@
     ./keybindings.nix
     ./layout.nix
     ./niri-tile-to-n.nix
+    ./window-rules.nix
     ../../components/kanshi
     ../../components/swayidle
   ];
@@ -19,7 +20,7 @@
   # options: https://github.com/sodiboo/niri-flake/blob/main/docs.md
   programs.niri.settings = {
     screenshot-path = "~/Pictures/Screenshots/%Y-%m-%d_%H-%M-%S.png";
-    hotkey-overlay.skip-at-startup = false; # todo: true
+    hotkey-overlay.skip-at-startup = true;
     prefer-no-csd = true;
   };
 
@@ -31,12 +32,13 @@
         variables = [
           "DISPLAY"
           "WAYLAND_DISPLAY"
-          "SWAYSOCK"
+          "NIRI_SOCKET"
           "XDG_CURRENT_DESKTOP"
           "XDG_SESSION_TYPE"
           "NIXOS_OZONE_WL"
           "XCURSOR_THEME"
           "XCURSOR_SIZE"
+          "QT_SCREEN_SCALE_FACTORS" # For flameshot?
         ];
         systemdActivation =
           {

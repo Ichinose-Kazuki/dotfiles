@@ -22,7 +22,7 @@ in
     with config.lib.niri.actions;
     lib.mkMerge [
       {
-        # pure niri, run `niri msg action` to see all the actions
+        # pure niri, run `niri msg action help` to see all the actions
         "Mod+Shift+Q" = {
           action = close-window;
           repeat = false;
@@ -38,15 +38,25 @@ in
         "Mod+Shift+J".action = move-column-to-workspace-down;
         "Mod+Shift+L".action = move-column-right;
 
-        "Mod+D".action = focus-monitor-up;
-        "Mod+A".action = focus-monitor-left;
-        "Mod+S".action = focus-monitor-down;
-        "Mod+F".action = focus-monitor-right;
+        "Mod+Up".action = focus-monitor-up;
+        "Mod+Left".action = focus-monitor-left;
+        "Mod+Down".action = focus-monitor-down;
+        "Mod+Right".action = focus-monitor-right;
 
-        "Mod+Shift+D".action = move-column-to-monitor-up;
-        "Mod+Shift+A".action = move-column-to-monitor-left;
-        "Mod+Shift+S".action = move-column-to-monitor-down;
-        "Mod+Shift+F".action = move-column-to-monitor-right;
+        "Mod+Shift+Up".action = move-column-to-monitor-up;
+        "Mod+Shift+Left".action = move-column-to-monitor-left;
+        "Mod+Shift+Down".action = move-column-to-monitor-down;
+        "Mod+Shift+Right".action = move-column-to-monitor-right;
+
+        # Tabbed display or vertical split
+        "Mod+Comma".action = consume-window-into-column;
+        "Mod+Period".action = expel-window-from-column;
+        "Mod+T".action = toggle-column-tabbed-display;
+
+        "Mod+R".action = switch-preset-column-width;
+        "Mod+Shift+R".action = switch-preset-column-width-back;
+        "Mod+W".action = maximize-column;
+        "Mod+Shift+W".action = fullscreen-window; # Is toggle-windowed-fullscreen better?
 
         "Mod+O".action = toggle-overview;
       }
@@ -79,6 +89,10 @@ in
         # spawn apps
         "Mod+Shift+T".action.spawn = "kitty";
         "Mod+Shift+E".action.spawn = "nemo";
+        "Super+Shift+S".action.spawn = [
+          "flameshot"
+          "gui"
+        ];
       }
     ];
 
