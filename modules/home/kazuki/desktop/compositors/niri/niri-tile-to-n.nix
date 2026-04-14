@@ -59,7 +59,7 @@ in
     };
 
     Service = {
-      ExecStart = "${lib.getExe niri-tile-to-n} -n 1";
+      ExecStart = "${lib.getExe niri-tile-to-n} -n 2";
       Restart = "on-failure";
     };
 

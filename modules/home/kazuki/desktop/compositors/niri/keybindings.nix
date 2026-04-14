@@ -38,15 +38,15 @@ in
         "Mod+Shift+J".action = move-column-to-workspace-down;
         "Mod+Shift+L".action = move-column-right;
 
-        "Super+Up".action = focus-monitor-up;
-        "Super+Left".action = focus-monitor-left;
-        "Super+Down".action = focus-monitor-down;
-        "Super+Right".action = focus-monitor-right;
+        # "".action = focus-monitor-up;
+        "Mod+N".action = focus-monitor-left;
+        # "".action = focus-monitor-down;
+        "Mod+M".action = focus-monitor-right;
 
-        "Super+Shift+Up".action = move-column-to-monitor-up;
-        "Super+Shift+Left".action = move-column-to-monitor-left;
-        "Super+Shift+Down".action = move-column-to-monitor-down;
-        "Super+Shift+Right".action = move-column-to-monitor-right;
+        # "".action = move-column-to-monitor-up;
+        "Mod+Shift+N".action = move-column-to-monitor-left;
+        # "".action = move-column-to-monitor-down;
+        "Mod+Shift+M".action = move-column-to-monitor-right;
 
         # Tabbed display or vertical split
         "Mod+Comma".action = consume-window-into-column;
