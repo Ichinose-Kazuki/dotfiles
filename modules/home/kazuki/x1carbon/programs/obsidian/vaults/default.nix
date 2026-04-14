@@ -6,5 +6,7 @@
 }:
 
 {
-  services.dropbox.enable = true;
+  imports = [
+    ./Main.nix
+  ];
 }

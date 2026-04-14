@@ -1,0 +1,32 @@
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
+
+{
+  programs.obsidian.defaultSettings.corePlugins = [
+    "editor-status"
+    "outgoing-link"
+    "outline"
+    "canvas"
+    "switcher"
+    "graph"
+    "command-palette"
+    "slash-command"
+    "tag-pane"
+    "daily-notes"
+    "templates"
+    "note-composer"
+    "backlink"
+    "file-explorer"
+    "file-recovery"
+    "bookmarks"
+    "properties"
+    "page-preview"
+    "bases"
+    "footnotes"
+    "global-search"
+  ];
+}

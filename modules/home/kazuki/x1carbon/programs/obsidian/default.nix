@@ -7,7 +7,9 @@
 
 {
   imports = [
-    ./sync.nix
+    ./community-plugins
+    ./core-plugins
+    ./vaults
   ];
 
   programs.obsidian.enable = true;
