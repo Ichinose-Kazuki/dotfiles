@@ -104,11 +104,11 @@
         screenRadiusRatio = 1;
         animationSpeed = 1;
         animationDisabled = false;
-        compactLockScreen = false;
+        compactLockScreen = true;
         lockScreenAnimations = false;
         lockOnSuspend = true;
         showSessionButtonsOnLockScreen = true;
-        showHibernateOnLockScreen = false;
+        showHibernateOnLockScreen = true;
         enableLockScreenMediaControls = false;
         enableShadows = false;
         enableBlurBehind = true;
@@ -123,8 +123,8 @@
         lockScreenCountdownDuration = 10000;
         autoStartAuth = false;
         allowPasswordWithFprintd = false;
-        clockStyle = "custom";
-        clockFormat = "hh\nmm";
+        clockStyle = "analog";
+        # clockFormat = "hh\nmm";
         passwordChars = false;
         lockScreenMonitors = [ ];
         lockScreenBlur = 0;
@@ -201,8 +201,8 @@
         ];
       };
       appLauncher = {
-        enableClipboardHistory = false;
-        autoPasteClipboard = false;
+        enableClipboardHistory = true;
+        autoPasteClipboard = true;
         enableClipPreview = true;
         clipboardWrapText = true;
         enableClipboardSmartIcons = true;

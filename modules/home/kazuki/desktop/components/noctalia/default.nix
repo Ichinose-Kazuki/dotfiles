@@ -14,6 +14,7 @@
     ./plugins.nix
     ./settings.nix
     ./wallpapers.nix
+    ../clipboard
   ];
 
   # available options: https://github.com/noctalia-dev/noctalia-shell/blob/main/nix/home-module.nix
@@ -21,4 +22,9 @@
     enable = true;
     systemd.enable = true;
   };
+
+  home.packages = with pkgs; [
+    # Dependency for clipboard auto-paste
+    wtype
+  ];
 }
