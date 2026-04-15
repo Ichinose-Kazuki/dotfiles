@@ -19,7 +19,7 @@
       clip-to-geometry = true;
     }
     {
-      matches = [ { app-id = "obsidian"; } ];
+      matches = [ { app-id = "Obsidian"; } ];
       default-column-width = {
         proportion = 0.3;
       };
