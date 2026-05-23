@@ -25,7 +25,8 @@ in
       type = str;
     };
     requiredService = lib.mkOption {
-      type = str;
+      type = lib.types.nullOr lib.types.str;
+      default = null;
     };
     reloadCommand = lib.mkOption {
       type = str;
@@ -45,7 +46,7 @@ in
         Description = "fetch windows spotlight";
         After = [ config.wayland.systemd.target ];
         PartOf = [ config.wayland.systemd.target ];
-        Requires = [ cfg.requiredService ];
+        Requires = lib.mkIf (cfg.requiredService != null) [ cfg.requiredService ];
       };
 
       Service = {

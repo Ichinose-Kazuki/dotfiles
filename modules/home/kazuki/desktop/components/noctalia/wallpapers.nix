@@ -18,7 +18,6 @@ in
   windows-spotlight = {
     enable = true;
     imageFilepath = wallpaperPath;
-    requiredService = "noctalia-shell.service";
     reloadCommand = "noctalia-shell ipc call wallpaper set \"${wallpaperPath}\" all";
   };
 

@@ -20,7 +20,7 @@
   # available options: https://github.com/noctalia-dev/noctalia-shell/blob/main/nix/home-module.nix
   programs.noctalia-shell = {
     enable = true;
-    systemd.enable = true;
+    systemd.enable = false; # deprecated
   };
 
   home.packages = with pkgs; [

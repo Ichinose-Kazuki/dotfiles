@@ -19,7 +19,26 @@
     "thunderbolt"
     "nvme"
   ];
-  boot.initrd.kernelModules = [ "dm-snapshot" ];
+  boot.initrd.kernelModules = [
+    "dm-snapshot" # For LUKS
+    "mei" # Load mei module to fix drm error
+    "mei_me"
+    "mei_gsc_proxy"
+    "mei_hdcp"
+    "mei_pxp"
+  ];
+  boot.initrd.luks.devices."crypted" = {
+    # Device for "crypted" is set in disko.nix
+    crypttabExtraOpts = [ "password-echo=no" ];
+  };
+  # This one is cool: https://github.com/aaron-p1/nixconfig/blob/85cca6f72e41bceaef0415b3017212597026ea41/hosts/aaron-laptop/hardware-configuration.nix#L29
+
+  boot.kernelParams = [
+    "initcall_blacklist=sysfb_init" # Workaround for empty lines after Setting Up Virtual Console
+    "video=eDP-1:2880x1800@60"
+    "video=DP-1:2560x1440@60" # 4K@60 is denied by i915 driver
+    "video=HDMI-A-1:2560x1440@60"
+  ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 

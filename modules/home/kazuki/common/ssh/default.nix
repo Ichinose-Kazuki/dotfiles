@@ -34,7 +34,7 @@ in
         enable = true;
         includes = [ "conf.d/*" ];
         enableDefaultConfig = false;
-        matchBlocks."*" = {
+        settings."*" = {
           forwardAgent = true;
           addKeysToAgent = "confirm";
           compression = false;

@@ -62,6 +62,9 @@
         argv = systemdActivation;
       }
     )
+    {
+      sh = "noctalia-shell";
+    }
   ];
 
   # monitors are handled in kanshi
