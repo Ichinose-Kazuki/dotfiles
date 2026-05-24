@@ -6,7 +6,7 @@
     ../dev-utils
     ../editor
     ../entertainment
-    ../ime
+    ../input-method
     ./programs
   ];
 }

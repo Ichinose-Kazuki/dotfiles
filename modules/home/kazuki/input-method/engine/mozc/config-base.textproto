@@ -1,0 +1,108 @@
+general_config {
+  config_version: 1
+  last_modified_product_version: "2.30.5544.102"
+  last_modified_time: 1778430401
+  platform: "Linux"
+}
+verbose_level: 0
+incognito_mode: false
+check_default: true
+presentation_mode: false
+preedit_method: ROMAN
+session_keymap: CUSTOM
+punctuation_method: KUTEN_TOUTEN
+symbol_method: CORNER_BRACKET_MIDDLE_DOT
+space_character_form: FUNDAMENTAL_INPUT_MODE
+use_keyboard_to_change_preedit_method: false
+history_learning_level: DEFAULT_HISTORY
+selection_shortcut: SHORTCUT_123456789
+character_form_rules {
+  group: "\343\202\242"
+  preedit_character_form: FULL_WIDTH
+  conversion_character_form: FULL_WIDTH
+}
+character_form_rules {
+  group: "A"
+  preedit_character_form: FULL_WIDTH
+  conversion_character_form: LAST_FORM
+}
+character_form_rules {
+  group: "0"
+  preedit_character_form: FULL_WIDTH
+  conversion_character_form: LAST_FORM
+}
+character_form_rules {
+  group: "(){}[]"
+  preedit_character_form: FULL_WIDTH
+  conversion_character_form: LAST_FORM
+}
+character_form_rules {
+  group: ".,"
+  preedit_character_form: FULL_WIDTH
+  conversion_character_form: LAST_FORM
+}
+character_form_rules {
+  group: "\343\200\202\343\200\201"
+  preedit_character_form: FULL_WIDTH
+  conversion_character_form: FULL_WIDTH
+}
+character_form_rules {
+  group: "\343\203\273\343\200\214\343\200\215"
+  preedit_character_form: FULL_WIDTH
+  conversion_character_form: FULL_WIDTH
+}
+character_form_rules {
+  group: "\"\'"
+  preedit_character_form: FULL_WIDTH
+  conversion_character_form: LAST_FORM
+}
+character_form_rules {
+  group: ":;"
+  preedit_character_form: FULL_WIDTH
+  conversion_character_form: LAST_FORM
+}
+character_form_rules {
+  group: "#%&@$^_|`\\"
+  preedit_character_form: FULL_WIDTH
+  conversion_character_form: LAST_FORM
+}
+character_form_rules {
+  group: "~"
+  preedit_character_form: FULL_WIDTH
+  conversion_character_form: LAST_FORM
+}
+character_form_rules {
+  group: "<>=+-/*"
+  preedit_character_form: FULL_WIDTH
+  conversion_character_form: LAST_FORM
+}
+character_form_rules {
+  group: "?!"
+  preedit_character_form: FULL_WIDTH
+  conversion_character_form: LAST_FORM
+}
+use_auto_ime_turn_off: true
+shift_key_mode_switch: ASCII_INPUT_MODE
+numpad_character_form: NUMPAD_HALF_WIDTH
+use_auto_conversion: false
+auto_conversion_key: 13
+yen_sign_character: YEN_SIGN
+use_japanese_layout: false
+use_date_conversion: true
+use_single_kanji_conversion: true
+use_symbol_conversion: true
+use_number_conversion: true
+use_emoticon_conversion: true
+use_calculator: true
+use_t13n_conversion: true
+use_zip_code_conversion: true
+use_spelling_correction: true
+use_emoji_conversion: true
+information_list_config {
+  use_local_usage_dictionary: true
+}
+use_history_suggest: true
+use_dictionary_suggest: true
+use_realtime_conversion: true
+suggestions_size: 3
+use_mode_indicator: true
