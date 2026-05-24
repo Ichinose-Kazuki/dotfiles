@@ -23,6 +23,7 @@
     # ./sway
     # ./wayland
     ./wtfutil
+    ../keyboard
     ../keyring
     ../common/tailscale
   ];
