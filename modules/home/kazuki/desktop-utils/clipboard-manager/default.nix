@@ -7,8 +7,7 @@
 }:
 
 {
-  services.clipse = {
-    enable = true;
-    historySize = 30;
-  };
+  imports = [
+    ./wl-clip-persist.nix
+  ];
 }

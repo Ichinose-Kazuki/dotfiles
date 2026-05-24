@@ -207,8 +207,8 @@
         clipboardWrapText = true;
         enableClipboardSmartIcons = true;
         enableClipboardChips = true;
-        clipboardWatchTextCommand = "wl-paste --type text --watch cliphist store";
-        clipboardWatchImageCommand = "wl-paste --type image --watch cliphist store";
+        clipboardWatchTextCommand = "wl-paste --type text --watch cliphist store -max-items 100";
+        clipboardWatchImageCommand = "wl-paste --type image --watch cliphist store -max-items 100";
         position = "center";
         pinnedApps = [ ];
         sortByMostUsed = true;

@@ -14,7 +14,6 @@
     ./plugins.nix
     ./settings.nix
     ./wallpapers.nix
-    ../clipboard
   ];
 
   # available options: https://github.com/noctalia-dev/noctalia-shell/blob/main/nix/home-module.nix
