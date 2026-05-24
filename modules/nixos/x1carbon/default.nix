@@ -26,5 +26,6 @@
     ../keyboard
     ../keyring
     ../common/tailscale
+    ../system-components/battery
   ];
 }
