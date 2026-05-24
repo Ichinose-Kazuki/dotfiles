@@ -1,6 +1,7 @@
 {
   pkgs,
   lib,
+  inputs,
   config,
   osConfig,
   ...
@@ -13,16 +14,18 @@
 
   services.flameshot = {
     enable = true;
-    package = pkgs.flameshot.override {
-      enableWlrSupport = true;
-    };
+    # package = pkgs.flameshot.override {
+    #   enableWlrSupport = true;
+    # };
+    # wlr support is enabled by default in v14.0.0
+    package = inputs.flameshot.packages.${pkgs.system}.default;
     settings = {
       General = {
-        disabledGrimWarning=true;
+        # disabledGrimWarning = true; # Not required in v14.0.0
         disabledTrayIcon = true;
         showAbortNotification = false;
         showStartupLaunchMessage = false;
-        useGrimAdapter = true;
+        # useGrimAdapter = true; # Not required in v14.0.0
       };
     };
   };
