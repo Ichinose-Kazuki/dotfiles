@@ -19,10 +19,15 @@
       }
       {
         profile.name = "undocked";
-        profile.outputs = [ { criteria = "eDP-1"; } ];
+        profile.outputs = [
+          {
+            criteria = "eDP-1";
+            status = "enable";
+          }
+        ];
       }
       {
-        profile.name = "home";
+        profile.name = "home-double";
         profile.outputs = [
           {
             criteria = "eDP-1";
@@ -35,6 +40,32 @@
           {
             criteria = "PNP(JPN) JAPANNEXT MNT 0x00000001";
             position = "2560,0";
+          }
+        ];
+      }
+      {
+        profile.name = "home-single-1";
+        profile.outputs = [
+          {
+            criteria = "eDP-1";
+            status = "disable";
+          }
+          {
+            criteria = "PNP(JPN) JAPANNEXT MNT 0x00000001";
+            position = "0,0";
+          }
+        ];
+      }
+      {
+        profile.name = "home-single-2";
+        profile.outputs = [
+          {
+            criteria = "eDP-1";
+            status = "disable";
+          }
+          {
+            criteria = "PNP(JPN) JAPANNEXT MNT 0x01010101";
+            position = "0,0";
           }
         ];
       }
