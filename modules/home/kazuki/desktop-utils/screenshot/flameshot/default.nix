@@ -9,6 +9,7 @@
 
 {
   imports = [
+    ./ocr.nix
     ./window-rule.nix
   ];
 
