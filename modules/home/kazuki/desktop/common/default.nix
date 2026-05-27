@@ -11,7 +11,7 @@
     ./pointer-cursor.nix
     # ./fonts.nix
     ./session-variables.nix
-    # ./mime-apps.nix
+    ./mime-apps.nix
     ./xdg-portal.nix
   ];
 }
