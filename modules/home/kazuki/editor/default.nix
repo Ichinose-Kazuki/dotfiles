@@ -6,6 +6,7 @@
 
 {
   imports = [
+    ./nvim
     ./vim
   ]
   ++ lib.optionals (host == "x1carbon") [
