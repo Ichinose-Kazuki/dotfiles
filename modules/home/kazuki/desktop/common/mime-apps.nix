@@ -15,6 +15,7 @@ let
   pdfReaders = [ ];
   imageViewers = [ ];
   textEditors = [ "nvim.desktop" ];
+  kdeConnectHandlers = [ "org.kde.dolphin.desktop" ];
 in
 {
   xdg.mimeApps = {
@@ -44,6 +45,9 @@ in
       "text/plain" = textEditors;
       "text/markdown" = textEditors;
       "application/json" = textEditors;
+
+      # KDE connect
+      "x-scheme-handler/kdeconnect" = kdeConnectHandlers;
     };
   };
 

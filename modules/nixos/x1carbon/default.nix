@@ -14,6 +14,7 @@
     ./location
     # ./ly
     ./niri
+    ./noctalia-plugin-dep
     ./printing
     ./programs
     ./regreet
