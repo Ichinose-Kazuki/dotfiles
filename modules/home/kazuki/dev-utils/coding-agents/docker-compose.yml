@@ -1,0 +1,25 @@
+services:
+  claude-code:
+    build:
+      context: .
+      args:
+        # ホスト側の環境変数(または.env)からUIDとGIDを渡す
+        USER_UID: ${UID:-1000}
+        USER_GID: ${GID:-1000}
+    container_name: claude-code-base
+    shm_size: "2g"
+    working_dir: /workdir
+
+    # 現在のディレクトリをコンテナ内の作業ディレクトリにマウント
+    volumes:
+      - "./:/workdir"
+
+    # 対話モードを維持
+    stdin_open: true
+    tty: true
+
+    environment:
+      # ホスト側の環境変数、または .env ファイルからAPIキーを読み込む
+      - CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1
+      - CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS=1
+    command: /bin/bash
