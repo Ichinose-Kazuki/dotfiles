@@ -133,7 +133,7 @@
     };
     nvim-config = {
       url = "github:Ichinose-Kazuki/nvim-config";
-      inputs.nixpks.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     plasma-manager = {
       url = "github:nix-community/plasma-manager";
