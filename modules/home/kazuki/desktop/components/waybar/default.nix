@@ -20,7 +20,7 @@ in
     enable = lib.options.mkEnableOption "my-waybar";
   };
 
-  config = lib.modules.mkIf cfg.enable {
+  config = lib.modules.mkIf (cfg.enable && builtins.elem "waybar" osConfig.myModule.home.desktopComponents) {
 
     home.packages = with pkgs; [
       font-awesome
@@ -40,7 +40,7 @@ in
       # systemd.enableInspect = true;
       style = ./coffeebar.css;
       # enable debug logging to debug config
-      settings = import ./waybar-config.json.nix { inherit lib lockCommand powerMenuXml; };
+      settings = import ./_waybar-config.json.nix { inherit lib lockCommand powerMenuXml; };
     };
   };
 }

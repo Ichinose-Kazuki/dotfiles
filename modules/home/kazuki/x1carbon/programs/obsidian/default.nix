@@ -2,6 +2,7 @@
   config,
   pkgs,
   lib,
+  osConfig,
   ...
 }:
 
@@ -62,14 +63,10 @@ let
   });
 in
 {
-  imports = [
-    ./community-plugins
-    ./core-plugins
-    ./vaults
-  ];
-
-  programs.obsidian = {
-    enable = true;
-    package = obsidian-app-id-fixed;
+  config = lib.mkIf osConfig.myModule.home.obsidian {
+    programs.obsidian = {
+      enable = true;
+      package = obsidian-app-id-fixed;
+    };
   };
 }

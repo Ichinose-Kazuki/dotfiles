@@ -7,21 +7,23 @@
 }:
 
 {
-  # hyprland screenshot utiliry
-  home.packages =
-    with pkgs;
-    lib.mkIf osConfig.programs.hyprland.enable [
-      grimblast
-      # dependencies of grimblast
-      coreutils
-      grim
-      hyprpicker
-      jq
-      libnotify
-      slurp
-      wl-clipboard
-      # utils
-      swappy
-      zenity
-    ];
+  config = lib.mkIf (builtins.elem "grimblast" osConfig.myModule.home.screenshots) {
+    # hyprland screenshot utility
+    home.packages =
+      with pkgs;
+      [
+        grimblast
+        # dependencies of grimblast
+        coreutils
+        grim
+        hyprpicker
+        jq
+        libnotify
+        slurp
+        wl-clipboard
+        # utils
+        swappy
+        zenity
+      ];
+  };
 }

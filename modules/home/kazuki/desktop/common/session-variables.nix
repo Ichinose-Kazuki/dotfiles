@@ -7,11 +7,13 @@
 }:
 
 {
-  home.sessionVariables = {
-    NIXOS_OZONE_WL = "1";
+  config = lib.mkIf (osConfig.myModule.home.compositor != "none") {
+    home.sessionVariables = {
+      NIXOS_OZONE_WL = "1";
 
-    # Default apps
-    TERMINAL = "kitty";
-    EDITOR = "vim";
+      # Default apps
+      TERMINAL = osConfig.myModule.home.defaultTerminal;
+      EDITOR = "vim";
+    };
   };
 }

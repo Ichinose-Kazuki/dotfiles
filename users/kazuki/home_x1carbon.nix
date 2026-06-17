@@ -2,29 +2,10 @@
   config,
   pkgs,
   lib,
-  inputs,
   ...
 }:
-let
-  import_app = [
-    inputs.self.homeManagerModules.kazuki.common
-    inputs.self.homeManagerModules.kazuki.x1carbon
-  ];
-  import_external = [
-    # inputs.plasma-manager.homeManagerModules.plasma-manager
-  ];
-  import_config = [
-    # ../../modules/home/kazuki/plasma-manager
-    # ../../modules/home/kazuki/sway
-    # ../../modules/home/kazuki/desktop/compositors/hyprland
-    ../../modules/home/kazuki/desktop/compositors/niri
-    ../../modules/home/kazuki/desktop/components/noctalia
-  ];
-
-in
 
 {
-  imports = import_app ++ import_external ++ import_config;
 
   # Home Manager needs a bit of information about you and the paths it should
   # manage.

@@ -7,5 +7,7 @@
 }:
 
 {
+  config = lib.mkIf (osConfig.myModule.home.compositor == "hyprland") {
 
+  };
 }

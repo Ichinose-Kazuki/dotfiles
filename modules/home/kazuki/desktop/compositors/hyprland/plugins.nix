@@ -17,23 +17,24 @@ let
   };
 in
 {
-  wayland.windowManager.hyprland = {
-    plugins = with pkgs; [
-      # hyprbars
-    ];
+  config = lib.mkIf (osConfig.myModule.home.compositor == "hyprland") {
+    wayland.windowManager.hyprland = {
+      plugins = with pkgs; [
+        # hyprbars
+      ];
 
-    settings.plugin = {
-      # # https://github.com/hyprwm/hyprland-plugins/tree/main/hyprbars
-      # hyperbars = {
-      #   enabled = true;
-      #   hyprbars-button = [
-      #     ",10, , hyprctl dispatch killactive, rgb(636465)"
-      #     ",10, , hyprctl dispatch fullscreen 1, rgb(636465)"
-      #     ",10, , hyprctl dispatch togglefloating, rgb(636465)"
-      #   ];
-      #   on_double_click = "hyprctl dispatch fullscreen 1";
-      # };
+      settings.plugin = {
+        # # https://github.com/hyprwm/hyprland-plugins/tree/main/hyprbars
+        # hyperbars = {
+        #   enabled = true;
+        #   hyprbars-button = [
+        #     ",10, , hyprctl dispatch killactive, rgb(636465)"
+        #     ",10, , hyprctl dispatch fullscreen 1, rgb(636465)"
+        #     ",10, , hyprctl dispatch togglefloating, rgb(636465)"
+        #   ];
+        #   on_double_click = "hyprctl dispatch fullscreen 1";
+        # };
+      };
     };
   };
-
 }

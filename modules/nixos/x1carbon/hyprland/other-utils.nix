@@ -6,5 +6,7 @@
 }:
 
 {
-  # programs.nm-applet.enable = true;
+  config = lib.mkIf (config.myModule.desktop.compositor == "hyprland") {
+    # programs.nm-applet.enable = true;
+  };
 }

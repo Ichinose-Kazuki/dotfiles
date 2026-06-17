@@ -2,8 +2,11 @@
   inputs,
   pkgs,
   lib,
+  config,
   ...
 }:
 {
-  programs.steam.enable = true;
+  config = lib.mkIf config.myModule.hardware.gaming {
+    programs.steam.enable = true;
+  };
 }

@@ -7,105 +7,107 @@
 }:
 
 {
-  # options: https:#niri-wm.github.io/niri/Configuration%3A-Input.html
-  programs.niri.settings.input = {
-    keyboard = {
-      xkb = {
-        # layout "us"
-        # variant "colemak_dh_ortho"
-        # options "compose:ralt,ctrl:nocaps"
-        # model ""
-        # rules ""
-        # file "~/.config/keymap.xkb"
+  config = lib.mkIf (osConfig.myModule.home.compositor == "niri") {
+    # options: https:#niri-wm.github.io/niri/Configuration%3A-Input.html
+    programs.niri.settings.input = {
+      keyboard = {
+        xkb = {
+          # layout "us"
+          # variant "colemak_dh_ortho"
+          # options "compose:ralt,ctrl:nocaps"
+          # model ""
+          # rules ""
+          # file "~/.config/keymap.xkb"
+        };
+
+        # repeat-delay 600
+        # repeat-rate 25
+        # track-layout "global"
+        # numlock
       };
 
-      # repeat-delay 600
-      # repeat-rate 25
-      # track-layout "global"
-      # numlock
-    };
+      touchpad = {
+        enable = true;
+        tap = false;
+        # dwt
+        # dwtp
+        # drag false
+        # drag-lock
+        natural-scroll = false;
+        # accel-speed 0.2
+        # accel-profile "flat"
+        # scroll-factor 1.0
+        # scroll-factor vertical=1.0 horizontal=-2.0
+        # scroll-method "two-finger"
+        # scroll-button 273
+        # scroll-button-lock
+        # tap-button-map "left-middle-right"
+        # click-method "clickfinger"
+        # left-handed
+        # disabled-on-external-mouse
+        # middle-emulation
+      };
 
-    touchpad = {
-      enable = true;
-      tap = false;
-      # dwt
-      # dwtp
-      # drag false
-      # drag-lock
-      natural-scroll = false;
-      # accel-speed 0.2
-      # accel-profile "flat"
-      # scroll-factor 1.0
-      # scroll-factor vertical=1.0 horizontal=-2.0
-      # scroll-method "two-finger"
-      # scroll-button 273
-      # scroll-button-lock
-      # tap-button-map "left-middle-right"
-      # click-method "clickfinger"
-      # left-handed
-      # disabled-on-external-mouse
-      # middle-emulation
-    };
+      mouse = {
+        # off
+        # natural-scroll
+        # accel-speed 0.2
+        # accel-profile "flat"
+        # scroll-factor 1.0
+        # scroll-factor vertical=1.0 horizontal=-2.0
+        # scroll-method "no-scroll"
+        # scroll-button 273
+        # scroll-button-lock
+        # left-handed
+        # middle-emulation
+      };
 
-    mouse = {
-      # off
-      # natural-scroll
-      # accel-speed 0.2
-      # accel-profile "flat"
-      # scroll-factor 1.0
-      # scroll-factor vertical=1.0 horizontal=-2.0
-      # scroll-method "no-scroll"
-      # scroll-button 273
-      # scroll-button-lock
-      # left-handed
-      # middle-emulation
-    };
+      trackpoint = {
+        # off
+        # natural-scroll
+        # accel-speed 0.2
+        # accel-profile "flat"
+        # scroll-method "on-button-down"
+        # scroll-button 273
+        # scroll-button-lock
+        # left-handed
+        # middle-emulation
+      };
 
-    trackpoint = {
-      # off
-      # natural-scroll
-      # accel-speed 0.2
-      # accel-profile "flat"
-      # scroll-method "on-button-down"
-      # scroll-button 273
-      # scroll-button-lock
-      # left-handed
-      # middle-emulation
-    };
+      trackball = {
+        # off
+        # natural-scroll
+        # accel-speed 0.2
+        # accel-profile "flat"
+        # scroll-method "on-button-down"
+        # scroll-button 273
+        # scroll-button-lock
+        # left-handed
+        # middle-emulation
+      };
 
-    trackball = {
-      # off
-      # natural-scroll
-      # accel-speed 0.2
-      # accel-profile "flat"
-      # scroll-method "on-button-down"
-      # scroll-button 273
-      # scroll-button-lock
-      # left-handed
-      # middle-emulation
-    };
+      tablet = {
+        # off
+        # map-to-output "eDP-1"
+        # left-handed
+        # calibration-matrix 1.0 0.0 0.0 0.0 1.0 0.0
+      };
 
-    tablet = {
-      # off
-      # map-to-output "eDP-1"
-      # left-handed
-      # calibration-matrix 1.0 0.0 0.0 0.0 1.0 0.0
-    };
+      touch = {
+        # off
+        # map-to-output "eDP-1"
+        # calibration-matrix 1.0 0.0 0.0 0.0 1.0 0.0
+      };
 
-    touch = {
-      # off
-      # map-to-output "eDP-1"
-      # calibration-matrix 1.0 0.0 0.0 0.0 1.0 0.0
-    };
+      # disable-power-key-handling
+      warp-mouse-to-focus.enable = true;
+      focus-follows-mouse = {
+        enable = true;
+        max-scroll-amount = "0%";
+      };
+      # workspace-auto-back-and-forth
 
-    # disable-power-key-handling
-    warp-mouse-to-focus.enable = true;
-    focus-follows-mouse = {
-      enable = true;
-      max-scroll-amount = "0%";
+      # mod key in keybindings.nix
     };
-    # workspace-auto-back-and-forth
-
-    # mod key in keybindings.nix
   };
 }

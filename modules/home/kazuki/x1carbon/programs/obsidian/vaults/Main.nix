@@ -2,12 +2,15 @@
   config,
   pkgs,
   lib,
+  osConfig,
   ...
 }:
 
 {
-  programs.obsidian.vaults."Main" = {
-    enable = true;
-    target = "obsidian/Main";
+  config = lib.mkIf osConfig.myModule.home.obsidian {
+    programs.obsidian.vaults."Main" = {
+      enable = true;
+      target = "obsidian/Main";
+    };
   };
 }

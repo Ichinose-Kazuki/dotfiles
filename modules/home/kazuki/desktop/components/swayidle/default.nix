@@ -19,39 +19,41 @@ let
   systemctlBin = "${getExe' systemd "systemctl"}";
 in
 {
-  home.packages = with pkgs; [
-    brightnessctl
-  ];
-
-  services.swayidle = {
-    enable = true;
-    systemdTargets = [ "niri.service" ];
-    extraArgs = [ "-w" ];
-    events = {
-      "before-sleep" = noctalia-lock;
-      "after-resume" = niri-monitor "on";
-      "lock" = noctalia-lock;
-      "unlock" = niri-monitor "on";
-    };
-    timeouts = [
-      {
-        timeout = 150; # 2.5min
-        command = "${brightnessctlBin} -s set 10"; # set monitor backlight to minimum, avoid 0 on OLED monitor.
-        resumeCommand = "${brightnessctlBin} -r"; # monitor backlight restore.
-      }
-      {
-        timeout = 300; # 5min
-        command = noctalia-lock;
-      }
-      {
-        timeout = 330; # 5.5min
-        command = niri-monitor "off";
-        resumeCommand = (niri-monitor "on") + " && ${brightnessctlBin} -r";
-      }
-      {
-        timeout = 1800; # 30min
-        command = "${systemctlBin} suspend";
-      }
+  config = mkIf (builtins.elem "swayidle" osConfig.myModule.home.desktopComponents) {
+    home.packages = with pkgs; [
+      brightnessctl
     ];
+
+    services.swayidle = {
+      enable = true;
+      systemdTargets = [ "niri.service" ];
+      extraArgs = [ "-w" ];
+      events = {
+        "before-sleep" = noctalia-lock;
+        "after-resume" = niri-monitor "on";
+        "lock" = noctalia-lock;
+        "unlock" = niri-monitor "on";
+      };
+      timeouts = [
+        {
+          timeout = 150; # 2.5min
+          command = "${brightnessctlBin} -s set 10"; # set monitor backlight to minimum, avoid 0 on OLED monitor.
+          resumeCommand = "${brightnessctlBin} -r"; # monitor backlight restore.
+        }
+        {
+          timeout = 300; # 5min
+          command = noctalia-lock;
+        }
+        {
+          timeout = 330; # 5.5min
+          command = niri-monitor "off";
+          resumeCommand = (niri-monitor "on") + " && ${brightnessctlBin} -r";
+        }
+        {
+          timeout = 1800; # 30min
+          command = "${systemctlBin} suspend";
+        }
+      ];
+    };
   };
 }

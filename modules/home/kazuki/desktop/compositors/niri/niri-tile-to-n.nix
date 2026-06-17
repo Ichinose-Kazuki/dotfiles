@@ -50,23 +50,25 @@ let
   };
 in
 {
-  systemd.user.services.niri-tile-to-n = {
-    Unit = {
-      Description = "niri-tile-to-n";
-      Documentation = "https://github.com/heyoeyo/niri_tweaks";
-      PartOf = [ config.wayland.systemd.target ];
-      After = [ config.wayland.systemd.target ];
+  config = lib.mkIf (osConfig.myModule.home.compositor == "niri") {
+    systemd.user.services.niri-tile-to-n = {
+      Unit = {
+        Description = "niri-tile-to-n";
+        Documentation = "https://github.com/heyoeyo/niri_tweaks";
+        PartOf = [ config.wayland.systemd.target ];
+        After = [ config.wayland.systemd.target ];
+      };
+
+      Service = {
+        ExecStart = "${lib.getExe niri-tile-to-n} -n 2";
+        Restart = "on-failure";
+      };
+
+      Install.WantedBy = [ config.wayland.systemd.target ];
     };
 
-    Service = {
-      ExecStart = "${lib.getExe niri-tile-to-n} -n 2";
-      Restart = "on-failure";
-    };
-
-    Install.WantedBy = [ config.wayland.systemd.target ];
+    home.packages = with pkgs; [
+      niri-tile-to-n
+    ];
   };
-
-  home.packages = with pkgs; [
-    niri-tile-to-n
-  ];
 }

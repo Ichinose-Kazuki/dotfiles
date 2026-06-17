@@ -2,10 +2,11 @@
   pkgs,
   lib,
   config,
-  osConfig,
   ...
 }:
 
 {
-  services.upower.enable = true;
+  config = lib.mkIf config.myModule.hardware.battery {
+    services.upower.enable = true;
+  };
 }

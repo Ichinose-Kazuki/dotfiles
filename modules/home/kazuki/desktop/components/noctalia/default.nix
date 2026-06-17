@@ -7,23 +7,24 @@
   ...
 }:
 
+let
+  isNoctalia = builtins.elem "noctalia" osConfig.myModule.home.desktopComponents;
+in
 {
-  imports = [
+  imports = lib.optionals isNoctalia [
     inputs.noctalia.homeModules.default
-    ./colors.nix
-    ./plugins.nix
-    ./settings.nix
-    ./wallpapers.nix
   ];
 
   # available options: https://github.com/noctalia-dev/noctalia-shell/blob/main/nix/home-module.nix
-  programs.noctalia-shell = {
-    enable = true;
-    systemd.enable = false; # deprecated
-  };
+  config = lib.mkIf isNoctalia {
+    programs.noctalia-shell = {
+      enable = true;
+      systemd.enable = false; # deprecated
+    };
 
-  home.packages = with pkgs; [
-    # Dependency for clipboard auto-paste
-    wtype
-  ];
+    home.packages = with pkgs; [
+      # Dependency for clipboard auto-paste
+      wtype
+    ];
+  };
 }

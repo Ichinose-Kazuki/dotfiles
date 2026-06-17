@@ -1,11 +1,13 @@
-{ inputs, pkgs, ... }:
+{ inputs, pkgs, lib, config, ... }:
 
 {
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  environment.systemPackages = with pkgs; [
-    fim # Framebuffer Image Viewer
-    wol # Wake-on-LAN
-  ];
-  programs.firefox.enable = true;
+  config = lib.mkIf (builtins.elem "programs" config.myModule.desktop.components) {
+    # List packages installed in system profile. To search, run:
+    # $ nix search wget
+    environment.systemPackages = with pkgs; [
+      fim # Framebuffer Image Viewer
+      wol # Wake-on-LAN
+    ];
+    programs.firefox.enable = true;
+  };
 }

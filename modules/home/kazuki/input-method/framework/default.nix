@@ -11,11 +11,6 @@
     inputMethod = {
       enable = true;
       type = "fcitx5";
-
     };
   };
-
-  imports = [
-    ./fcitx5
-  ];
 }

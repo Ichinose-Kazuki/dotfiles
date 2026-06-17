@@ -2,6 +2,7 @@
   config,
   pkgs,
   lib,
+  osConfig,
   ...
 }:
 
@@ -37,12 +38,14 @@ let
   };
 in
 {
-  # Uses internal OneDrive client
-  programs.obsidian.defaultSettings.communityPlugins = [
-    {
-      enable = true;
-      pkg = remotely-save-pkg;
-      # Can't write settings here bc it contains OneDrive auth info.
-    }
-  ];
+  config = lib.mkIf osConfig.myModule.home.obsidian {
+    # Uses internal OneDrive client
+    programs.obsidian.defaultSettings.communityPlugins = [
+      {
+        enable = true;
+        pkg = remotely-save-pkg;
+        # Can't write settings here bc it contains OneDrive auth info.
+      }
+    ];
+  };
 }

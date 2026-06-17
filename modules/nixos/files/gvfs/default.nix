@@ -7,5 +7,7 @@
 }:
 
 {
-  services.gvfs.enable = true;
+  config = lib.mkIf (builtins.elem "files" config.myModule.desktop.components) {
+    services.gvfs.enable = true;
+  };
 }

@@ -6,7 +6,9 @@
 }:
 
 {
-  programs.sway = {
-    enable = true;
+  config = lib.mkIf (config.myModule.desktop.compositor == "sway") {
+    programs.sway = {
+      enable = true;
+    };
   };
 }

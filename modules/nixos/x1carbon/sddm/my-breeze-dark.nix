@@ -1,6 +1,6 @@
 # Modified code from https://github.com/thomX75/nixos-modules
 
-{ pkgs, ... }:
+{ pkgs, lib, config, ... }:
 
 let
 
@@ -31,5 +31,7 @@ let
 in
 
 {
-  environment.systemPackages = with pkgs; [ my-breeze-dark ];
+  config = lib.mkIf (config.myModule.desktop.displayManager == "sddm") {
+    environment.systemPackages = with pkgs; [ my-breeze-dark ];
+  };
 }

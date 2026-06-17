@@ -18,7 +18,10 @@
     disko.nixosModules.disko
     ./disko.nix
     self.nixosModules.common
-    (self.nixosModules.common + /devtool)
+    # NOTE: under flake-parts `self.nixosModules.*` are module sets, not paths,
+    # so the old `(self.nixosModules.common + /devtool)` path arithmetic no
+    # longer works. Reference the devtool module by path off the flake source.
+    (self + /modules/nixos/common/devtool)
     self.nixosModules.tsuyoServer
   ];
 

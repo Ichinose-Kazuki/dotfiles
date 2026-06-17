@@ -18,65 +18,128 @@
   };
 
   outputs =
-    inputs@{
-      self,
-      nixpkgs,
-      home-manager,
-      flake-utils,
-      ...
-    }:
+    inputs@{ flake-parts, ... }:
+    flake-parts.lib.mkFlake { inherit inputs; } {
+      systems = [
+        "x86_64-linux"
+        "aarch64-linux"
+      ];
 
-    {
-      # Details: https://nixos.wiki/wiki/Flakes
-      nixosModules = {
-        common = ./modules/nixos/common;
-        raspi3bp = ./modules/nixos/raspi3bp;
-        rpi5 = ./modules/nixos/rpi5;
-        tsuyoServer = ./modules/nixos/tsuyoServer;
-        wsl2 = ./modules/nixos/wsl2;
-        x1carbon = ./modules/nixos/x1carbon;
-      };
-      homeManagerModules.kazuki = {
-        common = ./modules/home/kazuki/common;
-        raspi3bp = ./modules/home/kazuki/raspi3bp;
-        rpi5 = ./modules/home/kazuki/rpi5;
-        tsuyoServer = ./modules/home/kazuki/tsuyoServer;
-        wsl2 = ./modules/home/kazuki/wsl2;
-        x1carbon = ./modules/home/kazuki/x1carbon;
-      };
-
-      nixosConfigurations = import ./hosts inputs;
-
-    }
-    // flake-utils.lib.eachDefaultSystem (
-      system:
-      let
-        pkgs = import nixpkgs {
-          inherit system;
-          config = {
-            allowUnfree = true;
-            allowUnfreePredicate = (_: true);
+      perSystem =
+        { pkgs, ... }:
+        {
+          # Formatter used in this directory by `nix fmt`.
+          formatter = pkgs.nixpkgs-fmt;
+          # Does not work with direnv. https://github.com/NixOS/nixfmt/issues/151
+          # formatter = nixpkgs.legacyPackages.x86_64-linux.nixfmt-rfc-style;
+          # `nix develop`
+          devShells.default = pkgs.mkShell {
+            buildInputs = [
+              # Runtime dependency (e.g., a library the program needs)
+            ];
+            nativeBuildInputs = with pkgs; [
+              nil # lsp language server for nix
+              nix-output-monitor # utility to get more info about nix-build (usage: "nom build")
+              nixpkgs-fmt
+            ];
           };
         };
-      in
-      {
-        # Formatter used in this directory by `nix fmt`.
-        formatter = pkgs.nixpkgs-fmt;
-        # Does not work with direnv. https://github.com/NixOS/nixfmt/issues/151
-        # formatter = nixpkgs.legacyPackages.x86_64-linux.nixfmt-rfc-style;
-        # `nix develop`
-        devShells.default = pkgs.mkShell {
-          buildInputs = [
-            # Runtime dependency (e.g., a library the program needs)
-          ];
-          nativeBuildInputs = with pkgs; [
-            nil # lsp language server for nix
-            nix-output-monitor # utility to get more info about nix-build (usage: "nom build")
-            nixpkgs-fmt
-          ];
+
+      flake = {
+        # Details: https://nixos.wiki/wiki/Flakes
+        nixosModules = {
+          common = ./modules/nixos/common;
+          raspi3bp = ./modules/nixos/raspi3bp;
+          rpi5 = ./modules/nixos/rpi5;
+          tsuyoServer = ./modules/nixos/tsuyoServer;
+          wsl2 = ./modules/nixos/wsl2;
+          x1carbon = ./modules/nixos/x1carbon;
         };
-      }
-    );
+        homeManagerModules.kazuki = {
+          common = ./modules/home/kazuki/common;
+          raspi3bp = ./modules/home/kazuki/raspi3bp;
+          rpi5 = ./modules/home/kazuki/rpi5;
+          tsuyoServer = ./modules/home/kazuki/tsuyoServer;
+          wsl2 = ./modules/home/kazuki/wsl2;
+          x1carbon = ./modules/home/kazuki/x1carbon;
+        };
+
+        nixosConfigurations =
+          # Other hosts keep their current hosts/<host>/nixosConfiguration.nix
+          # definitions; x1carbon is the pilot migrated to the Dendritic layout.
+          (import ./hosts inputs)
+          // {
+            x1carbon =
+              let
+                system = "x86_64-linux";
+                overlays = [
+                  inputs.efi-power.overlays.default
+                ];
+                pkgs = import inputs.nixpkgs {
+                  inherit system overlays;
+                  config = {
+                    allowUnfree = true;
+                    allowUnfreePredicate = (_: true);
+                  };
+                };
+              in
+              inputs.nixpkgs.lib.nixosSystem {
+                inherit pkgs;
+                specialArgs = {
+                  inherit inputs system;
+                };
+                modules = [
+                  inputs.nixos-hardware.nixosModules.lenovo-thinkpad-x1-12th-gen
+                  inputs.nix-index-database.nixosModules.nix-index
+                  inputs.disko.nixosModules.disko
+                  ./modules/options/my-module.nix
+                  ./modules/options/my-module-derived.nix
+                  ./hosts/x1carbon/host.nix
+                  ./hosts/x1carbon/hardware-configuration.nix
+                  ./hosts/x1carbon/disko.nix
+                  # Auto-import all NixOS modules relevant to x1carbon. Other
+                  # hosts' module dirs are intentionally excluded for the pilot;
+                  # rollout will switch to whole-tree + hostName guards.
+                  (inputs.import-tree [
+                    ./modules/nixos/common
+                    ./modules/nixos/x1carbon
+                    ./modules/nixos/keyboard
+                    ./modules/nixos/keyring
+                    ./modules/nixos/files
+                    ./modules/nixos/system-components
+                  ])
+                  inputs.niri.nixosModules.niri
+                  inputs.home-manager.nixosModules.home-manager
+                  {
+                    home-manager.useGlobalPkgs = true;
+                    home-manager.useUserPackages = true;
+                    home-manager.backupFileExtension = "backup";
+                    home-manager.sharedModules = [
+                      ./modules/options/my-module.nix
+                      ./modules/options/my-module-derived.nix
+                      (inputs.import-tree [
+                        ./modules/home/kazuki/common
+                        ./modules/home/kazuki/x1carbon
+                        ./modules/home/kazuki/desktop
+                        ./modules/home/kazuki/desktop-utils
+                        ./modules/home/kazuki/dev-utils
+                        ./modules/home/kazuki/editor
+                        ./modules/home/kazuki/entertainment
+                        ./modules/home/kazuki/input-method
+                        ./modules/home/kazuki/keyring
+                      ])
+                    ];
+                    home-manager.users.kazuki = import ./users/kazuki/home_x1carbon.nix;
+                    home-manager.extraSpecialArgs = {
+                      inherit inputs system;
+                      host = "x1carbon";
+                    };
+                  }
+                ];
+              };
+          };
+      };
+    };
 
   # Run `nix flake metadata [this dir]` to know which "follows" need to be added.
   inputs = {
@@ -92,12 +155,16 @@
       url = "github:Ichinose-Kazuki/efi-power";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    flake-utils.url = "github:numtide/flake-utils";
+    flake-parts = {
+      url = "github:hercules-ci/flake-parts";
+      inputs.nixpkgs-lib.follows = "nixpkgs";
+    };
     flameshot.url = "github:flameshot-org/flameshot/v14.0.rc2";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    import-tree.url = "github:vic/import-tree";
     impermanence.url = "github:nix-community/impermanence";
     niri = {
       url = "github:sodiboo/niri-flake";

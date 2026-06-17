@@ -8,6 +8,7 @@
 }:
 
 {
+  config = lib.mkIf (builtins.elem "noctalia" osConfig.myModule.home.desktopComponents) {
   # Options undocumented. Tweak from GUI and copy the new setting as json and get diff
   programs.noctalia-shell = {
     settings = {
@@ -524,5 +525,6 @@
         monitorWidgets = [ ];
       };
     };
+  };
   };
 }

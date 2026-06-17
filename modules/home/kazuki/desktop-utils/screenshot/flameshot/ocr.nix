@@ -59,10 +59,12 @@ let
 
 in
 {
-  home.packages = [
-    flameshot-ocr-script
-    flameshot-ocr-desktop
-    ocr-standalone-script
-    tesseract-with-lang
-  ];
+  config = lib.mkIf (builtins.elem "flameshot" osConfig.myModule.home.screenshots) {
+    home.packages = [
+      flameshot-ocr-script
+      flameshot-ocr-desktop
+      ocr-standalone-script
+      tesseract-with-lang
+    ];
+  };
 }

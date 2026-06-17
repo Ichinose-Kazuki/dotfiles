@@ -18,48 +18,50 @@ let
   kdeConnectHandlers = [ "org.kde.dolphin.desktop" ];
 in
 {
-  xdg.mimeApps = {
-    enable = true;
+  config = lib.mkIf (osConfig.myModule.home.compositor != "none") {
+    xdg.mimeApps = {
+      enable = true;
 
-    defaultApplications = {
-      # Web
-      "text/html" = browsers;
-      "x-scheme-handler/http" = browsers;
-      "x-scheme-handler/https" = browsers;
-      "x-scheme-handler/about" = browsers;
-      "x-scheme-handler/unknown" = browsers;
+      defaultApplications = {
+        # Web
+        "text/html" = browsers;
+        "x-scheme-handler/http" = browsers;
+        "x-scheme-handler/https" = browsers;
+        "x-scheme-handler/about" = browsers;
+        "x-scheme-handler/unknown" = browsers;
 
-      # File Manager
-      "inode/directory" = fileManagers;
+        # File Manager
+        "inode/directory" = fileManagers;
 
-      # PDF
-      "application/pdf" = pdfReaders;
+        # PDF
+        "application/pdf" = pdfReaders;
 
-      # Images
-      "image/jpeg" = imageViewers;
-      "image/png" = imageViewers;
-      "image/svg+xml" = imageViewers;
-      "image/webp" = imageViewers;
+        # Images
+        "image/jpeg" = imageViewers;
+        "image/png" = imageViewers;
+        "image/svg+xml" = imageViewers;
+        "image/webp" = imageViewers;
 
-      # Text
-      "text/plain" = textEditors;
-      "text/markdown" = textEditors;
-      "application/json" = textEditors;
+        # Text
+        "text/plain" = textEditors;
+        "text/markdown" = textEditors;
+        "application/json" = textEditors;
 
-      # KDE connect
-      "x-scheme-handler/kdeconnect" = kdeConnectHandlers;
+        # KDE connect
+        "x-scheme-handler/kdeconnect" = kdeConnectHandlers;
+      };
     };
-  };
 
-  xdg.desktopEntries.nvim = {
-    name = "Neovim";
-    genericName = "Text Editor";
-    exec = "nvim %F";
-    terminal = true; # Open in terminal
-    categories = [
-      "Utility"
-      "TextEditor"
-    ];
-    mimeType = [ "text/plain" ];
+    xdg.desktopEntries.nvim = {
+      name = "Neovim";
+      genericName = "Text Editor";
+      exec = "nvim %F";
+      terminal = true; # Open in terminal
+      categories = [
+        "Utility"
+        "TextEditor"
+      ];
+      mimeType = [ "text/plain" ];
+    };
   };
 }
