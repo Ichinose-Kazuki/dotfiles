@@ -91,6 +91,11 @@ in
       default = false;
       description = "Enable the Tailscale VPN daemon.";
     };
+    cockpit = mkOption {
+      type = types.bool;
+      default = false;
+      description = "Enable the Cockpit web management UI.";
+    };
 
     # Hardware toggles — normally DERIVED (see my-module-derived.nix) from
     # `machine` / `desktop`, but declared here so a host can override them.

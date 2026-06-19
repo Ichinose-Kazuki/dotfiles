@@ -1,7 +1,5 @@
 { ... }:
 
 {
-  imports = [
-    ./ssh
-  ];
+  # ./ssh is auto-imported by import-tree.
 }

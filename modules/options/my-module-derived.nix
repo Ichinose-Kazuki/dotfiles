@@ -12,10 +12,16 @@ let
   cfg = config.myModule;
 in
 {
-  config.myModule.hardware = {
-    # Any graphical session wants audio.
-    sound = lib.mkDefault (cfg.desktop.compositor != "none");
-    # Laptops have a battery worth managing.
-    battery = lib.mkDefault (cfg.machine == "laptop");
+  config.myModule = {
+    hardware = {
+      # Any graphical session wants audio.
+      sound = lib.mkDefault (cfg.desktop.compositor != "none");
+      # Laptops have a battery worth managing.
+      battery = lib.mkDefault (cfg.machine == "laptop");
+    };
+
+    # Cockpit's options require a recent nixpkgs; the SBC hosts pin an older
+    # one, so default it off there and on for full machines.
+    cockpit = lib.mkDefault (cfg.machine != "sbc");
   };
 }

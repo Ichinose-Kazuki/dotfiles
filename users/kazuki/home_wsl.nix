@@ -8,10 +8,7 @@
 }:
 
 {
-  imports = with inputs; [
-    self.homeManagerModules.kazuki.common
-    self.homeManagerModules.kazuki.wsl2
-  ];
+  # Modules are auto-imported via import-tree in hosts/wsl2/nixosConfiguration.nix.
 
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
@@ -183,8 +180,8 @@
       '';
     };
   };
-  # Zsh: username color
-  myOps.zshUserNameColor = "green";
+  # Zsh username color is set via myModule.shell.zshUserNameColor in
+  # hosts/wsl2/host.nix (read through osConfig).
 
   # Internationalization
   # i18n = {
