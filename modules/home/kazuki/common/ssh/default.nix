@@ -7,11 +7,22 @@
 }:
 
 let
-  isHM2505 = !lib.hasAttrByPath [ "programs" "ssh" "enableDefaultConfig" ] options;
+  # Three home-manager SSH API generations:
+  # 1. HM 24.05 (raspi-home-manager): no enableDefaultConfig, uses top-level
+  #    addKeysToAgent/controlMaster + matchBlocks.
+  # 2. HM 25.05 (main home-manager): has enableDefaultConfig + settings."*".
+  # 3. HM 25.11 (nixos-raspberrypi-home-manager): has enableDefaultConfig but
+  #    no settings, uses matchBlocks only.
+  hasEnableDefaultConfig = lib.hasAttrByPath [ "programs" "ssh" "enableDefaultConfig" ] options;
+  hasSshSettings = lib.hasAttrByPath [ "programs" "ssh" "settings" ] options;
+
+  # Legacy check name kept for clarity: true = old HM without enableDefaultConfig
+  isHM2505 = !hasEnableDefaultConfig;
 in
 {
   programs.ssh =
     if isHM2505 then
+      # HM 24.05 old API: top-level options + matchBlocks
       {
         enable = true;
         includes = [ "conf.d/*" ];
@@ -28,8 +39,8 @@ in
           serverAliveCountMax = 3;
         };
       }
-    # x1carbon, tsuyoServer
-    else
+    else if hasSshSettings then
+      # HM 25.05 new API: settings."*" block (matchBlocks is deprecated alias)
       {
         enable = true;
         includes = [ "conf.d/*" ];
@@ -46,6 +57,28 @@ in
           controlPath = "~/.ssh/master-%r@%n:%p";
           controlPersist = "no";
         };
+      }
+    else
+      # HM 25.11 (nixos-raspberrypi): has enableDefaultConfig but no settings;
+      # uses matchBlocks like old API, but needs enableDefaultConfig set
+      {
+        enable = true;
+        includes = [ "conf.d/*" ];
+        enableDefaultConfig = false;
+        matchBlocks."*" = {
+          forwardAgent = true;
+          compression = false;
+          serverAliveInterval = 0;
+          serverAliveCountMax = 3;
+        };
+        extraConfig = ''
+          AddKeysToAgent confirm
+          HashKnownHosts no
+          UserKnownHostsFile ~/.ssh/known_hosts
+          ControlMaster no
+          ControlPath ~/.ssh/master-%r@%n:%p
+          ControlPersist no
+        '';
       };
 
   # workaround for .ssh/config permission problem in vscode-fhs

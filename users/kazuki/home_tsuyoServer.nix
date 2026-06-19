@@ -8,10 +8,7 @@
 }:
 
 {
-  imports = with inputs; [
-    self.homeManagerModules.kazuki.common
-    self.homeManagerModules.kazuki.tsuyoServer
-  ];
+  # Modules are auto-imported via import-tree in hosts/tsuyoServer/nixosConfiguration.nix.
 
   # Home Manager needs a bit of information about you and the paths it should
   # manage.

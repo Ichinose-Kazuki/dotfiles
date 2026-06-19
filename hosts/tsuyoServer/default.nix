@@ -11,19 +11,9 @@
 }:
 
 {
-  imports = with inputs; [
-    # Include the results of the hardware scan.
-    ./hardware-configuration.nix
-    nix-index-database.nixosModules.nix-index
-    disko.nixosModules.disko
-    ./disko.nix
-    self.nixosModules.common
-    # NOTE: under flake-parts `self.nixosModules.*` are module sets, not paths,
-    # so the old `(self.nixosModules.common + /devtool)` path arithmetic no
-    # longer works. Reference the devtool module by path off the flake source.
-    (self + /modules/nixos/common/devtool)
-    self.nixosModules.tsuyoServer
-  ];
+  # Module imports (common, devtool, tsuyoServer) and hardware/disko are now
+  # wired via import-tree in nixosConfiguration.nix. This file keeps only the
+  # host identity / boot / networking configuration.
 
   nix.settings = {
     trusted-users = [ "@wheel" ];

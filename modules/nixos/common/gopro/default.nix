@@ -1,7 +1,6 @@
 { pkgs, lib, config, ... }:
 {
-  # TODO: dendritic rollout — needs a myModule toggle
-  config = lib.mkIf false {
+  config = lib.mkIf config.myModule.gopro {
     environment.systemPackages = with pkgs; [
       # GoPro からのファイル転送 (Media Transfer Protocol)
       simple-mtpfs

@@ -23,5 +23,8 @@ in
     # Cockpit's options require a recent nixpkgs; the SBC hosts pin an older
     # one, so default it off there and on for full machines.
     cockpit = lib.mkDefault (cfg.machine != "sbc");
+
+    # Lix (pkgs.lixPackageSets) likewise needs a recent nixpkgs.
+    lix = lib.mkDefault (cfg.machine != "sbc");
   };
 }

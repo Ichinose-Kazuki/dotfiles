@@ -8,11 +8,6 @@
 }:
 
 {
-  imports = with inputs; [
-    self.homeManagerModules.kazuki.common
-    self.homeManagerModules.kazuki.raspi3bp
-  ];
-
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = "kazuki";

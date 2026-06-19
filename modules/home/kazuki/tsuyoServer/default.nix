@@ -1,9 +1,6 @@
 { ... }:
 
 {
-  imports = [
-    ../editor
-  ];
-
-  myOps.zshUserNameColor = "212"; # Cherry blossom
+  # ../editor is auto-imported via import-tree.
+  # zsh username colour is set via myModule.shell.zshUserNameColor in host.nix.
 }

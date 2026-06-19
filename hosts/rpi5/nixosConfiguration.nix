@@ -3,6 +3,9 @@ inputs@{
   nixos-hardware,
   nixos-raspberrypi,
   nixos-raspberrypi-home-manager,
+  nixos-raspberrypi-disko,
+  nixos-raspberrypi-index-database,
+  import-tree,
   ...
 }:
 
@@ -141,12 +144,31 @@ nixos-raspberrypi.lib.nixosSystem {
   specialArgs = inputs;
   modules = [
 
-    ../rpi5
+    nixos-raspberrypi-disko.nixosModules.disko
+    nixos-raspberrypi-index-database.nixosModules.nix-index
+    ../../modules/options/my-module.nix
+    ../../modules/options/my-module-derived.nix
+    ./host.nix
+    ./default.nix
+    # Auto-import NixOS modules for rpi5 (common + rpi5-specific).
+    (import-tree [
+      ../../modules/nixos/common
+      ../../modules/nixos/rpi5
+    ])
 
     nixos-raspberrypi-home-manager.nixosModules.home-manager
     {
       home-manager.useGlobalPkgs = true;
       home-manager.useUserPackages = true;
+      home-manager.sharedModules = [
+        ../../modules/options/my-module.nix
+        ../../modules/options/my-module-derived.nix
+        (import-tree [
+          ../../modules/home/kazuki/common
+          ../../modules/home/kazuki/rpi5
+          ../../modules/home/kazuki/editor
+        ])
+      ];
       home-manager.users.kazuki = import ../../users/kazuki/home_rpi5.nix;
       home-manager.extraSpecialArgs = {
         inherit inputs;

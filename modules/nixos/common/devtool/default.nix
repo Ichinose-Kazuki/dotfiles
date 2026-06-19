@@ -1,7 +1,6 @@
 { pkgs, lib, config, ... }:
 {
-  # TODO: dendritic rollout — needs a myModule toggle
-  config = lib.mkIf false {
+  config = lib.mkIf config.myModule.devtool {
     environment.systemPackages = with pkgs; [
       # Linux Kernel Build
       gnumake
@@ -9,7 +8,7 @@
       binutils
       mtdutils
       jfsutils
-      reiserfsprogs
+      # reiserfsprogs removed from nixpkgs 2025-11-13 (ReiserFS v3 unmaintained).
       libxfs
       squashfsTools
       btrfs-progs

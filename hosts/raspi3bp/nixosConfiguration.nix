@@ -4,6 +4,8 @@ inputs@{
   raspberry-pi-nix,
   raspi-home-manager,
   raspi-nixpkgs,
+  raspi-nix-index-database,
+  import-tree,
   ...
 }:
 
@@ -57,12 +59,29 @@ raspi-nixpkgs.lib.nixosSystem {
     nixos-hardware.nixosModules.raspberry-pi-3
     raspberry-pi-nix.nixosModules.raspberry-pi
     impermanence.nixosModules.impermanence
+    raspi-nix-index-database.nixosModules.nix-index
     basic-config
-    ../raspi3bp
+    ../../modules/options/my-module.nix
+    ../../modules/options/my-module-derived.nix
+    ./host.nix
+    ./default.nix
+    # Auto-import NixOS modules for raspi3bp (common + raspi3bp-specific).
+    (import-tree [
+      ../../modules/nixos/common
+      ../../modules/nixos/raspi3bp
+    ])
     raspi-home-manager.nixosModules.home-manager
     {
       home-manager.useGlobalPkgs = true;
       home-manager.useUserPackages = true;
+      home-manager.sharedModules = [
+        ../../modules/options/my-module.nix
+        ../../modules/options/my-module-derived.nix
+        (import-tree [
+          ../../modules/home/kazuki/common
+          ../../modules/home/kazuki/raspi3bp
+        ])
+      ];
       home-manager.users.kazuki = import ../../users/kazuki/home_raspi.nix;
       home-manager.extraSpecialArgs = {
         inherit inputs;

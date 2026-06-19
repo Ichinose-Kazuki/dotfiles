@@ -96,6 +96,21 @@ in
       default = false;
       description = "Enable the Cockpit web management UI.";
     };
+    devtool = mkOption {
+      type = types.bool;
+      default = false;
+      description = "Install kernel-build / filesystem development tooling.";
+    };
+    gopro = mkOption {
+      type = types.bool;
+      default = false;
+      description = "Install GoPro media-transfer / video tooling.";
+    };
+    lix = mkOption {
+      type = types.bool;
+      default = false;
+      description = "Use the Lix nix package (needs a recent nixpkgs).";
+    };
 
     # Hardware toggles — normally DERIVED (see my-module-derived.nix) from
     # `machine` / `desktop`, but declared here so a host can override them.

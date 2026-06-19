@@ -3,23 +3,16 @@
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
 {
-  self,
   config,
   lib,
   pkgs,
-  nixos-raspberrypi-disko,
-  nixos-raspberrypi-index-database,
   ...
 }:
 
 {
 
   imports = [
-    nixos-raspberrypi-disko.nixosModules.disko
     ./disko.nix
-    nixos-raspberrypi-index-database.nixosModules.nix-index
-    self.nixosModules.common
-    self.nixosModules.rpi5
   ];
 
   # # Limit journal size

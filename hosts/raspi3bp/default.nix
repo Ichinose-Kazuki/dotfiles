@@ -6,17 +6,13 @@
   config,
   lib,
   pkgs,
-  inputs,
   ...
 }:
 
 {
-  imports = with inputs; [
+  imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
-    raspi-nix-index-database.nixosModules.nix-index
-    self.nixosModules.common
-    self.nixosModules.raspi3bp
   ];
 
   nix.settings = {

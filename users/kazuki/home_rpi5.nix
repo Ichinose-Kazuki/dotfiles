@@ -8,11 +8,6 @@
 }:
 
 {
-  imports = with inputs; [
-    self.homeManagerModules.kazuki.common
-    self.homeManagerModules.kazuki.rpi5
-  ];
-
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = "kazuki";
