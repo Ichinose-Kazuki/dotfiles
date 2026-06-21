@@ -12,7 +12,7 @@
       libxfs
       squashfsTools
       btrfs-progs
-      pcmciaUtils
+      pcmciautils
       quota
       ppp
       nfs-utils

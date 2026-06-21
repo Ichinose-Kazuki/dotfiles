@@ -128,7 +128,7 @@
     };
   };
 
-  programs.git.extraConfig = {
+  programs.git.settings = {
     safe.directory = "/home/kazuki/mnt/windows/Users/tsuyotsuyo/Desktop/gopro";
   };
 
