@@ -9,12 +9,12 @@
 
 let
   # `programs.zsh.initContent` was added in home-manager ~25.05; older releases
-  # (e.g. raspi3bp's HM 24.05) use `programs.zsh.initExtra`.
+  # use `programs.zsh.initExtra`.
   hasInitContent = lib.hasAttrByPath [ "programs" "zsh" "initContent" ] options;
 
   # The init snippet is identical for both old and new HM — only the option
   # name differs. Build it once so the new-HM branch is byte-for-byte equal to
-  # what the old module produced (no drift on x1carbon/wsl2/tsuyoServer).
+  # what the old module produced (no drift on x1carbon/tsuyoServer).
   initSnippet = ''
     zstyle ':prompt:grml:*:items:user' pre '%F{${osConfig.myModule.shell.zshUserNameColor}}'
 

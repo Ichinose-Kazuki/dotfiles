@@ -7,12 +7,12 @@
 }:
 
 let
-  # Three home-manager SSH API generations:
-  # 1. HM 24.05 (raspi-home-manager): no enableDefaultConfig, uses top-level
-  #    addKeysToAgent/controlMaster + matchBlocks.
+  # Three home-manager SSH API generations (detected by capability, not host):
+  # 1. Old HM (no enableDefaultConfig): top-level addKeysToAgent/controlMaster
+  #    + matchBlocks. No current host uses this, kept as a defensive fallback.
   # 2. HM 25.05 (main home-manager): has enableDefaultConfig + settings."*".
-  # 3. HM 25.11 (nixos-raspberrypi-home-manager): has enableDefaultConfig but
-  #    no settings, uses matchBlocks only.
+  # 3. HM 25.11 (nixos-raspberrypi-home-manager, rpi5): has enableDefaultConfig
+  #    but no settings, uses matchBlocks only.
   hasEnableDefaultConfig = lib.hasAttrByPath [ "programs" "ssh" "enableDefaultConfig" ] options;
   hasSshSettings = lib.hasAttrByPath [ "programs" "ssh" "settings" ] options;
 

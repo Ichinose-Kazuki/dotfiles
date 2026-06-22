@@ -8,7 +8,7 @@
 
 let
   # `programs.git.settings` was added in home-manager ~24.11; older releases
-  # (e.g. raspi3bp's HM 24.05) use userName/userEmail/aliases/extraConfig.
+  # use userName/userEmail/aliases/extraConfig.
   hasGitSettings = lib.hasAttrByPath [ "programs" "git" "settings" ] options;
 
   # `programs.delta` was added in home-manager ~24.11; guard it for old HM.
