@@ -7,5 +7,7 @@
 }:
 
 {
-  services.wl-clip-persist.enable = true;
+  config = lib.mkIf (osConfig.myModule.hostName == "x1carbon") {
+    services.wl-clip-persist.enable = true;
+  };
 }

@@ -48,10 +48,12 @@ let
       '';
 in
 {
-  # Mozc database / Mozc データベース
-  # Store Mozc's durable keymap and behavior settings. / Mozc の持続設定とキーマップを保持する。
-  xdg.configFile."mozc/config1.db" = {
-    force = true;
-    source = mozcConfigDb;
+  config = lib.mkIf (osConfig.myModule.hostName == "x1carbon") {
+    # Mozc database / Mozc データベース
+    # Store Mozc's durable keymap and behavior settings. / Mozc の持続設定とキーマップを保持する。
+    xdg.configFile."mozc/config1.db" = {
+      force = true;
+      source = mozcConfigDb;
+    };
   };
 }

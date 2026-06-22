@@ -7,7 +7,9 @@
 }:
 
 {
-  services.udiskie = {
-    enable = true;
+  config = lib.mkIf (osConfig.myModule.hostName == "x1carbon") {
+    services.udiskie = {
+      enable = true;
+    };
   };
 }

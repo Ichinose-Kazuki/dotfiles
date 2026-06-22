@@ -7,7 +7,9 @@
 }:
 
 {
-  programs.btop = {
-    enable = true;
+  config = lib.mkIf (osConfig.myModule.hostName == "x1carbon") {
+    programs.btop = {
+      enable = true;
+    };
   };
 }

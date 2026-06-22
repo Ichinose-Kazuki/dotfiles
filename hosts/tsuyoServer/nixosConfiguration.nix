@@ -26,14 +26,9 @@ nixpkgs.lib.nixosSystem {
     ./hardware-configuration.nix
     ./disko.nix
     ./default.nix
-    # Auto-import the NixOS modules relevant to tsuyoServer. The docker module
-    # lives under x1carbon/ but is shared; pull just that leaf.
-    (import-tree [
-      ../../modules/nixos/common
-      ../../modules/nixos/tsuyoServer
-      ../../modules/nixos/files
-      ../../modules/nixos/x1carbon/docker
-    ])
+    # Whole-tree import; host-specific modules guard on myModule.hostName,
+    # feature modules (docker, files, ...) on their myModule selector.
+    (import-tree ../../modules/nixos)
     home-manager.nixosModules.home-manager
     {
       home-manager.useGlobalPkgs = true;
@@ -41,11 +36,7 @@ nixpkgs.lib.nixosSystem {
       home-manager.sharedModules = [
         ../../modules/options/my-module.nix
         ../../modules/options/my-module-derived.nix
-        (import-tree [
-          ../../modules/home/kazuki/common
-          ../../modules/home/kazuki/tsuyoServer
-          ../../modules/home/kazuki/editor
-        ])
+        (import-tree ../../modules/home/kazuki)
       ];
       home-manager.users.kazuki = import ../../users/kazuki/home_tsuyoServer.nix;
       home-manager.extraSpecialArgs = {

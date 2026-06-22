@@ -141,7 +141,12 @@ let
     };
 in
 nixos-raspberrypi.lib.nixosSystem {
-  specialArgs = inputs;
+  # Spread inputs as top-level specialArgs (rpi5 modules use e.g. nixos-raspberrypi
+  # directly), AND expose a nested `inputs` arg so shared feature modules that
+  # take `{ inputs, ... }` (e.g. niri) work under whole-tree import.
+  specialArgs = inputs // {
+    inherit inputs;
+  };
   modules = [
 
     nixos-raspberrypi-disko.nixosModules.disko
@@ -150,11 +155,8 @@ nixos-raspberrypi.lib.nixosSystem {
     ../../modules/options/my-module-derived.nix
     ./host.nix
     ./default.nix
-    # Auto-import NixOS modules for rpi5 (common + rpi5-specific).
-    (import-tree [
-      ../../modules/nixos/common
-      ../../modules/nixos/rpi5
-    ])
+    # Whole-tree import; host-specific modules guard on myModule.hostName.
+    (import-tree ../../modules/nixos)
 
     nixos-raspberrypi-home-manager.nixosModules.home-manager
     {
@@ -163,6 +165,11 @@ nixos-raspberrypi.lib.nixosSystem {
       home-manager.sharedModules = [
         ../../modules/options/my-module.nix
         ../../modules/options/my-module-derived.nix
+        # NOTE: home stays SCOPED on rpi5. Its home-manager (nixos-raspberrypi
+        # pin) is older than the other hosts' and lacks options used by the GUI
+        # home modules (e.g. services.swayidle.systemdTargets), which would fail
+        # option-path resolution under whole-tree even though they're guarded
+        # off. rpi5 is a headless sbc, so it only needs common + host + editor.
         (import-tree [
           ../../modules/home/kazuki/common
           ../../modules/home/kazuki/rpi5

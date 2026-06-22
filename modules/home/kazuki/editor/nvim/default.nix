@@ -8,7 +8,10 @@
 }:
 
 {
-  imports = lib.optionals (builtins.elem "nvim" osConfig.myModule.home.editors) [
+  # Imported unconditionally so the `myNvim` option is always declared (needed
+  # under whole-tree import, where every host reads this module). Activation is
+  # still gated by the mkIf below.
+  imports = [
     inputs.nvim-config.homeManagerModules.default
   ];
 

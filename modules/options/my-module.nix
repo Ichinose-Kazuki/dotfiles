@@ -15,6 +15,19 @@ let
 in
 {
   options.myModule = {
+    # Host identity — drives host-specific module guards under whole-tree
+    # import. Every module tree is imported by every host, so genuinely
+    # host-specific (hardware) modules guard on this. No default: each host
+    # must set it explicitly (a missing value should fail loudly).
+    hostName = mkOption {
+      type = types.enum [
+        "x1carbon"
+        "tsuyoServer"
+        "rpi5"
+      ];
+      description = "Host identity; guards host-specific modules.";
+    };
+
     # Machine form factor — drives derived defaults (e.g. battery on laptops).
     machine = mkOption {
       type = types.enum [

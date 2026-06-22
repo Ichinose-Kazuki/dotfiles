@@ -11,7 +11,11 @@ let
   isNoctalia = builtins.elem "noctalia" osConfig.myModule.home.desktopComponents;
 in
 {
-  imports = lib.optionals isNoctalia [
+  # Imported unconditionally so `programs.noctalia-shell` is always declared
+  # (needed under whole-tree import — the sibling colors/plugins/settings/
+  # wallpapers modules reference it under their own mkIf guards). Activation is
+  # gated by the mkIf below.
+  imports = [
     inputs.noctalia.homeModules.default
   ];
 

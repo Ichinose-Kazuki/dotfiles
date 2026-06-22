@@ -13,6 +13,7 @@
 
 {
   myModule = {
+    hostName = "x1carbon";
     machine = "laptop";
 
     desktop = {

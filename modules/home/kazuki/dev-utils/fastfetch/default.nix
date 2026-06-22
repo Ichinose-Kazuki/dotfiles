@@ -7,7 +7,9 @@
 }:
 
 {
-  programs.fastfetch = {
-    enable = true;
+  config = lib.mkIf (osConfig.myModule.hostName == "x1carbon") {
+    programs.fastfetch = {
+      enable = true;
+    };
   };
 }

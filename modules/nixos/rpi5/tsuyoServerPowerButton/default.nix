@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 let
   pythonLibgpiod = (
@@ -10,24 +10,26 @@ let
   );
 in
 {
-  environment.systemPackages = with pkgs; [
-    pythonLibgpiod
-    libgpiod
-    gcc
-  ];
+  config = lib.mkIf (config.myModule.hostName == "rpi5") {
+    environment.systemPackages = with pkgs; [
+      pythonLibgpiod
+      libgpiod
+      gcc
+    ];
 
-  # Run the power button script on boot
-  systemd.services.tsuyoServerPowerButtonService = {
-    description = "tsuyoServer Power Button Service";
-    wantedBy = [ "multi-user.target" ];
-    path = with pkgs; [
-      iputils
-      wol
-      openssh
-    ]; # ping, wol and ssh commands in the script
-    serviceConfig = {
-      ExecStart = "${pythonLibgpiod}/bin/python ${./watch_power_button.py}";
-      Restart = "always";
+    # Run the power button script on boot
+    systemd.services.tsuyoServerPowerButtonService = {
+      description = "tsuyoServer Power Button Service";
+      wantedBy = [ "multi-user.target" ];
+      path = with pkgs; [
+        iputils
+        wol
+        openssh
+      ]; # ping, wol and ssh commands in the script
+      serviceConfig = {
+        ExecStart = "${pythonLibgpiod}/bin/python ${./watch_power_button.py}";
+        Restart = "always";
+      };
     };
   };
 }

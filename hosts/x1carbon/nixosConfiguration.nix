@@ -34,17 +34,9 @@ nixpkgs.lib.nixosSystem {
     ./host.nix
     ./hardware-configuration.nix
     ./disko.nix
-    # Auto-import all NixOS modules relevant to x1carbon. Other hosts' module
-    # dirs are intentionally excluded; rollout uses per-host scoped roots.
-    (import-tree [
-      ../../modules/nixos/common
-      ../../modules/nixos/x1carbon
-      ../../modules/nixos/keyboard
-      ../../modules/nixos/keyring
-      ../../modules/nixos/files
-      ../../modules/nixos/system-components
-    ])
-    niri.nixosModules.niri
+    # Whole-tree import: every host imports all NixOS modules. Host-specific
+    # ones guard on myModule.hostName; feature modules on their myModule selector.
+    (import-tree ../../modules/nixos)
     home-manager.nixosModules.home-manager
     {
       home-manager.useGlobalPkgs = true;
@@ -53,17 +45,7 @@ nixpkgs.lib.nixosSystem {
       home-manager.sharedModules = [
         ../../modules/options/my-module.nix
         ../../modules/options/my-module-derived.nix
-        (import-tree [
-          ../../modules/home/kazuki/common
-          ../../modules/home/kazuki/x1carbon
-          ../../modules/home/kazuki/desktop
-          ../../modules/home/kazuki/desktop-utils
-          ../../modules/home/kazuki/dev-utils
-          ../../modules/home/kazuki/editor
-          ../../modules/home/kazuki/entertainment
-          ../../modules/home/kazuki/input-method
-          ../../modules/home/kazuki/keyring
-        ])
+        (import-tree ../../modules/home/kazuki)
       ];
       home-manager.users.kazuki = import ../../users/kazuki/home_x1carbon.nix;
       home-manager.extraSpecialArgs = {

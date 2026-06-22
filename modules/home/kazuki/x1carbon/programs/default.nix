@@ -1,10 +1,14 @@
 {
   pkgs,
+  lib,
+  osConfig,
   ...
 }:
 
 {
-  home.packages = with pkgs; [
-    todoist-electron
-  ];
+  config = lib.mkIf (osConfig.myModule.hostName == "x1carbon") {
+    home.packages = with pkgs; [
+      todoist-electron
+    ];
+  };
 }

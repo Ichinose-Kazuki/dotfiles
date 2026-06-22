@@ -6,6 +6,7 @@
 
 {
   myModule = {
+    hostName = "tsuyoServer";
     machine = "server";
 
     desktop = {

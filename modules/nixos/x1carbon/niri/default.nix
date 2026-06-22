@@ -7,30 +7,42 @@
 }:
 
 {
-  config = lib.mkIf (config.myModule.desktop.compositor == "niri") {
-    # nixpkgs.overlays = [ inputs.niri.overlays.niri ];
+  # Imported unconditionally so the niri-flake options (programs.niri,
+  # niri-flake.*) are always declared under whole-tree import. Activation is
+  # gated by the mkIf below.
+  imports = [
+    inputs.niri.nixosModules.niri
+  ];
 
-    programs.niri = {
-      enable = true;
-      package = pkgs.niri;
-    };
+  config = lib.mkMerge [
+    # Disable niri-flake's binary cache on ALL hosts (it doesn't work with
+    # nixos-unstable). Unconditional so importing the niri module on a non-niri
+    # host doesn't leak niri.cachix.org into nix.settings.substituters.
+    { niri-flake.cache.enable = false; }
 
-    niri-flake.cache.enable = false; # not working with nixos-unstable
+    (lib.mkIf (config.myModule.desktop.compositor == "niri") {
+      # nixpkgs.overlays = [ inputs.niri.overlays.niri ];
 
-    environment.variables = {
-      NIXOS_OZONE_WL = "1";
-      SDL_VIDEODRIVER = "wayland";
-      _JAVA_AWT_WM_NONREPARENTING = "1";
-      QT_QPA_PLATFORM = "wayland";
-      QT_SCREEN_SCALE_FACTORS = "1;1;1"; # For flameshot?
-    };
-    environment.systemPackages = with pkgs; [
-      wl-clipboard
-      wayland-utils
-      libsecret
-      xwayland-satellite
-    ];
+      programs.niri = {
+        enable = true;
+        package = pkgs.niri;
+      };
 
-    security.soteria.enable = true;
-  };
+      environment.variables = {
+        NIXOS_OZONE_WL = "1";
+        SDL_VIDEODRIVER = "wayland";
+        _JAVA_AWT_WM_NONREPARENTING = "1";
+        QT_QPA_PLATFORM = "wayland";
+        QT_SCREEN_SCALE_FACTORS = "1;1;1"; # For flameshot?
+      };
+      environment.systemPackages = with pkgs; [
+        wl-clipboard
+        wayland-utils
+        libsecret
+        xwayland-satellite
+      ];
+
+      security.soteria.enable = true;
+    })
+  ];
 }

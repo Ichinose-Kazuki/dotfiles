@@ -6,6 +6,7 @@
 
 {
   myModule = {
+    hostName = "rpi5";
     machine = "sbc";
 
     desktop = {
