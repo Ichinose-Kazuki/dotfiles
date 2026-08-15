@@ -5,9 +5,6 @@
   ...
 }:
 
-# plugin とかは obsidian の使い方が固まってから nix で書く
-# remotely save で plugin も sync されるか要確認
-
 let
   obsidian-app-id-fixed = pkgs.obsidian.overrideAttrs (old: {
     # asar と jq を追加
@@ -65,9 +62,8 @@ let
   });
 in
 {
+  # not configuring plugins by nix, bc they are synced by git
   imports = [
-    ./community-plugins
-    ./core-plugins
     ./vaults
   ];
 
