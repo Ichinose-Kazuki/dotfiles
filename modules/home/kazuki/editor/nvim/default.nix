@@ -22,4 +22,6 @@
       "clangd"
     ];
   };
+
+  programs.zsh.shellAliases.n = "nvim";
 }
