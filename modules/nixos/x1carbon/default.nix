@@ -22,6 +22,7 @@
     ./sound
     ./ssh
     # ./sway
+    ./waydroid
     # ./wayland
     ./wtfutil
     ../keyboard
