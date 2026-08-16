@@ -5,6 +5,7 @@
   ...
 }:
 
+# Read https://wiki.nixos.org/wiki/Waydroid for usage
 {
   virtualisation.waydroid.enable = true;
   # Newer kernel versions may need
