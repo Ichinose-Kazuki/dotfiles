@@ -19,13 +19,13 @@
     background-color = "#003300";
 
     preset-column-widths = [
-      { proportion = 0.3; }
+      { proportion = 0.33333; }
       { proportion = 0.5; }
-      { proportion = 0.7; }
+      { proportion = 0.66667; }
     ];
 
     default-column-width = {
-      proportion = 0.5;
+      proportion = 1.0;
     };
 
     preset-window-heights = [
