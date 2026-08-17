@@ -52,11 +52,6 @@
     variant = "";
   };
 
-  # Select internationalisation properties.
-  i18n = {
-    defaultLocale = "ja_JP.UTF-8";
-  };
-
   # Enable touchpad support (enabled by default in most desktopManager).
   services.libinput.enable = true;
 

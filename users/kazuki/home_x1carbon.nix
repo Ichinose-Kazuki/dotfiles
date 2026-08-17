@@ -151,14 +151,7 @@ in
     };
   };
 
-  # Internationalization
-  i18n = {
-    glibcLocales = pkgs.glibcLocales.override {
-      allLocales = false;
-      locales = [ "ja_JP.UTF-8/UTF-8" ];
-    };
-  };
-
+  
   xdg.userDirs = {
     enable = true;
     createDirectories = true;

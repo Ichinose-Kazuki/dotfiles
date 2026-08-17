@@ -22,7 +22,10 @@
   time.timeZone = "Asia/Tokyo";
 
   # Select internationalisation properties.
-  i18n.defaultLocale = "ja_JP.UTF-8";
+  i18n = {
+    defaultLocale = "ja_JP.UTF-8";
+    extraLocales = "all";
+  };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.kazuki = {
