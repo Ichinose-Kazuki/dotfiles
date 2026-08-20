@@ -6,7 +6,7 @@
 }:
 
 {
-  programs.regreet = {
+  services.displayManager.regreet = {
     enable = true;
     cageArgs = [
       "-s"
@@ -15,7 +15,7 @@
       "last"
     ];
     theme = {
-      package = pkgs.canta-theme;
+      package = pkgs.colloid-gtk-theme;
       name = "";
     };
     settings = {

@@ -10,7 +10,7 @@
     ./vim
   ]
   ++ lib.optionals (host == "x1carbon") [
-    ./antigravity
-    ./vscode
+      # ./antigravity
+      # ./vscode
   ];
 }

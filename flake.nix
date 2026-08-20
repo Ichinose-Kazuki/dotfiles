@@ -128,8 +128,8 @@
     };
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     noctalia = {
-      url = "github:noctalia-dev/noctalia-shell";
-      inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:noctalia-dev/noctalia-shell/v4.7.7";
+      # inputs.nixpkgs.follows = "nixpkgs"; 
     };
     nvim-config = {
       url = "github:Ichinose-Kazuki/nvim-config";
@@ -150,5 +150,9 @@
       inputs.nixpkgs.follows = "raspi-nixpkgs";
     };
     raspi-nixpkgs.follows = "raspberry-pi-nix/nixpkgs"; # Avoid rebuilding linux kernel
+    waydroid-script = {
+      url = "github:casualsnek/waydroid_script";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 }

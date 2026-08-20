@@ -8,6 +8,6 @@
 
 {
   home.packages = with pkgs; [
-    antigravity-fhs
+    antigravity-ide-fhs
   ];
 }
