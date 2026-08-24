@@ -9,7 +9,7 @@
 
 {
   imports = [
-    inputs.nvim-config.homeManagerModules.default
+    inputs.nvim-config.homeModules.default
   ];
 
   myNvim = {
@@ -17,7 +17,7 @@
     fileExplorer = "oil"; # "oil" または "neo-tree"
     lsp.servers = [
       "lua_ls"
-      "nixd"
+      "nil_ls"
       "pyright"
       "clangd"
     ];

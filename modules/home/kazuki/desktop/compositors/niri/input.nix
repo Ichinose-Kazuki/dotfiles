@@ -19,8 +19,8 @@
         # file "~/.config/keymap.xkb"
       };
 
-      repeat-delay 250
-      repeat-rate 31
+      repeat-delay = 250;
+      repeat-rate = 31;
       # track-layout "global"
       # numlock
     };

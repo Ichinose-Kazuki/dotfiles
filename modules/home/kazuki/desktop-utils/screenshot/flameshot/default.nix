@@ -15,18 +15,11 @@
 
   services.flameshot = {
     enable = true;
-    # package = pkgs.flameshot.override {
-    #   enableWlrSupport = true;
-    # };
-    # wlr support is enabled by default in v14.0.0
-    package = inputs.flameshot.packages.${pkgs.stdenv.hostPlatform.system}.default;
     settings = {
       General = {
-        # disabledGrimWarning = true; # Not required in v14.0.0
         disabledTrayIcon = true;
         showAbortNotification = false;
         showStartupLaunchMessage = false;
-        # useGrimAdapter = true; # Not required in v14.0.0
       };
     };
   };

@@ -5,6 +5,14 @@
   ...
 }:
 
+let
+  systemctl-bin = (lib.getExe' pkgs.systemd "systemctl");
+  journalctl-bin = (lib.getExe' pkgs.systemd "journalctl");
+  dash-bin = (lib.getExe pkgs.dash);
+  df-bin = (lib.getExe' pkgs.coreutils "df");
+  sudo-bin = "${config.security.wrapperDir}/sudo";
+  btrfs-bin = (lib.getExe pkgs.btrfs-progs);
+in
 {
   environment.etc."startup-wtf-dashboard.yml".text = ''
     wtf:
@@ -31,7 +39,7 @@
 
         systemd-failed:
           type: cmdrunner
-          cmd: "systemctl"
+          cmd: "${systemctl-bin}"
           args: ["--failed", "--no-pager"]
           enabled: true
           position:
@@ -44,7 +52,7 @@
 
         journal-errors:
           type: cmdrunner
-          cmd: "journalctl"
+          cmd: "${journalctl-bin}"
           args: ["-p", "3", "-xb", "-n", "15", "--no-pager"]
           enabled: true
           position:
@@ -57,8 +65,8 @@
 
         disk-usage:
           type: cmdrunner
-          cmd: "sh"
-          args: ["-c", "df -h / /home && echo '\n--- BTRFS System ---' && sudo btrfs filesystem df /"]
+          cmd: "${dash-bin}"
+          args: ["-c", "${df-bin} -h / /home && echo '\n--- BTRFS System ---' && ${sudo-bin} ${btrfs-bin} filesystem df /"]
           enabled: true
           position:
             top: 1
