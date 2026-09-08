@@ -81,7 +81,7 @@
   # Run `nix flake metadata [this dir]` to know which "follows" need to be added.
   inputs = {
     agent-sandbox = {
-      url = "git+ssh://github.com/Ichinose-Kazuki/agent-sandbox.git";
+      url = "git+ssh://git@github.com/Ichinose-Kazuki/agent-sandbox.git";
     };
     ags = {
       url = "github:aylur/ags";
