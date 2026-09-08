@@ -80,6 +80,9 @@
 
   # Run `nix flake metadata [this dir]` to know which "follows" need to be added.
   inputs = {
+    agent-sandbox = {
+      url = "git+ssh://github.com/Ichinose-Kazuki/agent-sandbox.git";
+    };
     ags = {
       url = "github:aylur/ags";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -128,7 +131,7 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     noctalia = {
       url = "github:noctalia-dev/noctalia-shell/v4.7.7";
-      # inputs.nixpkgs.follows = "nixpkgs"; 
+      # inputs.nixpkgs.follows = "nixpkgs";
     };
     nvim-config = {
       url = "github:Ichinose-Kazuki/nvim-config";
@@ -151,6 +154,10 @@
     raspi-nixpkgs.follows = "raspberry-pi-nix/nixpkgs"; # Avoid rebuilding linux kernel
     waydroid-script = {
       url = "github:casualsnek/waydroid_script";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    tmux-config = {
+      url = "github:Ichinose-Kazuki/tmux-config";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };

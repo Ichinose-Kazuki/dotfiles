@@ -1,3 +1,4 @@
+hasCredentials:
 inputs@{
   home-manager,
   niri,
@@ -24,7 +25,7 @@ nixpkgs.lib.nixosSystem {
   # Note that you cannot put arbitrary configuration here: the configuration must be placed in the files loaded via modules
   inherit pkgs;
   specialArgs = {
-    inherit inputs system;
+    inherit hasCredentials inputs system;
   };
   modules = [
     nixos-hardware.nixosModules.lenovo-thinkpad-x1-12th-gen
