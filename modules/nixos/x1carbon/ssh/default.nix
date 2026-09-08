@@ -17,5 +17,9 @@
   services.openssh = {
     enable = true;
     startWhenNeeded = true;
+    extraConfig = ''
+      ClientAliveInterval 60
+      ClientAliveCountMax 3
+    '';
   };
 }
