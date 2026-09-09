@@ -77,11 +77,39 @@
 
   fonts = {
     packages = with pkgs; [
+      # Default fonts
+      dejavu_fonts
+      freefont_ttf
+      gyre-fonts # TrueType substitutes for standard PostScript fonts
+      liberation_ttf
+      unifont
       noto-fonts-cjk-sans
-      nerd-fonts.hack
-      nerd-fonts.roboto-mono
-      nerd-fonts.intone-mono
+      noto-fonts-cjk-serif
+      noto-fonts-color-emoji
+      # Additional fonts
+      nerd-fonts.hack # for terminal
+      nerd-fonts.intone-mono # for coding
     ];
+
+    # Alphabets will be rendered with DejaVu and CJK will be rendered with Noto
+    fontconfig.defaultFonts = {
+      serif = [
+        "DejaVu Serif"
+        "Noto Serif CJK JP"
+        "Noto Color Emoji"
+      ];
+      sansSerif = [
+        "DejaVu Sans"
+        "Noto Sans CJK JP"
+        "Noto Color Emoji"
+      ];
+      monospace = [
+        "Hack Nerd Font"
+        "Noto Sans Mono CJK JP"
+        "Noto Color Emoji"
+      ];
+      emoji = [ "Noto Color Emoji" ];
+    };
   };
 
   # Some programs need SUID wrappers, can be configured further or are
