@@ -9,6 +9,7 @@
 {
   imports = [
     ./clipboard-manager
+    ./file-manager
     ./screensharing
     ./screenshot
     ./terminal
