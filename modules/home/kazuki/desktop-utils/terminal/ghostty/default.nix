@@ -17,6 +17,7 @@
 
       window-padding-x = 5;
       window-padding-y = 5;
+      window-padding-balance = true;
 
       mouse-scroll-multiplier = "discrete:1";
 
