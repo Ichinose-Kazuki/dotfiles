@@ -13,6 +13,7 @@
     ./screensharing
     ./screenshot
     ./terminal
+    ./tmux
     ./udiskie
   ];
 }
