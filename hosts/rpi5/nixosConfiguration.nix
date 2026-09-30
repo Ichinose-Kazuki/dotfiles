@@ -1,8 +1,8 @@
 inputs@{
   disko,
+  home-manager,
   nixos-hardware,
-  nixos-raspberrypi,
-  nixos-raspberrypi-home-manager,
+  nixpkgs,
   ...
 }:
 
@@ -126,24 +126,20 @@ let
 
       ];
 
-      system.nixos.tags =
-        let
-          cfg = config.boot.loader.raspberryPi;
-        in
-        [
-          "raspberry-pi-${cfg.variant}"
-          cfg.bootloader
-          config.boot.kernelPackages.kernel.version
-        ];
+      system.nixos.tags = [
+        "raspberry-pi-5"
+        "kernel"
+        config.boot.kernelPackages.kernel.version
+      ];
     };
 in
-nixos-raspberrypi.lib.nixosSystem {
+nixpkgs.lib.nixosSystem {
   specialArgs = inputs;
   modules = [
 
     ../rpi5
 
-    nixos-raspberrypi-home-manager.nixosModules.home-manager
+    home-manager.nixosModules.home-manager
     {
       home-manager.useGlobalPkgs = true;
       home-manager.useUserPackages = true;

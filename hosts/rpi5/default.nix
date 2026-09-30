@@ -7,20 +7,30 @@
   config,
   lib,
   pkgs,
-  nixos-raspberrypi-disko,
-  nixos-raspberrypi-index-database,
+  disko,
+  inputs,
   ...
 }:
 
 {
 
-  imports = [
-    nixos-raspberrypi-disko.nixosModules.disko
+  imports = with inputs; [
+    nixos-hardware.nixosModules.raspberry-pi-5
+    nix-index-database.nixosModules.nix-index
+    disko.nixosModules.disko
     ./disko.nix
-    nixos-raspberrypi-index-database.nixosModules.nix-index
     self.nixosModules.common
     self.nixosModules.rpi5
   ];
+
+  # default config values:
+  # https://github.com/NixOS/nixos-hardware/blob/master/raspberry-pi/5/default.nix
+  # https://github.com/NixOS/nixos-hardware/blob/master/raspberry-pi/common/firmware.nix#L192
+
+  hardware.raspberry-pi.firmware = {
+    enable = true;
+    uboot.enable = true;
+  };
 
   # # Limit journal size
   # services.journald.extraConfig = ''
@@ -30,35 +40,6 @@
   # services.journald.storage = "volatile";
 
   networking.hostName = "rpi5"; # Define your hostname.
-  # Pick only one of the below networking options.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  # NetworkManager comes with so many unwanted softwares. Don't enable it.
-  # networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
-
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-  # Enable the X11 windowing system.
-  # services.xserver.enable = true;
-
-  # Configure keymap in X11
-  # services.xserver.xkb.layout = "us";
-  # services.xserver.xkb.options = "eurosign:e,caps:escape";
-
-  # Enable CUPS to print documents.
-  # services.printing.enable = true;
-
-  # Enable sound.
-  # hardware.pulseaudio.enable = true;
-  # OR
-  # services.pipewire = {
-  #   enable = true;
-  #   pulse.enable = true;
-  # };
-
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.kazuki = {
@@ -72,27 +53,10 @@
     wol # Wake-on-LAN
   ];
 
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
-  # List services that you want to enable:
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
-
-  # Copy the NixOS configuration file and link it from the resulting system
-  # (/run/current-system/configuration.nix). This is useful in case you
-  # accidentally delete configuration.nix.
-  # system.copySystemConfiguration = true;
-
+  # setup manual: https://wiki.nixos.org/wiki/NixOS_on_ARM/Raspberry_Pi_5
+  # U-Boot does not support NVMe boot as of writing this config.
+}
+// {
   # This option defines the first version of NixOS you have installed on this particular machine,
   # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.
   #
@@ -112,5 +76,4 @@
   # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
   # Using lib.mkForce because it conflicts with nixpkgs' value.
   system.stateVersion = lib.mkForce "25.05"; # Did you read the comment?
-
 }
