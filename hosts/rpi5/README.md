@@ -16,11 +16,18 @@
     ```shell
     ssh root@[ip addr]
     ```
-3. Format disks.
+3. Confirm the SD card and NVMe device paths before formatting. `disko.nix`
+   assumes the SD card is `/dev/mmcblk0` and NVMe is `/dev/nvme0n1`; if
+   `lsblk` shows different device names on this hardware, edit
+   `hosts/rpi5/disko.nix` to match before running the next step.
+    ```shell
+    lsblk
+    ```
+4. Format disks.
     ```shell
     bash $(nix --extra-experimental-features "nix-command flakes" build --no-link --print-out-paths --accept-flake-config --refresh github:Ichinose-Kazuki/dotfiles#nixosConfigurations.rpi5.config.system.build.diskoScript)
     ```
-4. Install.
+5. Install.
     ```shell
     nixos-install --no-root-passwd --flake github:Ichinose-Kazuki/dotfiles#rpi5
     ```
