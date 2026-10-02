@@ -3,11 +3,9 @@
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
 {
-  self,
   config,
   lib,
   pkgs,
-  disko,
   inputs,
   ...
 }:
@@ -22,6 +20,8 @@
     self.nixosModules.common
     self.nixosModules.rpi5
   ];
+
+  nixpkgs.hostPlatform = lib.mkDefault "aarch64-linux";
 
   # default config values:
   # https://github.com/NixOS/nixos-hardware/blob/master/raspberry-pi/5/default.nix

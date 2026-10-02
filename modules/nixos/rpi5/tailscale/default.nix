@@ -1,12 +1,12 @@
 {
   lib,
   pkgs,
-  nixpkgs,
+  inputs,
   ...
 }:
 
 let
-  pkgs-latest = import nixpkgs { system = "aarch64-linux"; };
+  pkgs-latest = import inputs.nixpkgs { system = "aarch64-linux"; };
 in
 {
   services.tailscale = {
