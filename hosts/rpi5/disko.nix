@@ -32,7 +32,7 @@ let
       2 # Legacy BIOS Bootable, for U-Boot to find extlinux config
     ];
 
-    size = "1024M";
+    size = "2048M";
     content = {
       type = "filesystem";
       format = "vfat";
@@ -50,9 +50,12 @@ let
 in
 {
   disko.devices = {
-    disk.nvme0 = {
+    disk.sdcard = {
       type = "disk";
-      device = "/dev/nvme0n1";
+      # U-Boot on the Pi 5 can only load from the SD slot (no USB/PCIe/RP1
+      # support yet), so the firmware and ESP partitions it needs to find
+      # must live here rather than on NVMe.
+      device = "/dev/mmcblk0";
       content = {
         type = "gpt";
         partitions = {
@@ -66,6 +69,17 @@ in
             label = "ESP";
             content.mountpoint = "/boot";
           };
+
+        };
+      };
+    };
+
+    disk.nvme0 = {
+      type = "disk";
+      device = "/dev/nvme0n1";
+      content = {
+        type = "gpt";
+        partitions = {
 
           root = {
             size = "100%";
