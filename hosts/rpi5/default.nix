@@ -41,6 +41,35 @@
   # mainline vs the vendor fork), so no module list is duplicated here.
   boot.kernelPackages = pkgs.linuxPackages;
 
+  # With U-Boot, load the device tree from the NixOS generation (the mainline
+  # kernel's bcm2712-rpi-5-b.dtb) instead of the firmware's vendor device tree.
+  # The vendor tree describes the RP1 I/O controller the way the Raspberry Pi
+  # kernel expects (a "simple-bus" node directly under the PCIe controller,
+  # with no "pci1de4,1" nexus node), which the mainline rp1_pci driver cannot
+  # bind, so Ethernet/USB behind RP1 never comes up. The mainline tree carries
+  # the nexus node and also enables the external PCIe port, so NVMe root keeps
+  # working.
+  boot.loader.generic-extlinux-compatible.useGenerationDeviceTree = true;
+
+  # The switch above drops the firmware's config.txt PCIe dtparams, in
+  # particular pciex1_gen=3, and the mainline tree caps the external port at
+  # Gen2. Restore Gen3 with an overlay applied to the generation tree.
+  hardware.deviceTree.overlays = [
+    {
+      name = "rpi5-pcie-gen3";
+      dtsText = ''
+        /dts-v1/;
+        /plugin/;
+        / {
+          compatible = "raspberrypi,5-model-b", "brcm,bcm2712";
+        };
+        &{/axi/pcie@1000110000} {
+          max-link-speed = <3>;
+        };
+      '';
+    }
+  ];
+
   # # Limit journal size
   # services.journald.extraConfig = ''
   #   SystemMaxUse=50M
