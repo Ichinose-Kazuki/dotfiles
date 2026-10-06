@@ -32,6 +32,15 @@
     uboot.enable = true;
   };
 
+  # Use the mainline kernel instead of nixos-hardware's vendored "linux-rpi"
+  # kernel. The vendored kernel has no binary cache anywhere
+  # (see nixos-hardware#325), so it is rebuilt from source on every nixpkgs
+  # update; the mainline kernel ships prebuilt in cache.nixos.org. The
+  # raspberry-pi-5 module picks the matching initrd modules for whichever
+  # kernel is selected here (it names the RP1/PCIe drivers differently for
+  # mainline vs the vendor fork), so no module list is duplicated here.
+  boot.kernelPackages = pkgs.linuxPackages;
+
   # # Limit journal size
   # services.journald.extraConfig = ''
   #   SystemMaxUse=50M
