@@ -44,6 +44,17 @@ in
 
   nixpkgs.hostPlatform = lib.mkDefault "aarch64-linux";
 
+  # flashrom's upstream test suite fails on aarch64 in this nixpkgs revision,
+  # which would otherwise block building raspberrypi-eeprom (its dependency).
+  # The tests are irrelevant to using the tool.
+  nixpkgs.overlays = [
+    (final: prev: {
+      flashrom = prev.flashrom.overrideAttrs (_: {
+        doCheck = false;
+      });
+    })
+  ];
+
   # The vendored kernel is built by nixos-raspberrypi's own (pinned) nixpkgs,
   # which is older than this system's nixpkgs. Modules here read kernel
   # attributes that older nixpkgs' kernel builder did not set, so rebuild the
