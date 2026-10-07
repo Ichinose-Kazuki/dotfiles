@@ -30,7 +30,6 @@
       # Details: https://nixos.wiki/wiki/Flakes
       nixosModules = {
         common = ./modules/nixos/common;
-        raspi3bp = ./modules/nixos/raspi3bp;
         rpi5 = ./modules/nixos/rpi5;
         tsuyoServer = ./modules/nixos/tsuyoServer;
         wsl2 = ./modules/nixos/wsl2;
@@ -38,7 +37,6 @@
       };
       homeManagerModules.kazuki = {
         common = ./modules/home/kazuki/common;
-        raspi3bp = ./modules/home/kazuki/raspi3bp;
         rpi5 = ./modules/home/kazuki/rpi5;
         tsuyoServer = ./modules/home/kazuki/tsuyoServer;
         wsl2 = ./modules/home/kazuki/wsl2;
@@ -126,11 +124,6 @@
     nvim-config = {
       url = "github:Ichinose-Kazuki/nvim-config";
       inputs.nixpkgs.follows = "nixpkgs";
-    };
-    plasma-manager = {
-      url = "github:nix-community/plasma-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.home-manager.follows = "home-manager";
     };
     waydroid-script = {
       url = "github:casualsnek/waydroid_script";

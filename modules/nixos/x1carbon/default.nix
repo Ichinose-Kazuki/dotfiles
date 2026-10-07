@@ -8,8 +8,6 @@
     ../files
     ./gaming
     ./gtklock
-    # ./hyprland
-    # ./kdePlasma
     ./keymap
     ./location
     # ./ly
