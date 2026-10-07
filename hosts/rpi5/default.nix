@@ -49,24 +49,25 @@ in
   # The tests are irrelevant to using the tool.
   nixpkgs.overlays = [
     (final: prev: {
-      # flashrom's upstream test suite fails on aarch64 in this nixpkgs revision,
-      # so building raspberrypi-eeprom would otherwise fail. The tests are
-      # irrelevant to using rpi-eeprom-config, so skip them.
-      flashrom = prev.flashrom.overrideAttrs (_: {
-        doCheck = false;
-      });
+      # flashrom's upstream test suite fails on aarch64 in this nixpkgs
+      # revision, and this host never needs to write via flashrom. Replace it
+      # with an empty package instead of building (and testing) it: the only
+      # consumer, rpi-eeprom-update, then finds no flashrom and falls back to
+      # the recovery.bin path used on the next boot.
+      flashrom = prev.runCommand "flashrom-disabled" { } ''
+        mkdir -p $out/bin
+      '';
 
-      # Since flashrom's tests are skipped, refuse the one code path that writes
-      # the EEPROM with flashrom (the immediate update), so the untested writer
-      # is never invoked. The default path updates via recovery.bin on the next
-      # boot and does not use flashrom.
+      # Belt and braces: even if flashrom were present, refuse the one code path
+      # that writes the EEPROM through it (the immediate update). The default
+      # path updates via recovery.bin on the next boot and does not use it.
       raspberrypi-eeprom = prev.raspberrypi-eeprom.overrideAttrs (old: {
         fixupPhase = (old.fixupPhase or "") + ''
           mv $out/bin/rpi-eeprom-update $out/bin/.rpi-eeprom-update.real
           cat > $out/bin/rpi-eeprom-update <<'WRAPPER'
           #!/usr/bin/env bash
           if [ "''${RPI_EEPROM_IMMEDIATE_UPDATE:-0}" = "1" ]; then
-            echo "rpi-eeprom-update: refusing RPI_EEPROM_IMMEDIATE_UPDATE=1: it updates the EEPROM via flashrom, whose tests are disabled on this host" >&2
+            echo "rpi-eeprom-update: refusing RPI_EEPROM_IMMEDIATE_UPDATE=1: this host does not have a verified flashrom" >&2
             exit 1
           fi
           exec "$(dirname "$0")/.rpi-eeprom-update.real" "$@"
