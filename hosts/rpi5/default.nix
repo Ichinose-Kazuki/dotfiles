@@ -87,6 +87,9 @@ in
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     wol # Wake-on-LAN
+    # rpi-eeprom-config / rpi-eeprom-update for setting the EEPROM boot order
+    # to boot the firmware partition from NVMe.
+    raspberrypi-eeprom
   ];
 }
 // {
