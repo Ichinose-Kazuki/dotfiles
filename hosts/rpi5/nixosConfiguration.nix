@@ -131,7 +131,13 @@ let
       ];
     };
 in
-nixpkgs.lib.nixosSystem {
+# Build with this flake's nixpkgs, through nixos-raspberrypi's system helper
+# (it wires in the overlays that provide the vendored kernel/firmware and vendor
+# packages, plus the `nixos-raspberrypi` module argument). The vendored kernel
+# is built by a different nixpkgs than this system, so the few kernel
+# attributes this nixpkgs' modules read are supplied in hosts/rpi5/default.nix.
+inputs.nixos-raspberrypi.lib.nixosSystem {
+  nixpkgs = nixpkgs;
   specialArgs = { inherit inputs; };
   modules = [
 

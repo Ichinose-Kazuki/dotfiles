@@ -7,11 +7,13 @@
       "https://ags.cachix.org"
       "https://nix-community.cachix.org"
       "https://noctalia.cachix.org"
+      "https://nixos-raspberrypi.cachix.org"
     ];
     extra-trusted-public-keys = [
       "ags.cachix.org-1:naAvMrz0CuYqeyGNyLgE010iUiuf/qx6kYrUv3NwAJ8="
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       "noctalia.cachix.org-1:pCOR47nnMEo5thcxNDtzWpOxNFQsBRglJzxWPp3dkU4="
+      "nixos-raspberrypi.cachix.org-1:4iMO9LXa8BqhU+Rpg6LQKiGa2lsNh/j2oiYLNOQ5sPI="
     ];
   };
 
@@ -108,6 +110,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixos-hardware.url = "github:nixos/nixos-hardware";
+    # Vendor (raspberrypi/linux) kernel/firmware for the Pi 5, with a binary
+    # cache. Its nixpkgs stays pinned to whatever the flake locks; only the
+    # kernel and firmware packages are taken from it (see hosts/rpi5).
+    nixos-raspberrypi.url = "github:nvmd/nixos-raspberrypi/main";
     nixos-wsl = {
       url = "github:nix-community/NixOS-WSL";
       inputs.nixpkgs.follows = "nixpkgs";

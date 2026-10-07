@@ -6,5 +6,5 @@
     ./tsuyoServerPowerButton
   ];
 
-  boot.loader.generic-extlinux-compatible.configurationLimit = 3;
+  boot.loader.raspberry-pi.configurationLimit = 3;
 }

@@ -10,12 +10,13 @@ in
       content = {
         type = "gpt";
         partitions = {
-          # U-Boot cannot read NVMe yet, so /boot currently lives on the SD card
-          # (see disko-sdcard.nix). These partitions keep the future /boot
-          # layout on the NVMe without mounting it, so that once U-Boot can boot
-          # from NVMe, /boot can be moved back here from the SD card.
+          # The Raspberry Pi firmware loads the kernel, initrd and device trees
+          # from the firmware partition itself, so it holds the boot code,
+          # config.txt, device trees and the NixOS kernels. It lives on NVMe,
+          # which the firmware can boot from.
           firmware = firmwarePartition {
             label = "FIRMWARE";
+            content.mountpoint = "/boot/firmware";
           };
 
           esp = espPartition {
