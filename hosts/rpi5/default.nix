@@ -10,6 +10,13 @@
   ...
 }:
 
+let
+  # The Raspberry Pi kernel's macb driver, built out-of-tree against the
+  # mainline kernel (see ./macb-rpi/default.nix).
+  macbRpi = pkgs.callPackage ./macb-rpi {
+    kernel = config.boot.kernelPackages.kernel;
+  };
+in
 {
 
   imports = with inputs; [
@@ -40,6 +47,28 @@
   # kernel is selected here (it names the RP1/PCIe drivers differently for
   # mainline vs the vendor fork), so no module list is duplicated here.
   boot.kernelPackages = pkgs.linuxPackages;
+
+  # Bind the Raspberry Pi macb driver to the RP1 Ethernet device in place of
+  # the built-in mainline macb. The built-in driver probes the device first, so
+  # a unit unbinds it and binds macb_rpi once the module is loaded.
+  boot.extraModulePackages = [ macbRpi ];
+  boot.kernelModules = [ "macb_rpi" ];
+  systemd.services.macb-rpi = {
+    description = "Bind the out-of-tree Raspberry Pi macb driver to RP1 Ethernet";
+    wantedBy = [ "multi-user.target" ];
+    after = [ "systemd-modules-load.service" ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+    };
+    script = ''
+      dev=1f00100000.ethernet
+      if [ -e /sys/bus/platform/drivers/macb_rpi ] && [ -e /sys/bus/platform/devices/$dev ]; then
+        echo "$dev" > /sys/bus/platform/drivers/macb/unbind || true
+        echo "$dev" > /sys/bus/platform/drivers/macb_rpi/bind || true
+      fi
+    '';
+  };
 
   # With U-Boot, load the device tree from the NixOS generation (the mainline
   # kernel's bcm2712-rpi-5-b.dtb) instead of the firmware's vendor device tree.
