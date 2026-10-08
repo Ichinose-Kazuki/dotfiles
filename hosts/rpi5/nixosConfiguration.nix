@@ -39,14 +39,17 @@ let
       # Automatically log in at the virtual consoles.
       services.getty.autologinUser = "nixos";
 
-      # We run sshd by default. Login is only possible after adding a
-      # password via "passwd" or by adding a ssh key to ~/.ssh/authorized_keys.
-      # The latter one is particular useful if keys are manually added to
-      # installation device for head-less systems i.e. arm boards by manually
-      # mounting the storage in a different system.
+      # We run sshd, with root logins over SSH disabled. Login is only
+      # possible after adding a password or a key to ~/.ssh/authorized_keys.
+      # The keepalive settings drop a connection whose peer has vanished,
+      # freeing any ports reserved by remote forwards (ssh -R).
       services.openssh = {
         enable = true;
-        settings.PermitRootLogin = "yes";
+        settings = {
+          PermitRootLogin = "no";
+          ClientAliveInterval = 15;
+          ClientAliveCountMax = 3;
+        };
       };
 
       # allow nix-copy to live system
