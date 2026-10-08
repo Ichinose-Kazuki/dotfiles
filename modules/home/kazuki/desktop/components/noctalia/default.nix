@@ -20,6 +20,11 @@
   programs.noctalia-shell = {
     enable = true;
     systemd.enable = false; # deprecated
+    # Use the system nixpkgs build of noctalia-shell so its Qt and graphics
+    # libraries match the system. The flake input's own pinned nixpkgs would
+    # otherwise mix an older libdrm/mesa with the system, leaving EGL
+    # unavailable and the shell unable to draw.
+    package = pkgs.noctalia-shell;
   };
 
   home.packages = with pkgs; [

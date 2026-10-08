@@ -18,7 +18,9 @@ in
   windows-spotlight = {
     enable = true;
     imageFilepath = wallpaperPath;
-    reloadCommand = "noctalia-shell ipc call wallpaper set \"${wallpaperPath}\" all";
+    # An absolute path is required: systemd resolves a bare command name with
+    # its own PATH, which does not contain the home profile.
+    reloadCommand = "${lib.getExe' config.programs.noctalia-shell.package "noctalia-shell"} ipc call wallpaper set \"${wallpaperPath}\" all";
   };
 
   home.file.".cache/noctalia/wallpapers.json" = {
