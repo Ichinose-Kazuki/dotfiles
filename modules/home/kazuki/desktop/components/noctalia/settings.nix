@@ -134,6 +134,8 @@
       mpris.blacklist = [ ];
       session = {
         show_shortcuts = true;
+        # hibernate and reboot-to-UEFI have no built-in action, so they use the
+        # generic command action.
         actions = [
           {
             action = "lock";
@@ -142,6 +144,13 @@
           {
             action = "suspend";
             shortcut = "2";
+          }
+          {
+            action = "command";
+            command = "systemctl hibernate";
+            glyph = "hibernate";
+            label = "Hibernate";
+            shortcut = "3";
           }
           {
             action = "reboot";
@@ -155,6 +164,13 @@
             action = "shutdown";
             shortcut = "6";
             variant = "destructive";
+          }
+          {
+            action = "command";
+            command = "systemctl reboot --firmware-setup";
+            glyph = "refresh";
+            label = "Reboot to UEFI";
+            shortcut = "7";
           }
         ];
       };
