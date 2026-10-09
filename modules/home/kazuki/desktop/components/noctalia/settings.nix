@@ -84,6 +84,8 @@
       hide_delay_ms = 2000;
       position = "top_right";
       kinds.brightness = false;
+      # Do not show an on-screen display when the input method changes.
+      kinds.keyboard_layout = false;
     };
 
     keybinds = {
