@@ -26,8 +26,10 @@
       ];
       background_opacity = 0.93;
       capsule = true;
-      margin_ends = 4;
-      radius = 12;
+      # A full-length bar (margin_ends = 0) lets concave_edge_corners carve the
+      # bottom corners, so the bar wraps the top of the windows.
+      margin_ends = 0;
+      radius = 20;
       # There is no single shadow toggle, so each shadow surface is disabled.
       shadow = false;
     };
