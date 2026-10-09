@@ -62,12 +62,6 @@
         argv = systemdActivation;
       }
     )
-    # The input method joins the graphical session before this process imports
-    # WAYLAND_DISPLAY, so restart it once the import has happened. Without this
-    # it can start without a Wayland connection and never switch input.
-    {
-      sh = "systemctl --user import-environment WAYLAND_DISPLAY; systemctl --user restart fcitx5-daemon 2>/dev/null || true";
-    }
     {
       sh = lib.getExe' config.programs.noctalia.package "noctalia";
     }
