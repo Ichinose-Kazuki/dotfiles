@@ -3,8 +3,8 @@
 }:
 
 {
-  # Migrated from the v4 settings.json. Only values that differ from the v5
-  # defaults are set here; everything else falls back to Noctalia's defaults.
+  # Only values that differ from the Noctalia defaults are set; everything else
+  # falls back to the built-in defaults.
   programs.noctalia.settings = {
     bar.default = {
       position = "top";
@@ -28,14 +28,17 @@
       capsule = true;
       margin_ends = 4;
       radius = 12;
+      # There is no single shadow toggle, so each shadow surface is disabled.
+      shadow = false;
     };
 
     widget.clock = {
       type = "clock";
       format = "{:%Y/%m/%d %H:%M}";
+      tooltip_format = "";
+      vertical_format = "";
     };
 
-    # v4 privacy-indicator (hideInactive) is now a built-in widget setting.
     widget.privacy = {
       type = "privacy";
       hide_inactive = true;
@@ -68,6 +71,7 @@
       enabled = true;
       auto_hide = true;
       position = "bottom";
+      shadow = false;
     };
 
     notification = {
@@ -79,6 +83,7 @@
       enabled = true;
       hide_delay_ms = 2000;
       position = "top_right";
+      kinds.brightness = false;
     };
 
     keybinds = {
@@ -94,9 +99,12 @@
       delete = [ "Delete" ];
     };
 
+    # Explicit sunrise/sunset drive the night-light window and theme auto mode.
     location = {
-      address = "Tokyo";
-      auto_locate = false;
+      auto_locate = true;
+      custom_schedule = true;
+      sunrise = "07:00";
+      sunset = "23:00";
     };
 
     weather = {
@@ -122,6 +130,7 @@
       polkit_agent = true;
       clipboard_enabled = true;
       telemetry_enabled = false;
+      popup_shadows = false;
       mpris.blacklist = [ ];
       session = {
         show_shortcuts = true;
@@ -131,26 +140,27 @@
             shortcut = "1";
           }
           {
-            action = "logout";
+            action = "suspend";
             shortcut = "2";
-          }
-          {
-            action = "lock_and_suspend";
-            shortcut = "3";
           }
           {
             action = "reboot";
             shortcut = "4";
           }
           {
-            action = "shutdown";
+            action = "logout";
             shortcut = "5";
+          }
+          {
+            action = "shutdown";
+            shortcut = "6";
             variant = "destructive";
           }
         ];
       };
     };
 
+    # Noctalia's per-metric defaults differ, so pin every threshold to 80/90.
     system.monitor = {
       cpu_temp_activity_threshold = 80.0;
       cpu_temp_critical_threshold = 90.0;
@@ -158,8 +168,14 @@
       cpu_usage_critical_threshold = 90.0;
       disk_used_pct_activity_threshold = 80.0;
       disk_used_pct_critical_threshold = 90.0;
+      gpu_temp_activity_threshold = 80.0;
+      gpu_temp_critical_threshold = 90.0;
+      gpu_usage_activity_threshold = 80.0;
+      gpu_usage_critical_threshold = 90.0;
       ram_pct_activity_threshold = 80.0;
       ram_pct_critical_threshold = 90.0;
+      swap_pct_activity_threshold = 80.0;
+      swap_pct_critical_threshold = 90.0;
     };
 
     wallpaper = {

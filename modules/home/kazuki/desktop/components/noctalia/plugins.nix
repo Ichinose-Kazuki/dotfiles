@@ -4,11 +4,9 @@
 }:
 
 {
-  # v5 plugins replace the v4 QML plugins. The v4 set is no longer compatible,
-  # so each is mapped to a built-in feature, an official plugin, or a community
-  # plugin (see the migration notes). Built-in replacements need no entry here:
-  # privacy -> the privacy widget, audio visualizer -> fancy_audio_visualizer,
-  # battery -> the battery widget/service, polkit -> shell.polkit_agent.
+  # Installed plugins. Features built into the shell (the privacy widget, the
+  # battery service, the polkit agent, and the fancy_audio_visualizer desktop
+  # widget) need no entry here.
   programs.noctalia.settings.plugins = {
     auto_update = "none";
     enabled = [
@@ -23,8 +21,8 @@
     ];
   };
 
-  # Plugin settings, ported from the v4 plugin settings. Keys follow each v5
-  # plugin's [[setting]] manifest.
+  # Per-plugin settings, keyed by plugin id; keys follow each plugin's
+  # [[setting]] manifest.
   programs.noctalia.settings.plugin_settings = {
     "noctalia/screen_recorder" = {
       hide_inactive = true;
@@ -41,10 +39,9 @@
     };
   };
 
-  # The community Udiskie plugin only observes events (via udisksctl); it does
-  # not auto-mount. The previous auto-mount behavior is restored with the
-  # standalone udiskie daemon. Notifications are left to the plugin to avoid
-  # duplicates, and the tray icon is disabled.
+  # The Udiskie plugin only observes events; auto-mount is provided by the
+  # standalone udiskie daemon. Notifications come from the plugin, so the
+  # daemon's are disabled and its tray icon is off.
   services.udiskie = {
     enable = true;
     automount = true;

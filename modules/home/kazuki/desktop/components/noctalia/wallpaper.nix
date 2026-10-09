@@ -18,9 +18,8 @@ in
   windows-spotlight = {
     enable = true;
     imageFilepath = wallpaperPath;
-    # Noctalia v5 reads the wallpaper path as an absolute argument; the command
-    # must also be absolute because systemd resolves bare names with its own
-    # PATH.
+    # The command must be absolute because systemd resolves bare names with its
+    # own PATH.
     reloadCommand = "${lib.getExe' config.programs.noctalia.package "noctalia"} msg wallpaper-set \"${wallpaperPath}\"";
   };
 

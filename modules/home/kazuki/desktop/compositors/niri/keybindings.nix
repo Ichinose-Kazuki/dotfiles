@@ -10,7 +10,7 @@ let
   noctalia =
     cmd:
     [
-      "noctalia"
+      (lib.getExe' config.programs.noctalia.package "noctalia")
       "msg"
     ]
     ++ (pkgs.lib.splitString " " cmd);

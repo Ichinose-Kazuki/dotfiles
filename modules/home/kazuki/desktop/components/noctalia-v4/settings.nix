@@ -171,7 +171,6 @@
         settingsPanelSideBarCardStyle = false;
       };
       location = {
-        name = "Tokyo";
         weatherEnabled = true;
         weatherShowEffects = true;
         useFahrenheit = false;

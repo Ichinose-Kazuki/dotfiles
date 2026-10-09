@@ -3,9 +3,8 @@
 }:
 
 {
-  # Ported from the v4 colors.json. The v5 custom palette format keeps the same
-  # m* role keys, under a "dark" (and optional "light") variant. Only "dark" is
-  # provided, so dark and light both use it, matching the previous setup.
+  # The palette keeps the m* role keys under a "dark" variant. Only "dark" is
+  # given, so both modes use it.
   programs.noctalia.customPalettes.kazuki = {
     dark = {
       mError = "#dddddd";

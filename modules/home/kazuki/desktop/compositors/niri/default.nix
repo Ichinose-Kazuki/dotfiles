@@ -63,7 +63,7 @@
       }
     )
     {
-      sh = "noctalia";
+      sh = lib.getExe' config.programs.noctalia.package "noctalia";
     }
   ];
 
