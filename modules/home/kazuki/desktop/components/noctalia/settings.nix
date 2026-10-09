@@ -70,6 +70,9 @@
     dock = {
       enabled = true;
       auto_hide = true;
+      # An auto-hidden dock overlays instead of reserving a compositor exclusive
+      # zone, which would otherwise leave a blank strip below windows.
+      reserve_space = false;
       position = "bottom";
       shadow = false;
     };
