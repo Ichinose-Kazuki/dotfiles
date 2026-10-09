@@ -61,6 +61,8 @@
       enabled = true;
       fingerprint = true;
       lock_before_suspend = true;
+      # An empty transition pool disables the animated unlock.
+      transition = [ ];
     };
 
     nightlight.enabled = true;
