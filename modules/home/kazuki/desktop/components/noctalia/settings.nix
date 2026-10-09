@@ -25,6 +25,9 @@
         "control-center"
       ];
       background_opacity = 0.93;
+      # v4's default-density bar is 31px tall with 2px content padding.
+      thickness = 31;
+      padding = 2;
       capsule = true;
       # A full-length bar (margin_ends = 0) lets concave_edge_corners carve the
       # bottom corners, so the bar wraps the top of the windows. The corners on
@@ -81,6 +84,7 @@
       # zone, which would otherwise leave a blank strip below windows.
       reserve_space = false;
       position = "bottom";
+      background_opacity = 1.0;
       # v4's dock was a floating dock, inset from the screen edge.
       margin_edge = 13;
       shadow = false;
@@ -88,11 +92,14 @@
 
     notification = {
       background_opacity = 1.0;
+      # v4 drew notifications on the overlay layer.
+      layer = "overlay";
       position = "top_right";
     };
 
     osd = {
       enabled = true;
+      background_opacity = 1.0;
       hide_delay_ms = 2000;
       position = "top_right";
       kinds.brightness = false;
