@@ -10,9 +10,8 @@ let
   noctalia =
     cmd:
     [
-      "noctalia-shell"
-      "ipc"
-      "call"
+      "noctalia"
+      "msg"
     ]
     ++ (pkgs.lib.splitString " " cmd);
   mod = "Super";
@@ -66,25 +65,25 @@ in
       {
         # noctalia
         # core & navigation
-        "${mod}+Space".action.spawn = noctalia "launcher toggle";
-        "${mod}+${subMod}+V".action.spawn = noctalia "launcher clipboard";
+        "${mod}+Space".action.spawn = noctalia "panel-toggle launcher";
+        "${mod}+${subMod}+V".action.spawn = noctalia "panel-toggle clipboard";
 
         # system controls
         "XF86AudioLowerVolume" = {
-          action.spawn = noctalia "volume decrease";
+          action.spawn = noctalia "volume-down";
           allow-when-locked = true;
         };
         "XF86AudioRaiseVolume" = {
-          action.spawn = noctalia "volume increase";
+          action.spawn = noctalia "volume-up";
           allow-when-locked = true;
         };
         "XF86AudioMute" = {
-          action.spawn = noctalia "volume muteOutput";
+          action.spawn = noctalia "volume-mute";
           allow-when-locked = true;
         };
 
         # interface & plugins
-        "${mod}+${subMod}+L".action.spawn = noctalia "lockScreen lock";
+        "${mod}+${subMod}+L".action.spawn = noctalia "session lock";
       }
 
       {

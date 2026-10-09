@@ -1,130 +1,78 @@
 {
   pkgs,
-  lib,
-  config,
-  osConfig,
-  inputs,
   ...
 }:
 
 {
-  programs.noctalia-shell = {
-    plugins =
-      let
-        url = "https://github.com/noctalia-dev/noctalia-plugins";
-      in
-      {
-        sources = [
-          {
-            enabled = true;
-            name = "Official Noctalia Plugins";
-            inherit url;
-          }
-        ];
-        states = {
-          privacy-indicator = {
-            enabled = true;
-            sourceUrl = url;
-          };
-          screen-recorder = {
-            enabled = true;
-            sourceUrl = url;
-          };
-          timer = {
-            enabled = true;
-            sourceUrl = url;
-          };
-          fancy-audiovisualizer = {
-            enabled = true;
-            sourceUrl = url;
-          };
-          polkit-agent = {
-            enabled = true;
-            sourceUrl = url;
-          };
-          kaomoji-provider = {
-            enabled = true;
-            sourceUrl = url;
-          };
-          screen-toolkit = {
-            enabled = true;
-            sourceUrl = url;
-          };
-          usb-drive-manager = {
-            enabled = true;
-            sourceUrl = url;
-          };
-          battery-monitor-plus = {
-            enabled = true;
-            sourceUrl = url;
-          };
-          kde-connect = {
-            enabled = true;
-            sourceUrl = url;
-          };
-          tailscale = {
-            enabled = true;
-            sourceUrl = url;
-          };
-          file-search = {
-            enabled = true;
-            sourceUrl = url;
-          };
-        };
-        version = 2;
-      };
+  # v5 plugins replace the v4 QML plugins. The v4 set is no longer compatible,
+  # so each is mapped to a built-in feature, an official plugin, or a community
+  # plugin (see the migration notes). Built-in replacements need no entry here:
+  # privacy -> the privacy widget, audio visualizer -> fancy_audio_visualizer,
+  # battery -> the battery widget/service, polkit -> shell.polkit_agent.
+  programs.noctalia.settings.plugins = {
+    auto_update = "none";
+    enabled = [
+      "noctalia/screen_recorder"
+      "noctalia/timer"
+      "noctalia/kaomoji"
+      "alexander/screen-toolkit"
+      "aristides/udiskie"
+      "icefish/phone-connect"
+      "rylos/tailnet"
+      "nightwatch75/file-search"
+    ];
+  };
 
-    pluginSettings = {
-      privacy-indicator = {
-        hideInactive = true;
-      };
-      screen-recorder = {
-        hideInactive = true;
-      };
-      usb-drive-manager = {
-        autoMount = true;
-        fileBrowser = "nemo";
-        terminalCommand = "kitty";
-      };
-      tailscale = {
-        hideDisconnected = true;
-      };
-      file-search = {
-        showHidden = true;
-      };
+  # Plugin settings, ported from the v4 plugin settings. Keys follow each v5
+  # plugin's [[setting]] manifest.
+  programs.noctalia.settings.plugin_settings = {
+    "noctalia/screen_recorder" = {
+      hide_inactive = true;
+    };
+    "aristides/udiskie" = {
+      auto_open_filemanager = true;
+      file_manager_cmd = "nemo";
+    };
+    "rylos/tailnet" = {
+      hide_offline = true;
+    };
+    "nightwatch75/file-search" = {
+      show_hidden = true;
     };
   };
 
-  # Dependencies
-  ## Screen Recorder
-  ### gpu-screen-recorder need to be enabled in nixos settings.
-  ## Screen Toolkit
-  home.packages =
-    with pkgs;
-    [
-      grim
-      slurp
-      wl-clipboard
-      # tesseract # Conflicts with one in flameshot ocr config.
-      imagemagick
-      zbar
-      curl
-      ffmpeg
-      jq
-      wl-screenrec
-      translate-shell
-      gifski
-    ]
-    ## USB Drive Manager
-    ++ [
-      udisks
-      wl-clipboard
-    ]
-    ## KDE Connect
-    ++ [
-      sshfs
-    ];
+  # The community Udiskie plugin only observes events (via udisksctl); it does
+  # not auto-mount. The previous auto-mount behavior is restored with the
+  # standalone udiskie daemon. Notifications are left to the plugin to avoid
+  # duplicates, and the tray icon is disabled.
+  services.udiskie = {
+    enable = true;
+    automount = true;
+    notify = false;
+    tray = "never";
+  };
+
+  home.packages = with pkgs; [
+    # Screen recorder plugin.
+    gpu-screen-recorder
+    # Screen toolkit plugin.
+    grim
+    slurp
+    wl-clipboard
+    imagemagick
+    zbar
+    curl
+    ffmpeg
+    jq
+    wl-screenrec
+    translate-shell
+    gifski
+    # USB drive manager (udiskie) plugin.
+    udisks
+    # KDE Connect (phone-connect) plugin.
+    sshfs
+  ];
+
   services.kdeconnect.enable = true;
-  ## File Search
   programs.fd.enable = true;
 }

@@ -12,8 +12,8 @@ with pkgs;
 with lib;
 let
   brightnessctlBin = "${getExe brightnessctl}";
-  noctaliaBin = "${getExe' config.programs.noctalia-shell.package "noctalia-shell"}";
-  noctalia-lock = "${noctaliaBin} ipc call lockScreen lock";
+  noctaliaBin = "${getExe' config.programs.noctalia.package "noctalia"}";
+  noctalia-lock = "${noctaliaBin} msg session lock";
   niriBin = "${getExe' osConfig.programs.niri.package "niri"}";
   niri-monitor = status: "${niriBin} msg action power-${status}-monitors";
   systemctlBin = "${getExe' systemd "systemctl"}";

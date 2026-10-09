@@ -3,32 +3,27 @@
   lib,
   config,
   osConfig,
-  inputs,
   ...
 }:
 
 {
   imports = [
-    inputs.noctalia.homeModules.default
-    ./colors.nix
-    ./plugins.nix
     ./settings.nix
-    ./wallpapers.nix
+    ./palette.nix
+    ./plugins.nix
+    ./wallpaper.nix
   ];
 
-  # available options: https://github.com/noctalia-dev/noctalia-shell/blob/main/nix/home-module.nix
-  programs.noctalia-shell = {
+  programs.noctalia = {
     enable = true;
-    systemd.enable = false; # deprecated
-    # Use the system nixpkgs build of noctalia-shell so its Qt and graphics
-    # libraries match the system. The flake input's own pinned nixpkgs would
-    # otherwise mix an older libdrm/mesa with the system, leaving EGL
-    # unavailable and the shell unable to draw.
-    package = pkgs.noctalia-shell;
+    package = pkgs.noctalia;
+    # The shell is started by niri's spawn-at-startup, matching the previous
+    # v4 setup, so the systemd user service is left disabled.
+    systemd.enable = false;
   };
 
   home.packages = with pkgs; [
-    # Dependency for clipboard auto-paste
+    # Dependency for clipboard auto-paste.
     wtype
   ];
 }

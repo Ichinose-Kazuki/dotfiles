@@ -63,7 +63,7 @@
       }
     )
     {
-      sh = "noctalia-shell";
+      sh = "noctalia";
     }
   ];
 

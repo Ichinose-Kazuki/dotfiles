@@ -1,0 +1,528 @@
+{
+  pkgs,
+  lib,
+  config,
+  osConfig,
+  inputs,
+  ...
+}:
+
+{
+  # Options undocumented. Tweak from GUI and copy the new setting as json and get diff
+  programs.noctalia-shell = {
+    settings = {
+      settingsVersion = 0;
+      bar = {
+        barType = "simple";
+        position = "top";
+        monitors = [ ];
+        density = "default";
+        showOutline = false;
+        showCapsule = true;
+        capsuleOpacity = 1;
+        capsuleColorKey = "none";
+        widgetSpacing = 6;
+        contentPadding = 2;
+        fontScale = 1;
+        enableExclusionZoneInset = true;
+        backgroundOpacity = 0.93;
+        useSeparateOpacity = false;
+        marginVertical = 4;
+        marginHorizontal = 4;
+        frameThickness = 8;
+        frameRadius = 12;
+        outerCorners = true;
+        hideOnOverview = false;
+        displayMode = "always_visible";
+        autoHideDelay = 500;
+        autoShowDelay = 150;
+        showOnWorkspaceSwitch = true;
+        widgets = {
+          left = [
+            {
+              id = "Workspace";
+            }
+            {
+              id = "ActiveWindow";
+            }
+            {
+              id = "MediaMini";
+            }
+          ];
+          center = [
+            {
+              id = "Clock";
+              "clockColor" = "none";
+              "customFont" = "";
+              "formatHorizontal" = "yyyy/MM/dd HH:mm";
+              "formatVertical" = "";
+              "tooltipFormat" = "";
+              "useCustomFont" = false;
+            }
+          ];
+          right = [
+            {
+              id = "Tray";
+            }
+            {
+              id = "NotificationHistory";
+            }
+            {
+              id = "Battery";
+            }
+            {
+              id = "Volume";
+            }
+            {
+              id = "Brightness";
+            }
+            {
+              id = "ControlCenter";
+            }
+          ];
+        };
+        mouseWheelAction = "none";
+        reverseScroll = false;
+        mouseWheelWrap = true;
+        middleClickAction = "none";
+        middleClickFollowMouse = false;
+        middleClickCommand = "";
+        rightClickAction = "controlCenter";
+        rightClickFollowMouse = true;
+        rightClickCommand = "";
+        screenOverrides = [ ];
+      };
+      general = {
+        avatarImage = "";
+        dimmerOpacity = 0.2;
+        showScreenCorners = false;
+        forceBlackScreenCorners = false;
+        scaleRatio = 1;
+        radiusRatio = 1;
+        iRadiusRatio = 1;
+        boxRadiusRatio = 1;
+        screenRadiusRatio = 1;
+        animationSpeed = 1;
+        animationDisabled = false;
+        compactLockScreen = true;
+        lockScreenAnimations = false;
+        lockOnSuspend = true;
+        showSessionButtonsOnLockScreen = true;
+        showHibernateOnLockScreen = true;
+        enableLockScreenMediaControls = false;
+        enableShadows = false;
+        enableBlurBehind = true;
+        # shadowDirection = "bottom_right";
+        # shadowOffsetX = 2;
+        # shadowOffsetY = 3;
+        language = "";
+        allowPanelsOnScreenWithoutBar = true;
+        showChangelogOnStartup = true;
+        telemetryEnabled = false;
+        enableLockScreenCountdown = true;
+        lockScreenCountdownDuration = 10000;
+        autoStartAuth = false;
+        allowPasswordWithFprintd = false;
+        clockStyle = "analog";
+        # clockFormat = "hh\nmm";
+        passwordChars = false;
+        lockScreenMonitors = [ ];
+        lockScreenBlur = 0;
+        lockScreenTint = 0;
+        keybinds = {
+          keyUp = [
+            "Up"
+          ];
+          keyDown = [
+            "Down"
+          ];
+          keyLeft = [
+            "Left"
+          ];
+          keyRight = [
+            "Right"
+          ];
+          keyEnter = [
+            "Return"
+            "Enter"
+          ];
+          keyEscape = [
+            "Esc"
+          ];
+          keyRemove = [
+            "Del"
+          ];
+        };
+        reverseScroll = false;
+        smoothScrollEnabled = true;
+      };
+      ui = {
+        fontDefault = "";
+        fontFixed = "";
+        fontDefaultScale = 1;
+        fontFixedScale = 1;
+        tooltipsEnabled = true;
+        scrollbarAlwaysVisible = true;
+        boxBorderEnabled = false;
+        panelBackgroundOpacity = 0.93;
+        translucentWidgets = false;
+        panelsAttachedToBar = true;
+        settingsPanelMode = "attached";
+        settingsPanelSideBarCardStyle = false;
+      };
+      location = {
+        name = "Tokyo";
+        weatherEnabled = true;
+        weatherShowEffects = true;
+        useFahrenheit = false;
+        use12hourFormat = false;
+        showWeekNumberInCalendar = false;
+        showCalendarEvents = true;
+        showCalendarWeather = true;
+        analogClockInCalendar = false;
+        firstDayOfWeek = -1;
+        hideWeatherTimezone = false;
+        hideWeatherCityName = false;
+      };
+      calendar = {
+        cards = [
+          {
+            enabled = true;
+            id = "calendar-header-card";
+          }
+          {
+            enabled = true;
+            id = "calendar-month-card";
+          }
+          {
+            enabled = true;
+            id = "weather-card";
+          }
+        ];
+      };
+      appLauncher = {
+        enableClipboardHistory = true;
+        autoPasteClipboard = true;
+        enableClipPreview = true;
+        clipboardWrapText = true;
+        enableClipboardSmartIcons = true;
+        enableClipboardChips = true;
+        clipboardWatchTextCommand = "wl-paste --type text --watch cliphist store -max-items 100";
+        clipboardWatchImageCommand = "wl-paste --type image --watch cliphist store -max-items 100";
+        position = "center";
+        pinnedApps = [ ];
+        sortByMostUsed = true;
+        terminalCommand = "alacritty -e";
+        customLaunchPrefixEnabled = false;
+        customLaunchPrefix = "";
+        viewMode = "list";
+        showCategories = true;
+        iconMode = "tabler";
+        showIconBackground = false;
+        enableSettingsSearch = true;
+        enableWindowsSearch = true;
+        enableSessionSearch = true;
+        ignoreMouseInput = false;
+        screenshotAnnotationTool = "";
+        overviewLayer = false;
+        density = "default";
+      };
+      controlCenter = {
+        position = "close_to_bar_button";
+        diskPath = "/";
+        shortcuts = {
+          left = [
+            {
+              id = "Network";
+            }
+            {
+              id = "Bluetooth";
+            }
+            {
+              id = "WallpaperSelector";
+            }
+            {
+              id = "NoctaliaPerformance";
+            }
+          ];
+          right = [
+            {
+              id = "Notifications";
+            }
+            {
+              id = "PowerProfile";
+            }
+            {
+              id = "KeepAwake";
+            }
+            {
+              id = "NightLight";
+            }
+          ];
+        };
+        cards = [
+          {
+            enabled = true;
+            id = "profile-card";
+          }
+          {
+            enabled = true;
+            id = "shortcuts-card";
+          }
+          {
+            enabled = true;
+            id = "audio-card";
+          }
+          {
+            enabled = false;
+            id = "brightness-card";
+          }
+          {
+            enabled = true;
+            id = "weather-card";
+          }
+          {
+            enabled = true;
+            id = "media-sysmon-card";
+          }
+        ];
+      };
+      systemMonitor = {
+        cpuWarningThreshold = 80;
+        cpuCriticalThreshold = 90;
+        tempWarningThreshold = 80;
+        tempCriticalThreshold = 90;
+        gpuWarningThreshold = 80;
+        gpuCriticalThreshold = 90;
+        memWarningThreshold = 80;
+        memCriticalThreshold = 90;
+        swapWarningThreshold = 80;
+        swapCriticalThreshold = 90;
+        diskWarningThreshold = 80;
+        diskCriticalThreshold = 90;
+        diskAvailWarningThreshold = 20;
+        diskAvailCriticalThreshold = 10;
+        batteryWarningThreshold = 20;
+        batteryCriticalThreshold = 5;
+        enableDgpuMonitoring = false;
+        useCustomColors = false;
+        warningColor = "";
+        criticalColor = "";
+        externalMonitor = "resources || missioncenter || jdsystemmonitor || corestats || system-monitoring-center || gnome-system-monitor || plasma-systemmonitor || mate-system-monitor || ukui-system-monitor || deepin-system-monitor || pantheon-system-monitor";
+      };
+      noctaliaPerformance = {
+        disableWallpaper = true;
+        disableDesktopWidgets = true;
+      };
+      dock = {
+        enabled = true;
+        position = "bottom";
+        displayMode = "auto_hide";
+        dockType = "floating";
+        backgroundOpacity = 1;
+        floatingRatio = 1;
+        size = 1;
+        onlySameOutput = true;
+        monitors = [ ];
+        pinnedApps = [ ];
+        colorizeIcons = false;
+        showLauncherIcon = false;
+        launcherPosition = "end";
+        launcherUseDistroLogo = false;
+        launcherIcon = "";
+        launcherIconColor = "none";
+        pinnedStatic = false;
+        inactiveIndicators = false;
+        groupApps = false;
+        groupContextMenuMode = "extended";
+        groupClickAction = "cycle";
+        groupIndicatorStyle = "dots";
+        deadOpacity = 0.6;
+        animationSpeed = 1;
+        sitOnFrame = false;
+        showDockIndicator = false;
+        indicatorThickness = 3;
+        indicatorColor = "primary";
+        indicatorOpacity = 0.6;
+      };
+      network = {
+        airplaneModeEnabled = false;
+        bluetoothRssiPollingEnabled = false;
+        bluetoothRssiPollIntervalMs = 60000;
+        networkPanelView = "wifi";
+        wifiDetailsViewMode = "grid";
+        bluetoothDetailsViewMode = "grid";
+        bluetoothHideUnnamedDevices = false;
+        disableDiscoverability = false;
+        bluetoothAutoConnect = true;
+      };
+      sessionMenu = {
+        enableCountdown = true;
+        countdownDuration = 10000;
+        position = "center";
+        showHeader = true;
+        showKeybinds = true;
+        largeButtonsStyle = true;
+        largeButtonsLayout = "single-row";
+        powerOptions = [
+          {
+            action = "lock";
+            enabled = true;
+            keybind = "1";
+          }
+          {
+            action = "suspend";
+            enabled = true;
+            keybind = "2";
+          }
+          {
+            action = "hibernate";
+            enabled = true;
+            keybind = "3";
+          }
+          {
+            action = "reboot";
+            enabled = true;
+            keybind = "4";
+          }
+          {
+            action = "logout";
+            enabled = true;
+            keybind = "5";
+          }
+          {
+            action = "shutdown";
+            enabled = true;
+            keybind = "6";
+          }
+          {
+            action = "rebootToUefi";
+            enabled = true;
+            keybind = "7";
+          }
+        ];
+      };
+      notifications = {
+        enabled = true;
+        enableMarkdown = false;
+        density = "default";
+        monitors = [ ];
+        location = "top_right";
+        overlayLayer = true;
+        backgroundOpacity = 1;
+        respectExpireTimeout = false;
+        lowUrgencyDuration = 3;
+        normalUrgencyDuration = 8;
+        criticalUrgencyDuration = 15;
+        clearDismissed = true;
+        saveToHistory = {
+          low = true;
+          normal = true;
+          critical = true;
+        };
+        sounds = {
+          enabled = false;
+          volume = 0.5;
+          separateSounds = false;
+          criticalSoundFile = "";
+          normalSoundFile = "";
+          lowSoundFile = "";
+          excludedApps = "discord,firefox,chrome,chromium,edge";
+        };
+        enableMediaToast = false;
+        enableKeyboardLayoutToast = true;
+        enableBatteryToast = true;
+      };
+      osd = {
+        enabled = true;
+        location = "top_right";
+        autoHideMs = 2000;
+        overlayLayer = true;
+        backgroundOpacity = 1;
+        enabledTypes = [
+          0
+          1
+        ];
+        monitors = [ ];
+      };
+      audio = {
+        volumeStep = 5;
+        volumeOverdrive = false;
+        spectrumFrameRate = 30;
+        visualizerType = "linear";
+        spectrumMirrored = true;
+        mprisBlacklist = [ ];
+        preferredPlayer = "";
+        volumeFeedback = false;
+        volumeFeedbackSoundFile = "";
+      };
+      brightness = {
+        brightnessStep = 5;
+        enforceMinimum = true;
+        enableDdcSupport = false;
+        backlightDeviceMappings = [ ];
+      };
+      colorSchemes = {
+        useWallpaperColors = false;
+        predefinedScheme = "Noctalia (default)";
+        darkMode = true;
+        schedulingMode = "off";
+        manualSunrise = "06:30";
+        manualSunset = "18:30";
+        generationMethod = "tonal-spot";
+        monitorForColors = "";
+        syncGsettings = true;
+      };
+      templates = {
+        activeTemplates = [ ];
+        enableUserTheming = false;
+      };
+      nightLight = {
+        enabled = true;
+        forced = false;
+        autoSchedule = false;
+        nightTemp = "4000";
+        dayTemp = "6500";
+        manualSunrise = "07:00";
+        manualSunset = "23:00";
+      };
+      hooks = {
+        enabled = false;
+        wallpaperChange = "";
+        darkModeChange = "";
+        screenLock = "";
+        screenUnlock = "";
+        performanceModeEnabled = "";
+        performanceModeDisabled = "";
+        startup = "";
+        session = "";
+        colorGeneration = "";
+      };
+      plugins = {
+        autoUpdate = false;
+        notifyUpdates = true;
+      };
+      idle = {
+        enabled = false;
+        screenOffTimeout = 600;
+        lockTimeout = 660;
+        suspendTimeout = 1800;
+        fadeDuration = 5;
+        screenOffCommand = "";
+        lockCommand = "";
+        suspendCommand = "";
+        resumeScreenOffCommand = "";
+        resumeLockCommand = "";
+        resumeSuspendCommand = "";
+        customCommands = "[]";
+      };
+      desktopWidgets = {
+        enabled = false;
+        overviewEnabled = true;
+        gridSnap = false;
+        gridSnapScale = false;
+        monitorWidgets = [ ];
+      };
+    };
+  };
+}
