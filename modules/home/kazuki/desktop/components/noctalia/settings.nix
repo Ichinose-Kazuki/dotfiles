@@ -81,6 +81,8 @@
       # zone, which would otherwise leave a blank strip below windows.
       reserve_space = false;
       position = "bottom";
+      # v4's dock was a floating dock, inset from the screen edge.
+      margin_edge = 13;
       shadow = false;
     };
 
@@ -142,7 +144,9 @@
       polkit_agent = true;
       clipboard_enabled = true;
       telemetry_enabled = false;
+      # v4 disabled every shadow; v5 exposes them per surface.
       popup_shadows = false;
+      panel.shadow = false;
       mpris.blacklist = [ ];
       session = {
         show_shortcuts = true;
