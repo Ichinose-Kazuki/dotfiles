@@ -27,9 +27,12 @@
       background_opacity = 0.93;
       capsule = true;
       # A full-length bar (margin_ends = 0) lets concave_edge_corners carve the
-      # bottom corners, so the bar wraps the top of the windows.
+      # bottom corners, so the bar wraps the top of the windows. The corners on
+      # the screen edge stay square, as in v4.
       margin_ends = 0;
       radius = 20;
+      radius_top_left = 0;
+      radius_top_right = 0;
       # There is no single shadow toggle, so each shadow surface is disabled.
       shadow = false;
     };
