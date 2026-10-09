@@ -47,13 +47,13 @@ in
         PartOf = [ config.wayland.systemd.target ];
         Requires = lib.mkIf (cfg.requiredService != null) [ cfg.requiredService ];
         # WAYLAND_DISPLAY reaches the user manager asynchronously after the
-        # compositor starts; retry instead of skipping or rate-limiting the
-        # retries away.
+        # compositor starts; fail fast when it is missing so Restart retries.
         StartLimitIntervalSec = 0;
       };
 
       Service = {
         Type = "oneshot";
+        ExecStartPre = [ "${pkgs.bash}/bin/bash -c 'test -n \"$WAYLAND_DISPLAY\"'" ];
         ExecStart = "${lib.getExe' fetchScript "fetch-windows-spotlight"} \"${cfg.imageFilepath}\"";
         ExecStartPost = cfg.reloadCommand;
         Restart = "on-failure";

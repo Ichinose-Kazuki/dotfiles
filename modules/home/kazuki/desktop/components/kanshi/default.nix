@@ -73,14 +73,14 @@
   };
 
   # WAYLAND_DISPLAY reaches the user manager asynchronously after the compositor
-  # starts. The module already sets Restart=always, but its
-  # ConditionEnvironment=WAYLAND_DISPLAY drops the unit *before* it runs
-  # (a skip is not a failure, so Restart never applies). Only remove the
-  # condition; keep the retry.
+  # starts. A Condition* miss (the module's ConditionEnvironment) only *skips*
+  # the unit, which never triggers Restart=, so instead fail fast when the
+  # variable is missing and let the module's Restart=always retry.
   systemd.user.services.kanshi = {
     Unit.ConditionEnvironment = lib.mkForce [ ];
     Unit.StartLimitIntervalSec = 0;
     Service.RestartSec = 1;
+    Service.ExecStartPre = [ "${pkgs.bash}/bin/bash -c 'test -n \"$WAYLAND_DISPLAY\"'" ];
   };
 
   # Temporary config file must exist

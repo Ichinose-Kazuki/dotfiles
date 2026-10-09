@@ -106,10 +106,11 @@
   };
 
   # WAYLAND_DISPLAY reaches the user manager asynchronously after the compositor
-  # starts; retry if fcitx exits before it is available.
+  # starts; fail fast when it is missing so Restart retries.
   systemd.user.services.fcitx5-daemon = {
     Unit.StartLimitIntervalSec = 0;
     Service.Restart = "on-failure";
     Service.RestartSec = 1;
+    Service.ExecStartPre = [ "${pkgs.bash}/bin/bash -c 'test -n \"$WAYLAND_DISPLAY\"'" ];
   };
 }
