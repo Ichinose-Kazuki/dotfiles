@@ -155,7 +155,13 @@
       telemetry_enabled = false;
       # v4 disabled every shadow; v5 exposes them per surface.
       popup_shadows = false;
-      panel.shadow = false;
+      # v4 attached every panel to the bar.
+      panel = {
+        launcher_placement = "attached";
+        clipboard_placement = "attached";
+        polkit_placement = "attached";
+        shadow = false;
+      };
       mpris.blacklist = [ ];
       session = {
         show_shortcuts = true;
