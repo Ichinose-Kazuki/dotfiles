@@ -85,6 +85,8 @@
       reserve_space = false;
       position = "bottom";
       background_opacity = 1.0;
+      # v4's dock icons are 36px (12 + 24 x size), not the v5 default of 48.
+      icon_size = 36;
       # v4's dock was a floating dock, inset from the screen edge.
       margin_edge = 13;
       shadow = false;
