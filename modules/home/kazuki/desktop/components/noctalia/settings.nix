@@ -155,11 +155,15 @@
       telemetry_enabled = false;
       # v4 disabled every shadow; v5 exposes them per surface.
       popup_shadows = false;
-      # v4 attached every panel to the bar.
+      # v4 floated the launcher, clipboard and polkit panels, drew no card
+      # outlines, and left panels slightly transparent.
+      card_borders = false;
       panel = {
-        launcher_placement = "attached";
-        clipboard_placement = "attached";
-        polkit_placement = "attached";
+        launcher_placement = "floating";
+        clipboard_placement = "floating";
+        polkit_placement = "floating";
+        borders = false;
+        transparency_mode = "soft";
         shadow = false;
       };
       mpris.blacklist = [ ];
