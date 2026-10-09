@@ -28,5 +28,8 @@ in
     fill_mode = "crop";
     transition_duration = 1500.0;
     transition_on_startup = false;
+    # The default wallpaper for every output, equivalent to the v4
+    # wallpapers.json defaultWallpaper.
+    default.path = wallpaperPath;
   };
 }
