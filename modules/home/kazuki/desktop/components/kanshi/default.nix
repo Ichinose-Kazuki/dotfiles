@@ -72,6 +72,17 @@
     ];
   };
 
+  # WAYLAND_DISPLAY reaches the user manager asynchronously after the compositor
+  # starts. The module already sets Restart=always, but its
+  # ConditionEnvironment=WAYLAND_DISPLAY drops the unit *before* it runs
+  # (a skip is not a failure, so Restart never applies). Only remove the
+  # condition; keep the retry.
+  systemd.user.services.kanshi = {
+    Unit.ConditionEnvironment = lib.mkForce [ ];
+    Unit.StartLimitIntervalSec = 0;
+    Service.RestartSec = 1;
+  };
+
   # Temporary config file must exist
   home.activation = {
     createKanshiTmp = lib.hm.dag.entryAfter [ "writeBoundary" ] ''

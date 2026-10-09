@@ -104,4 +104,12 @@
       };
     };
   };
+
+  # WAYLAND_DISPLAY reaches the user manager asynchronously after the compositor
+  # starts; retry if fcitx exits before it is available.
+  systemd.user.services.fcitx5-daemon = {
+    Unit.StartLimitIntervalSec = 0;
+    Service.Restart = "on-failure";
+    Service.RestartSec = 1;
+  };
 }

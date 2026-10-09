@@ -42,11 +42,14 @@ in
       };
 
       Unit = {
-        ConditionEnvironment = "WAYLAND_DISPLAY";
         Description = "fetch windows spotlight";
         After = [ config.wayland.systemd.target ];
         PartOf = [ config.wayland.systemd.target ];
         Requires = lib.mkIf (cfg.requiredService != null) [ cfg.requiredService ];
+        # WAYLAND_DISPLAY reaches the user manager asynchronously after the
+        # compositor starts; retry instead of skipping or rate-limiting the
+        # retries away.
+        StartLimitIntervalSec = 0;
       };
 
       Service = {
@@ -54,6 +57,7 @@ in
         ExecStart = "${lib.getExe' fetchScript "fetch-windows-spotlight"} \"${cfg.imageFilepath}\"";
         ExecStartPost = cfg.reloadCommand;
         Restart = "on-failure";
+        RestartSec = 1;
       };
     };
 
