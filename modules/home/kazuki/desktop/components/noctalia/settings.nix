@@ -162,6 +162,10 @@
         launcher_placement = "floating";
         clipboard_placement = "floating";
         polkit_placement = "floating";
+        # Open these attached panels under the bar widget that was clicked.
+        open_near_click_control_center = true;
+        open_near_click_wallpaper = true;
+        open_near_click_session = true;
         borders = false;
         transparency_mode = "soft";
         shadow = false;
