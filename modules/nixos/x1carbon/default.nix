@@ -13,6 +13,7 @@
     # ./ly
     ./niri
     ./noctalia-plugin-dep
+    ./power
     ./printing
     ./programs
     ./regreet
