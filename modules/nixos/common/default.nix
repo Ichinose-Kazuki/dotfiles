@@ -5,6 +5,7 @@
     ./basic
     ./compatibility
     ./lix
+    ./lib # これだけ意味が違って良くない。なんとかする
     ./utilities
     ./zsh
   ];
