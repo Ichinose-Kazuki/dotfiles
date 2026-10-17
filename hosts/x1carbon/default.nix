@@ -36,7 +36,48 @@
   networking.hostName = "x1carbon"; # Define your hostname.
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
+  networking.networkmanager = {
+    enable = true;
+
+    ensureProfiles = {
+      profiles = {
+        # START_Bunkyo_WiFi で Android 用プロファイルをダウンロードし、base64 デコードを繰り返して以下の設定値を取得。
+        # identity と password はデコード後の XML ファイルにある。password は記載されたものをさらにデコードしたものを入力。
+        Bunkyo_Free_Wi-Fi00 = {
+          connection = {
+            id = "Bunkyo_Free_Wi-Fi00";
+            type = "wifi";
+          };
+
+          wifi = {
+            mode = "infrastructure";
+            ssid = "Bunkyo_Free_Wi-Fi00";
+          };
+
+          wifi-security = {
+            key-mgmt = "wpa-eap";
+          };
+
+          "802-1x" = {
+            ca-cert = "/etc/ssl/certs/ca-certificates.crt"; # なんか profile についてきた ca-cert は使えなかったが、東京都の Free WiFi は Let's Encrypt を使っている？らしく、システム内蔵の ca-cert で OK. なお、システム内蔵のパスをなぜかこのように指定しないといけない。デフォルト値ではファイル読み取りエラー？になる。
+            domain-suffix-match = "openroaming.air-compass.net";
+            eap = "ttls;";
+            phase2-auth = "mschapv2";
+            # identity と password は password manager に保存済み。Google でログインして生成した。
+          };
+
+          ipv4 = {
+            method = "auto";
+          };
+
+          ipv6 = {
+            addr-gen-mode = "default";
+            method = "auto";
+          };
+        };
+      };
+    };
+  };
 
   # bluetooth
   hardware.bluetooth.enable = true;
