@@ -32,7 +32,6 @@
       libpciaccess
 
       glib
-      gtk2
       bzip2
       zlib
       gdk-pixbuf
@@ -91,7 +90,6 @@
       flac
       freeglut
       libjpeg
-      libpng12
       libpulseaudio
       libsamplerate
       libmikmod

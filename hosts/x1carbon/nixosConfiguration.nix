@@ -17,6 +17,10 @@ let
     config = {
       allowUnfree = true;
       allowUnfreePredicate = (_: true);
+      # home-manager の入力メソッド機能が GTK2 用の immodule キャッシュを
+      # 同梱しているため、broken 扱いになった GTK2 を評価できるようにする。
+      # home-manager が GTK2 への依存を落としたら削除する。
+      problems.handlers."gtk+".broken = "warn";
     };
   };
 in

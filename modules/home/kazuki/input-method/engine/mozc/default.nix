@@ -11,7 +11,7 @@ let
   # Mozc config DB / Mozc 設定 DB
   # Build config1.db from textproto and keymap sources. / textproto とキーマップから config1.db を生成する。
   # How to generate config-base.textproto from the current config:
-  # (1) Get config.proto from https://raw.githubusercontent.com/fcitx/mozc/57e67f2a25e4c0861e0e422da0c7d4c232d89fcc/src/protocol/config.proto (rev used in fcitx5-mozc package)
+  # (1) Get config.proto from the source of `pkgs.fcitx5-mozc-ut` (see `mozcProtoRoot` below)
   # (2) Generate: `protoc --decode=mozc.config.Config config.proto < ~/.config/mozc/config1.db > config.txt`
   # (3) Remove `custom_keymap_table` line. Copy & paste its value to keymap.tsv
   mozcConfigDb =
