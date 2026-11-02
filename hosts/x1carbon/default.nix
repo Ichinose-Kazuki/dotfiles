@@ -167,6 +167,7 @@
       freefont_ttf
       gyre-fonts # TrueType substitutes for standard PostScript fonts
       liberation_ttf
+      julia-mono # High unicode coverage with nice glyphs
       unifont
       noto-fonts-cjk-sans
       noto-fonts-cjk-serif
@@ -189,9 +190,12 @@
         "Noto Color Emoji"
       ];
       monospace = [
-        "Hack Nerd Font"
-        "Noto Sans Mono CJK JP"
-        "Noto Color Emoji"
+        "Hack Nerd Font Mono" # Ascii and major symbols
+        "Noto Sans Mono CJK JP" # Japanese
+        "Julia Mono" # Minor symbols
+        "Unifont"
+        "Unifont Upper" # Nearly all of unicode
+        "IntoneMono Nerd Font Mono" # to be mapped to unicode private area(?)
       ];
       emoji = [ "Noto Color Emoji" ];
     };
