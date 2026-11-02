@@ -135,7 +135,7 @@
       history.size = 10000000;
       # Copied from the following URL and modified:
       # https://discourse.nixos.org/t/using-zsh-with-grml-config-and-nix-shell-prompt-indicator/13838
-      initExtraFirst = ''
+      initContent = lib.mkBefore ''
         # Note that loading grml's zshrc here will override NixOS settings such as
         # `programs.zsh.histSize`, so they will have to be set again below.
         source ${pkgs.grml-zsh-config}/etc/zsh/zshrc
