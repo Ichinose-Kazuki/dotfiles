@@ -2,6 +2,8 @@
 
 {
   imports = [
+    ../keyring
+    ./ssh
     ./tailscale
     ./tsuyoServerPowerButton
   ];
