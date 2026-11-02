@@ -15,6 +15,8 @@
     settings = {
       theme = "Chalk";
 
+      font-family = osConfig.fonts.fontconfig.defaultFonts.monospace;
+
       window-padding-x = 5;
       window-padding-y = 5;
       window-padding-balance = true;
