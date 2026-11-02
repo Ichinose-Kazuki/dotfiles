@@ -6,6 +6,7 @@
     ./compatibility
     ./lix
     ./lib # これだけ意味が違って良くない。なんとかする
+    ./overlays.nix
     ./utilities
     ./zsh
   ];
