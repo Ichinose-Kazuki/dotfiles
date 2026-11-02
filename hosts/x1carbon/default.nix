@@ -193,7 +193,7 @@
       monospace = [
         "Hack Nerd Font Mono" # Ascii and major symbols
         "Noto Sans Mono CJK JP NoWideAmbiguous" # Japanese
-        "Julia Mono" # Minor symbols
+        "JuliaMono" # Minor symbols
         "Unifont"
         "Unifont Upper" # Nearly all of unicode
         "IntoneMono Nerd Font Mono" # to be mapped to unicode private area(?)
