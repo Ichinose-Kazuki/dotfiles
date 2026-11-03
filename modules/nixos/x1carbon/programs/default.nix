@@ -17,7 +17,7 @@
   # running its content scripts on chatgpt.com and its subdomains.
   programs.chromium = {
     enable = true;
-    extraOpts.ExtensionSettings."nngceckbapebfimnlniiiahkandclblb".runtime_blocked_hosts = [
+    extraOpts.ExtensionSettings."eimadpbcbfnmbkopoojfekhnkhdbieeh".runtime_blocked_hosts = [
       "*://*.chatgpt.com"
     ];
   };
