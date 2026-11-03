@@ -9,6 +9,7 @@
 {
   imports = [
     ./settings.nix
+    ./caffeine.nix
     ./palette.nix
     ./plugins.nix
     ./wallpaper.nix
