@@ -12,12 +12,15 @@ Regular / Bold の OTF を生成するパッケージ。
 | `NotoSansMonoCJKjp-Bold-NoWideAmbiguous.otf` | Bold |
 
 - ファミリー名: `Noto Sans Mono CJK JP NoWideAmbiguous`
+- フルネーム: `Noto Sans Mono CJK JP NoWideAmbiguous`（Regular）/
+  `Noto Sans Mono CJK JP NoWideAmbiguous Bold`（Bold）
 - PostScript 名: `NotoSansMonoCJKjpNoWideAmbiguous-Regular` / `-Bold`
 - 収録文字数: 44,810 文字から 618 文字を削除して 44,192 文字
 
 曖昧幅でも全角でない文字（ギリシャ文字・キリル文字など）は残している。
-字形データ、GSUB/GPOS、hmtx/vmtx、VORG などの表は変更しない。変更されるのは
-`cmap` と `name`、および `head.checkSumAdjustment` のみ。
+字形データ（CFF の charstrings）、GSUB/GPOS、hmtx/vmtx、VORG などの表は
+変更しない。変更されるのは `cmap`、`name`、CFF の top dict にある
+`FamilyName` / `FullName`、および `head.checkSumAdjustment`。
 
 ## 入力
 

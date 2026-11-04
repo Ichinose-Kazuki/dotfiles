@@ -6,8 +6,8 @@ removed from every Unicode cmap subtable when both hold:
   * its East_Asian_Width is "Ambiguous" (UAX #11), and
   * its advance width equals the font's full-width advance.
 
-Glyphs, layout tables and metrics are left untouched, so the only tables
-that change are cmap and name (plus head.checkSumAdjustment).
+Glyphs, layout tables and metrics are left untouched. The cmap, name, and
+the CFF top-dict family/full names change (plus head.checkSumAdjustment).
 """
 
 import hashlib
@@ -59,7 +59,22 @@ def rename(font, style):
             record.string = postscript
         elif record.nameID == 3:
             record.string = "2.004;GOOG;%s;ADOBE" % postscript
+
+    # Keep the legacy PostScript names in the CFF top dict in sync with the
+    # OpenType name table.
+    if "CFF " in font:
+        top = font["CFF "].cff.topDictIndex[0]
+        top.FamilyName = family
+        top.FullName = full_name
     return family, full_name, postscript
+
+
+def assert_same_charstrings(before, after):
+    a = before["CFF "].cff.topDictIndex[0].CharStrings
+    b = after["CFF "].cff.topDictIndex[0].CharStrings
+    assert set(a.charStrings.keys()) == set(b.charStrings.keys()), "charstring set changed"
+    for gname in a.charStrings.keys():
+        assert a[gname].bytecode == b[gname].bytecode, "charstring changed: %s" % gname
 
 
 def filter_font(style, filename, src_dir, dst_dir):
@@ -90,10 +105,12 @@ def filter_font(style, filename, src_dir, dst_dir):
     after = set(out.getBestCmap())
     assert after == before - target, "unexpected cmap difference"
     assert not (after & target), "removed code points still present"
+    if "CFF " in font:
+        assert_same_charstrings(font, out)
 
     changed = []
     for tag in font.reader.keys():
-        if tag in ("cmap", "name"):
+        if tag in ("cmap", "name", "CFF "):
             continue
         if tag == "head":
             # checkSumAdjustment is recomputed for the new file by definition.
@@ -108,7 +125,8 @@ def filter_font(style, filename, src_dir, dst_dir):
 
     print("   cmap out  :", len(after), "(lost %d)" % (len(before) - len(after)))
     print("   other tables byte-identical:", sorted(t for t in font.reader.keys()
-                                                   if t not in ("cmap", "name")))
+                                                   if t not in ("cmap", "name", "CFF ")))
+    print("   CFF charstrings byte-identical: yes")
     print("   sha256 out:", sha256(dst))
     print("   written   :", dst)
 
