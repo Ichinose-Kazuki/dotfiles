@@ -46,17 +46,20 @@ def full_width_ambiguous(font):
 
 
 def rename(font, style):
-    family = font["name"].getDebugName(1) + " " + FAMILY_SUFFIX
-    postscript = "NotoSansMonoCJKjp%s-%s" % (FAMILY_SUFFIX, style)
     name = font["name"]
+    family = name.getDebugName(1) + " " + FAMILY_SUFFIX
+    full_name = family if style == "Regular" else "%s %s" % (family, style)
+    postscript = "NotoSansMonoCJKjp%s-%s" % (FAMILY_SUFFIX, style)
     for record in name.names:
-        if record.nameID in (1, 4):
+        if record.nameID == 1:
             record.string = family
+        elif record.nameID == 4:
+            record.string = full_name
         elif record.nameID == 6:
             record.string = postscript
         elif record.nameID == 3:
             record.string = "2.004;GOOG;%s;ADOBE" % postscript
-    return family, postscript
+    return family, full_name, postscript
 
 
 def filter_font(style, filename, src_dir, dst_dir):
@@ -77,8 +80,9 @@ def filter_font(style, filename, src_dir, dst_dir):
             for cp in target:
                 subtable.cmap.pop(cp, None)
 
-    family, postscript = rename(font, style)
+    family, full_name, postscript = rename(font, style)
     print("   family    :", family)
+    print("   full name :", full_name)
     print("   postscript:", postscript)
     font.save(dst)
 
