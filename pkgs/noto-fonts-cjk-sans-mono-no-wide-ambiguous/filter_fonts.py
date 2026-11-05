@@ -3,8 +3,7 @@
 Reads NotoSansMonoCJKjp-{Regular,Bold}.otf from the source directory and
 writes the filtered fonts to the destination directory. A code point is
 removed from every Unicode cmap subtable when either holds:
-  * its East_Asian_Width is "Ambiguous" and its advance width equals the
-    font's full-width advance, or
+  * its East_Asian_Width is "Ambiguous", or
   * its East_Asian_Width is "Neutral" and its advance width is the
     full-width advance or wider.
 
@@ -45,9 +44,7 @@ def removal_targets(font):
     for cp, glyph in cmap.items():
         advance = hmtx[glyph][0]
         width = unicodedata.east_asian_width(chr(cp))
-        if (width == "A" and advance == FULL_WIDTH) or (
-            width == "N" and advance >= FULL_WIDTH
-        ):
+        if width == "A" or (width == "N" and advance >= FULL_WIDTH):
             targets.add(cp)
     return targets
 
@@ -95,7 +92,7 @@ def filter_font(style, filename, src_dir, dst_dir):
     before = set(font.getBestCmap())
     target = removal_targets(font)
     print("   cmap      :", len(before))
-    print("   removing  :", len(target), "wide ambiguous/neutral")
+    print("   removing  :", len(target), "ambiguous and wide neutral")
 
     for subtable in font["cmap"].tables:
         if hasattr(subtable, "cmap"):

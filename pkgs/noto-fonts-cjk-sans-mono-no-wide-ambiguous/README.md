@@ -1,8 +1,8 @@
 # Noto Sans Mono CJK JP NoWideAmbiguous
 
-Noto Sans Mono CJK JP から、東アジア幅が「曖昧（Ambiguous）」で全角幅
-（1000 units）の文字と、「中立（Neutral）」で全角幅以上（1000 units 以上）の
-文字を cmap から削除した Regular / Bold の OTF を生成するパッケージ。
+Noto Sans Mono CJK JP から、東アジア幅が「曖昧（Ambiguous）」の文字と、
+「中立（Neutral）」で全角幅以上（1000 units 以上）の文字を cmap から
+削除した Regular / Bold の OTF を生成するパッケージ。
 
 ## 収録物
 
@@ -15,15 +15,16 @@ Noto Sans Mono CJK JP から、東アジア幅が「曖昧（Ambiguous）」で�
 - フルネーム: `Noto Sans Mono CJK JP NoWideAmbiguous`（Regular）/
   `Noto Sans Mono CJK JP NoWideAmbiguous Bold`（Bold）
 - PostScript 名: `NotoSansMonoCJKjpNoWideAmbiguous-Regular` / `-Bold`
-- 収録文字数: Regular は 44,810 文字から 796 文字を削除して 44,014 文字。
-  Bold は 44,810 文字から 798 文字を削除して 44,012 文字。
+- 収録文字数: Regular は 44,810 文字から 993 文字を削除して 43,817 文字。
+  Bold は 44,810 文字から 995 文字を削除して 43,815 文字。
 
-曖昧幅は送り幅がちょうど 1000 units のものを削除し、1000 を超えるもの
-（U+042E など）は残している。中立幅は 1000 units 以上を削除する。
-Wide / Fullwidth の全角文字（CJK の漢字など）は残す。字形データ
-（CFF の charstrings）、GSUB/GPOS、hmtx/vmtx、VORG などの表は変更しない。
-変更されるのは `cmap`、`name`、CFF の top dict にある
-`FamilyName` / `FullName`、および `head.checkSumAdjustment`。
+Ambiguous は送り幅に関係なくすべて削除する。Neutral は 1000 units 以上
+（2 セル以上）を削除し、それ未満は残す。Wide / Fullwidth の全角文字
+（CJK の漢字など）は残す。Ambiguous にはギリシャ文字・キリル文字も
+含まれるため、それらも削除される。字形データ（CFF の charstrings）、
+GSUB/GPOS、hmtx/vmtx、VORG などの表は変更しない。変更されるのは
+`cmap`、`name`、CFF の top dict にある `FamilyName` / `FullName`、
+および `head.checkSumAdjustment`。
 
 ## 入力
 
