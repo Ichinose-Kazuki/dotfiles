@@ -174,8 +174,7 @@
       noto-fonts-cjk-serif
       noto-fonts-color-emoji
       # Additional fonts
-      nerd-fonts.hack # for terminal
-      nerd-fonts.intone-mono # for coding
+      nerd-fonts.intone-mono # primary monospace
     ];
 
     # Alphabets will be rendered with DejaVu and CJK will be rendered with Noto
@@ -191,12 +190,11 @@
         "Noto Color Emoji"
       ];
       monospace = [
-        "Hack Nerd Font Mono" # Ascii and major symbols
+        "IntoneMono Nerd Font Mono" # Primary monospace font and icons
         "Noto Sans Mono CJK JP NoWiderThanIntoneMono" # Japanese
         "JuliaMono" # Minor symbols
         "Unifont"
         "Unifont Upper" # Nearly all of unicode
-        "IntoneMono Nerd Font Mono" # to be mapped to unicode private area(?)
       ];
       emoji = [ "Noto Color Emoji" ];
     };
