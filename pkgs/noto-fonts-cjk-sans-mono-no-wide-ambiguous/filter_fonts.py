@@ -1,13 +1,17 @@
-"""Drop East-Asian-Ambiguous characters that the font draws at full width.
+"""Drop wide non-CJK characters that break monospace alignment.
 
 Reads NotoSansMonoCJKjp-{Regular,Bold}.otf from the source directory and
 writes the filtered fonts to the destination directory. A code point is
-removed from every Unicode cmap subtable when both hold:
-  * its East_Asian_Width is "Ambiguous" (UAX #11), and
-  * its advance width equals the font's full-width advance.
+removed from every Unicode cmap subtable when either holds:
+  * its East_Asian_Width is "Ambiguous" and its advance width equals the
+    font's full-width advance, or
+  * its East_Asian_Width is "Neutral" and its advance width is the
+    full-width advance or wider.
 
-Glyphs, layout tables and metrics are left untouched. The cmap, name, and
-the CFF top-dict family/full names change (plus head.checkSumAdjustment).
+Wide and Fullwidth characters are kept because they are intentionally wide
+CJK glyphs. Glyphs, layout tables and metrics are left untouched. The cmap,
+name, and the CFF top-dict family/full names change (plus
+head.checkSumAdjustment).
 """
 
 import hashlib
@@ -34,15 +38,18 @@ def sha256(path):
     return h.hexdigest()
 
 
-def full_width_ambiguous(font):
+def removal_targets(font):
     cmap = font.getBestCmap()
     hmtx = font["hmtx"]
-    return {
-        cp
-        for cp, glyph in cmap.items()
-        if unicodedata.east_asian_width(chr(cp)) == "A"
-        and hmtx[glyph][0] == FULL_WIDTH
-    }
+    targets = set()
+    for cp, glyph in cmap.items():
+        advance = hmtx[glyph][0]
+        width = unicodedata.east_asian_width(chr(cp))
+        if (width == "A" and advance == FULL_WIDTH) or (
+            width == "N" and advance >= FULL_WIDTH
+        ):
+            targets.add(cp)
+    return targets
 
 
 def rename(font, style):
@@ -86,9 +93,9 @@ def filter_font(style, filename, src_dir, dst_dir):
     # Keep head.modified from the source so repeated builds are identical.
     font = TTFont(src, recalcBBoxes=False, recalcTimestamp=False)
     before = set(font.getBestCmap())
-    target = full_width_ambiguous(font)
+    target = removal_targets(font)
     print("   cmap      :", len(before))
-    print("   removing  :", len(target), "full-width ambiguous")
+    print("   removing  :", len(target), "wide ambiguous/neutral")
 
     for subtable in font["cmap"].tables:
         if hasattr(subtable, "cmap"):
