@@ -167,7 +167,7 @@
       freefont_ttf
       gyre-fonts # TrueType substitutes for standard PostScript fonts
       liberation_ttf
-      julia-mono # High unicode coverage with nice glyphs
+      julia-mono-no-small # JuliaMono without small enclosed glyphs
       unifont
       noto-fonts-cjk-sans
       noto-fonts-cjk-sans-mono-no-wider-than-intone-mono # monospace CJK no wider than IntoneMono's cell
@@ -192,7 +192,7 @@
       monospace = [
         "IntoneMono Nerd Font Mono" # Primary monospace font and icons
         "Noto Sans Mono CJK JP NoWiderThanIntoneMono" # Japanese
-        "JuliaMono" # Minor symbols
+        "NoSmallMono" # Minor symbols
         "Unifont"
         "Unifont Upper" # Nearly all of unicode
       ];
