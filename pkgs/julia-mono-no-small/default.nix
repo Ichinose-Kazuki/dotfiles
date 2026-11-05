@@ -37,7 +37,7 @@ stdenv.mkDerivation {
   installPhase = ''
     runHook preInstall
     install -d $out/share/fonts/truetype/no-small-mono
-    install -m444 build/NoSmallMono-*.ttf $out/share/fonts/truetype/no-small-mono/
+    install -m444 build/JuliaNoSmallMono-*.ttf $out/share/fonts/truetype/no-small-mono/
     install -m444 -D ${licenseFile} $out/share/licenses/julia-mono-no-small/LICENSE
     runHook postInstall
   '';

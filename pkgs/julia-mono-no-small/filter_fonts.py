@@ -1,6 +1,6 @@
 """Drop small enclosed alphanumeric glyphs from JuliaMono.
 
-Reads JuliaMono-*.ttf from the source directory and writes NoSmallMono-*.ttf
+Reads JuliaMono-*.ttf from the source directory and writes JuliaNoSmallMono-*.ttf
 to the destination directory. A code point is removed from every Unicode
 cmap subtable when its block is Enclosed Alphanumerics or Enclosed
 Alphanumeric Supplement and its ink width and height are both below 0.5 em.
@@ -9,7 +9,7 @@ so the family keeps the same coverage.
 
 Only cmap and name change (plus head.checkSumAdjustment). Glyph outlines,
 layout tables and metrics are untouched. JuliaMono reserves the font name
-"JuliaMono", so the derived family is called NoSmallMono.
+"JuliaMono", so the derived family is called JuliaNoSmallMono.
 """
 
 import glob
@@ -21,7 +21,7 @@ from fontTools import unicodedata as font_unicodedata
 from fontTools.pens.boundsPen import BoundsPen
 from fontTools.ttLib import TTFont
 
-FAMILY = "NoSmallMono"
+FAMILY = "JuliaNoSmallMono"
 REGULAR_FILE = "JuliaMono-Regular.ttf"
 ENCLOSED_BLOCKS = {
     "Enclosed Alphanumerics",

@@ -192,7 +192,7 @@
       monospace = [
         "IntoneMono Nerd Font Mono" # Primary monospace font and icons
         "Noto Sans Mono CJK JP NoWiderThanIntoneMono" # Japanese
-        "NoSmallMono" # Minor symbols
+        "JuliaNoSmallMono" # Minor symbols
         "Unifont"
         "Unifont Upper" # Nearly all of unicode
       ];

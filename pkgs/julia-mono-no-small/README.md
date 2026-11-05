@@ -1,4 +1,4 @@
-# NoSmallMono
+# JuliaNoSmallMono
 
 JuliaMono 0.63.2 から、小さく描かれている囲み英数字
 （Enclosed Alphanumerics / Enclosed Alphanumeric Supplement）を cmap から
@@ -7,7 +7,7 @@ ExtraBold / Black と各 Italic の全 14 スタイルを同じ条件で処理�
 
 JuliaMono の SIL Open Font License には Reserved Font Name `JuliaMono` が
 指定されているため、派生フォントのファミリー名には `JuliaMono` を使わず
-`NoSmallMono` としている。
+`JuliaNoSmallMono` としている。
 
 ## 削除条件
 
@@ -38,14 +38,14 @@ Ghostty は Enclosed Alphanumerics と Dingbats を記号として扱い、1 セ
 pkgs.julia-mono-no-small
 ```
 
-フォントファミリー名は `NoSmallMono`。monospace のリストでは `JuliaMono` を
-`NoSmallMono` に置き換える。
+フォントファミリー名は `JuliaNoSmallMono`。monospace のリストでは `JuliaMono` を
+`JuliaNoSmallMono` に置き換える。
 
 ```nix
 fontconfig.defaultFonts.monospace = [
   "IntoneMono Nerd Font Mono"
   "Noto Sans Mono CJK JP NoWiderThanIntoneMono"
-  "NoSmallMono"
+  "JuliaNoSmallMono"
   "Unifont"
   "Unifont Upper"
 ];
@@ -69,4 +69,4 @@ fontTools ならビルド結果は決定的になる。
 
 元フォントは SIL Open Font License 1.1（Reserved Font Name `JuliaMono`）。
 ライセンス本文は `$out/share/licenses/julia-mono-no-small/LICENSE` に同梱している。
-派生フォントは予約名 `JuliaMono` を使用せず、`NoSmallMono` を名乗る。
+派生フォントは予約名 `JuliaMono` を使用せず、`JuliaNoSmallMono` を名乗る。
