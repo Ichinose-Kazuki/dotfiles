@@ -1,14 +1,15 @@
-"""Drop wide non-CJK characters that break monospace alignment.
+"""Drop characters that overflow one IntoneMono cell.
 
 Reads NotoSansMonoCJKjp-{Regular,Bold}.otf from the source directory and
 writes the filtered fonts to the destination directory. A code point is
 removed from every Unicode cmap subtable when both hold:
-  * its East_Asian_Width is "Ambiguous" or "Neutral", and
-  * its advance width is the font's full-width advance or wider.
+  * the terminal renders it in one cell: its East_Asian_Width is not
+    "Wide" or "Fullwidth", and
+  * its advance width is wider than one IntoneMono cell.
 
-Wide and Fullwidth characters are kept because they are intentionally wide
-CJK glyphs. Glyphs, layout tables and metrics are left untouched. The cmap,
-name, and the CFF top-dict family/full names change (plus
+Wide and Fullwidth characters are kept because the terminal allocates two
+cells for them. Glyphs, layout tables and metrics are left untouched. The
+cmap, name, and the CFF top-dict family/full names change (plus
 head.checkSumAdjustment).
 """
 
@@ -20,8 +21,10 @@ import unicodedata
 from fontTools import version as fonttools_version
 from fontTools.ttLib import TTFont
 
-FULL_WIDTH = 1000
-FAMILY_SUFFIX = "NoWideAmbiguous"
+# IntoneMono NFM's advance is 614/1000 em. Noto uses 1000 units per em,
+# so one IntoneMono cell is 614 Noto units.
+INTONE_MONO_CELL = 614
+FAMILY_SUFFIX = "NoWiderThanIntoneMono"
 JOBS = [
     ("Regular", "NotoSansMonoCJKjp-Regular.otf"),
     ("Bold", "NotoSansMonoCJKjp-Bold.otf"),
@@ -43,7 +46,7 @@ def removal_targets(font):
     for cp, glyph in cmap.items():
         advance = hmtx[glyph][0]
         width = unicodedata.east_asian_width(chr(cp))
-        if width in ("A", "N") and advance >= FULL_WIDTH:
+        if advance > INTONE_MONO_CELL and width not in ("W", "F"):
             targets.add(cp)
     return targets
 
@@ -91,7 +94,7 @@ def filter_font(style, filename, src_dir, dst_dir):
     before = set(font.getBestCmap())
     target = removal_targets(font)
     print("   cmap      :", len(before))
-    print("   removing  :", len(target), "wide ambiguous/neutral")
+    print("   removing  :", len(target), "wider than IntoneMono cell")
 
     for subtable in font["cmap"].tables:
         if hasattr(subtable, "cmap"):

@@ -29,7 +29,7 @@ let
   python = python3.withPackages (ps: [ ps.fonttools ]);
 in
 stdenv.mkDerivation {
-  pname = "noto-fonts-cjk-sans-mono-no-wide-ambiguous";
+  pname = "noto-fonts-cjk-sans-mono-no-wider-than-intone-mono";
   inherit version;
 
   nativeBuildInputs = [ python ];
@@ -48,17 +48,17 @@ stdenv.mkDerivation {
 
   installPhase = ''
     runHook preInstall
-    install -m444 -D build/NotoSansMonoCJKjp-Regular-NoWideAmbiguous.otf \
-      $out/share/fonts/opentype/noto-cjk-mono-no-wide-ambiguous/NotoSansMonoCJKjp-Regular-NoWideAmbiguous.otf
-    install -m444 -D build/NotoSansMonoCJKjp-Bold-NoWideAmbiguous.otf \
-      $out/share/fonts/opentype/noto-cjk-mono-no-wide-ambiguous/NotoSansMonoCJKjp-Bold-NoWideAmbiguous.otf
+    install -m444 -D build/NotoSansMonoCJKjp-Regular-NoWiderThanIntoneMono.otf \
+      $out/share/fonts/opentype/noto-cjk-mono-no-wider-than-intone-mono/NotoSansMonoCJKjp-Regular-NoWiderThanIntoneMono.otf
+    install -m444 -D build/NotoSansMonoCJKjp-Bold-NoWiderThanIntoneMono.otf \
+      $out/share/fonts/opentype/noto-cjk-mono-no-wider-than-intone-mono/NotoSansMonoCJKjp-Bold-NoWiderThanIntoneMono.otf
     install -m444 -D ${licenseFile} \
-      $out/share/licenses/noto-fonts-cjk-sans-mono-no-wide-ambiguous/LICENSE
+      $out/share/licenses/noto-fonts-cjk-sans-mono-no-wider-than-intone-mono/LICENSE
     runHook postInstall
   '';
 
   meta = {
-    description = "Noto Sans Mono CJK JP with full-width East Asian Ambiguous characters removed";
+    description = "Noto Sans Mono CJK JP with one-cell characters wider than IntoneMono's cell removed";
     homepage = "https://github.com/notofonts/noto-cjk";
     license = lib.licenses.ofl;
     platforms = lib.platforms.all;

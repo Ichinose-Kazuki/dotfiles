@@ -1,4 +1,4 @@
 final: prev: {
-  noto-fonts-cjk-sans-mono-no-wide-ambiguous =
-    prev.callPackage ./noto-fonts-cjk-sans-mono-no-wide-ambiguous { };
+  noto-fonts-cjk-sans-mono-no-wider-than-intone-mono =
+    prev.callPackage ./noto-fonts-cjk-sans-mono-no-wider-than-intone-mono { };
 }

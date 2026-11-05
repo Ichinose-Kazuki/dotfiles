@@ -170,7 +170,7 @@
       julia-mono # High unicode coverage with nice glyphs
       unifont
       noto-fonts-cjk-sans
-      noto-fonts-cjk-sans-mono-no-wide-ambiguous # monospace CJK without full-width ambiguous characters
+      noto-fonts-cjk-sans-mono-no-wider-than-intone-mono # monospace CJK no wider than IntoneMono's cell
       noto-fonts-cjk-serif
       noto-fonts-color-emoji
       # Additional fonts
@@ -192,7 +192,7 @@
       ];
       monospace = [
         "Hack Nerd Font Mono" # Ascii and major symbols
-        "Noto Sans Mono CJK JP NoWideAmbiguous" # Japanese
+        "Noto Sans Mono CJK JP NoWiderThanIntoneMono" # Japanese
         "JuliaMono" # Minor symbols
         "Unifont"
         "Unifont Upper" # Nearly all of unicode
