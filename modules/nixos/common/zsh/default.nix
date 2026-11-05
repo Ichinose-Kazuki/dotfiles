@@ -51,6 +51,22 @@
       bindkey '^H' backward-delete-word # Ctrl+Backspace to delete a word on the left
       bindkey '^[[3;5~' kill-word # Ctrl+Delete to delete a word on the right
       WORDCHARS="" # Make all symbols act as word boundary
+
+      # Extended keyboard protocols such as CSI-u have no representation in
+      # zle's keymaps, so an unbound sequence leaks its tail into the line:
+      # Ctrl+Enter arrives as ESC[13;5u and appears as ";5u". Binding the CSI
+      # introducer routes every unbound CSI sequence to this widget, which
+      # consumes it up to its final byte. Explicitly bound sequences still
+      # take precedence because zle matches the longest binding first.
+      _zle_discard_csi() {
+        local key
+        local -i remaining=32
+        while (( remaining-- > 0 )) && read -k 1 -t 0.05 key; do
+          [[ $key == [@-~] ]] && break
+        done
+      }
+      zle -N _zle_discard_csi
+      bindkey '^[[' _zle_discard_csi
     '';
     promptInit = ""; # otherwise it'll override the grml prompt
   };
